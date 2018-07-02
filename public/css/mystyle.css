@@ -1,0 +1,134 @@
+.bg-turquesa{
+	background-color:#292929;
+}
+.options-user{
+    margin-right: 20px;
+}
+.options-user li{
+	margin-right: 5px;
+}
+.options-user li a{
+	
+	color:#ffffff;
+}
+.nav-link{
+	
+	color:#fad905 !important;
+}
+.light{
+	color:#ffffff;
+}
+.img-logo{
+    width: 100px;
+}
+.content-moneda{
+    text-align: center;
+    color: #000000;
+    font-family: initial;
+    font-weight: 900;
+}
+.img-moneda{
+    max-width: 36px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 15px;
+        
+}
+.pos-sup{
+   z-index: 999; 
+}
+.img-linea{
+    color: #fff200;
+    display: block;
+    border: solid;
+    width: 96%;
+    position: absolute;
+    top: 12px;
+    left: 37px;
+
+}
+.page-inicio{
+    min-height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.calculadora{
+    background-color: #fff;
+    display: block;
+    min-width: 350px !important;
+    border: solid;
+    border-color: #5f5f5f;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+}
+.slogan{
+        width: 100%;
+    margin-top: 50%;
+    background-color: #00000085;
+    padding: 10px;
+    color: #fff;
+    font-variant-caps: petite-caps;
+    text-align: justify;
+}
+.container-auth{
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: block;
+    position: relative;
+    font-family: cursive;
+        border: inset;
+}
+.panel-default{
+    border: solid;
+    margin-top: 50px;
+    background-color: #ffffff85;
+    padding: 20px;
+    border-width: 1px;
+    border-radius: 10px;
+    text-align: center;
+}
+.img-auth-logo{
+    width: 35%;
+}
+.info-coin > div{
+    width: 100%;
+    border: solid;
+    border-width: 1px;
+    padding: 10px 0;
+}
+.info-coin img{
+        width: 60%;
+}
+.info-coin{
+    margin-top: 40px;
+    min-height: 300px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-top: 30px;
+    text-align: -webkit-center;
+
+}
+.cinta-coin{
+    height: 180px;
+    background-color: #fd5e05;
+    margin-top: 10px;
+}
+.mensaje-coin{
+    display: block;
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    background-color: #00000063;
+    font-size: 30px;
+    padding: 5px;
+    color: #ffffff;
+    margin-top: 20px;
+}
+.list-site-bancos{
+    background: #001844;
+    height: 200px;
+}
