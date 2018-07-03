@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\MyResetPassword;
 
 class UserController extends Controller
 {
@@ -22,6 +25,20 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function activate($code){
+        $users =User::where('confirmation_codemed',$code);
+        $exist = $users->count();
+        $user = $users->first();
+        if($exist == 1 && $user->active == 0){
+            $usuario =User::find($user->id);
+            $usuario->confirmed=1;
+            $usuario->save();
+            Auth::login($usuario);
+            return Redirect()->to('/');
+        }else{
+           return Redirect()->to('/');
+        }
+    }
     public function create()
     {
         //
@@ -82,4 +99,8 @@ class UserController extends Controller
     {
         //
     }
+
+    
+
+
 }

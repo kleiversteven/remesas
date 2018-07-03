@@ -17,6 +17,7 @@ use App\Http\Controllers\DepositosController;
  Route::get('/', 'siteController@index' ); 
  Route::get('/calcular', 'siteController@calcular' ); 
  Route::get('/respuesta', 'siteController@respuesta' ); 
+ Route::get('/activacion/{code?}', 'UserController@activate' ); 
 
 Route::get('/contacto', function () {
     return view('contacto');
@@ -31,5 +32,5 @@ Route::group(['prefix'=>'/','middleware'=>'auth'],function(){
 });
 
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/sendmail', 'siteController@sendmail');
+//Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/sendmail', 'siteController@sendmail');

@@ -52,11 +52,11 @@ class siteController extends Controller
         return array($data,"tipo"=>$tipo);
     }
     public function respuesta(Request $request){
-        dd($request);
-        return view('site/inicio');
+     
+        return view('site/respuesta');
     }
     public function sendmail(){
-        $data=array('name'=>"Prueba",);
+        $data=array('name'=>"Prueba");
             Mail::send('emails.welcome',$data,function($message){
                 $message->from('kleiversteven6@gmail.com','Prueba');
                 $message->to('caraquedeveloper@gmail.com')->subject('Mensaje de prueba');
@@ -65,5 +65,6 @@ class siteController extends Controller
                 
 
     }
+    
         
 }
