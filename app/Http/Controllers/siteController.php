@@ -17,7 +17,7 @@ class siteController extends Controller
              ->get();
         $tasas=  \DB::table('monedas')
              ->select('monedas.id','tasas.cambio','tasas.isoa','tasas.isob','monedas.descripcion','monedas.estatus','monedas.iso', 
-                      \DB::raw('IF(monedas.iso = tasas.isoa ,"d","d") AS tipo'),
+                      \DB::raw('IF(monedas.iso = tasas.isoa ,"d","m") AS tipo'),
                       \DB::raw('IF(monedas.iso = tasas.isoa,1/tasas.cambio,tasas.cambio*1) AS camb')
                      )
              ->join('tasas', function($join){
@@ -29,29 +29,37 @@ class siteController extends Controller
         
         return view('site/inicio')->with(['monedas'=>$monedas,"tasas"=>$tasas]);
     }
+    
     public function calcular(Request $request){
+        $respons = $request->all();
         
+        $data=array();
         $data = \DB::table('tasas')
-                ->select('cambio')
-                ->where(['isoa'=>$request->isoa,'isob'=>$request->isob])
+                ->select('*')
+                ->where(['isoa'=>$respons['isoa'],'isob'=>$respons['isob'] ])
                 ->get();
         $data=$data->all();
-            if(empty($data)){
-        $data = \DB::table('tasas')
-                ->select('cambio')
-                ->where(['isob'=>$request->isoa,'isoa'=>$request->isob])
-                ->get();
+        
+         if(empty($data)){
+       
+            $data = \DB::table('tasas')
+                    ->select('cambio')
+                    ->where(['isob'=>$respons['isoa'],'isoa'=>$respons['isob']])
+                    ->get();
                 $tipo=2;
-         $data=$data->all();
-            }else{
-                $tipo=1;
-            }
+             $data=$data->all();
+             $monto=$respons['monto']/$data[0]->cambio;
+        }else{
+             $monto=$data[0]->cambio*$respons['monto'];
+            $tipo=1;
+        }
         if(empty($data)){
             $tipo=3;
         }  
-                
-        return array($data,"tipo"=>$tipo);
+        
+        return $monto;
     }
+    
     public function respuesta(Request $request){
      
         return view('site/respuesta');

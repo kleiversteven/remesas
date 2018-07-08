@@ -26,7 +26,7 @@ Route::get('/contacto', function () {
 Auth::routes();
 
 
-Route::group(['prefix'=>'/','middleware'=>['auth',''] ],function(){
+Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/admin', 'AdminController@index' );
     
     Route::get('/depositos', 'DepositosController@cargardeposito' );

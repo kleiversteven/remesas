@@ -210,9 +210,10 @@ function calcular(){
     var a = $('#inputA').val();
     var monto = $('#monto').val();
     $('#resultado').val(de/a);
-    $.get("calcular","isoa="+de+"&isob="+a,function(e ){
-        var calculo=monto * e[0]['cambio'];
-        $('#resultado').val(calculo);
+    $.get("calcular","isoa="+de+"&isob="+a+"&monto="+monto,function(e){
+        console.log(e);
+        //var calculo=monto * e[0]['cambio'];
+        $('#resultado').val(e);
     })
 }
 

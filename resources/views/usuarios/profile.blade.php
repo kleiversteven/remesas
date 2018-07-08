@@ -13,15 +13,15 @@
                                         <div class="portlet light profile-sidebar-portlet ">
                                             <!-- SIDEBAR USERPIC -->
                                             <div class="profile-userpic">
-                                                <img src="../assets/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+                                                <img src="{{ asset('../storage/') }}/{{ Auth::user()->avatar }}" class="img-responsive" alt=""> </div>
                                             <!-- END SIDEBAR USERPIC -->
                                             <!-- SIDEBAR USER TITLE -->
                                             <div class="profile-usertitle">
-                                                <div class="profile-usertitle-name"> Marcus Doe </div>
-                                                <div class="profile-usertitle-job"> Developer </div>
+                                                <div class="profile-usertitle-name"> {{ Auth::user()->name }} </div>
+                                                <div class="profile-usertitle-job"> {{ Auth::user()->role }} rol </div>
                                             </div>
                                             <!-- END SIDEBAR USER TITLE -->
-                                            <!-- SIDEBAR BUTTONS -->
+                                            <!-- SIDEBAR BUTTONS --
                                             <div class="profile-userbuttons">
                                                 <button type="button" class="btn btn-circle green btn-sm">Follow</button>
                                                 <button type="button" class="btn btn-circle red btn-sm">Message</button>
@@ -32,7 +32,7 @@
                                                 <ul class="nav">
                                                     <li>
                                                         <a href="page_user_profile_1.html">
-                                                            <i class="icon-home"></i> Overview </a>
+                                                            <i class="icon-home"></i> Informacion general </a>
                                                     </li>
                                                     <li class="active">
                                                         <a href="page_user_profile_1_account.html">

@@ -185,12 +185,13 @@
                                             <i class="fa "></i> Nuevo deposito
                                         </a>
                                     </li>
-                                   
+                                   <!--
                                     <li class=" ">
                                         <a href="{{ url('listardepositos') }}" class="nav-link  ">
                                             <i class="fa "></i> Listar
                                         </a>
                                     </li>
+                                        -->
                                 </ul>
                             </li>
                             
@@ -336,12 +337,10 @@
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="{{ asset('assets/global/scripts/app.min.js')}}" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
-        <script src="{{ asset('assets/global/scripts/datatable.js')}}" type="text/javascript"></script>
-        <script src="{{ asset('assets/global/plugins/datatables/datatables.min.js')}}" type="text/javascript"></script>
-        <script src="{{ asset('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js')}}" type="text/javascript"></script>
-        <!-- BEGIN THEME LAYOUT SCRIPTS -->
-        <script src="{{ asset('assets/pages/scripts/table-datatables-managed.min.js')}}" type="text/javascript"></script>
         
+         <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="{{ asset('assets/pages/scripts/table-datatables-managed.min.js')}}" type="text/javascript"></script>
+        <script src="{{ asset('assets/global/plugins/datatables/datatables.js')}}" type="text/javascript"></script>
         <script src="{{ asset('assets/layouts/layout3/scripts/layout.min.js')}}" type="text/javascript"></script>
         <script src="{{ asset('assets/layouts/layout3/scripts/demo.min.js')}}" type="text/javascript"></script>
         <script src="{{ asset('assets/layouts/global/scripts/quick-sidebar.min.js')}}" type="text/javascript"></script>
