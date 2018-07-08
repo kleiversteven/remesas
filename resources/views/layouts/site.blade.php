@@ -29,7 +29,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="./">Inicio </a>
+        <a class="nav-link" href="{{ url('inicio') }}">Inicio </a>
       </li><li class="nav-item active">
         <a class="nav-link" href="#">¿Quienes somos? </a>
       </li><li class="nav-item active">
@@ -70,9 +70,41 @@
     <section id="content" class="wraper content contain">
 @yield('content')
 </section>
+    
+
 <footer>
+    
+    <div class="row container col-md-10 offset-md-1">
+        <div class="col-md-12" style="text-align: center;">
+            <button  class="btn btn-outline-warning"> Se emite boleta electronica de la SUNAT </button>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="col-md-4">
+            <img class="icons-footer" src="{{ asset('images/ico-gmail.png') }}">
+            Localremesas@gmail.com
+        </div>
+        <div class="col-md-4">
+            <img class="icons-footer" src="{{ asset('images/ico-send.png') }}">&nbsp;
+            <img class="icons-footer" src="{{ asset('images/ico-instagram.png') }}">
+            @Localremesas
+        </div>
+        <div class="col-md-4 row">
+            <span class="col-md-2"><img class="icons-footer" src="{{ asset('images/ico-ws.png') }}"></span>
+            <span class="col-md-8">
+                +51 961 451647
+                <br>
+                +51 915 013559
+            </span>
+                
+                
+        </div>
+    </div>
+    <br><br>
 </footer>
 
+    
 <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),

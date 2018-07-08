@@ -25,13 +25,19 @@ class DepositosRequest extends FormRequest
     {
         return [
             'ref-into.required' => 'El numero de referencia es obligatorio',
-            'body.required'  => 'A message is required',
+            'email.required' => 'La direccion de correo es obligatoria',
+            'cuenta.regex' => 'Numero de cuenta invalidao',
+            'telefono.regex' => 'Numero de telefono invalido',
+            
         ];
     }
     public function rules()
     {
         return [
-            'ref-into'=> 'required'
+            'ref-into' => 'required',
+            'email'    => 'required|email',
+            'cuenta'   => 'required',
+            'telefono' => 'required|regex:/(^[0-9]{10}$)/u',
         ];
     }
 }

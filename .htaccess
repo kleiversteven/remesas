@@ -1,0 +1,14 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^()?http://localhost$
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteCond %{REQUEST_URI} !^/remesas/public/
+# No cambiar estas lineas.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+RewriteRule ^(.*)$ /remesas/public/$1
+# Cambiar sudominio.com por su nombre de dominio
+# Cambiar 'subdirectory' por el nombre del subdirectorio que quiere usar
+# followed by / then the main file for your site, index.php, index.html, etc.
+RewriteCond %{HTTP_HOST} ^(www.)?http://localhost$
+RewriteRule ^(/)?$ subdirectory/index.php [L]

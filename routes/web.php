@@ -14,6 +14,7 @@
 use App\Http\Controllers\DepositosController;
 
 
+ Route::get('/inicio', 'siteController@index' ); 
  Route::get('/', 'siteController@index' ); 
  Route::get('/calcular', 'siteController@calcular' ); 
  Route::get('/respuesta', 'siteController@respuesta' ); 
@@ -25,10 +26,17 @@ Route::get('/contacto', function () {
 Auth::routes();
 
 
-Route::group(['prefix'=>'/','middleware'=>'auth'],function(){
+Route::group(['prefix'=>'/','middleware'=>['auth',''] ],function(){
     Route::get('/admin', 'AdminController@index' );
+    
     Route::get('/depositos', 'DepositosController@cargardeposito' );
     Route::post('/savedeposito', 'DepositosController@savedeposito' );
+    Route::get('/misdepositos', 'DepositosController@listardepositos');
+    Route::get('/listardepositos', 'DepositosController@alldepositos');
+    
+    
+    //PERFIL
+    Route::get('/perfil', 'AdminController@profile' );
 });
 
 

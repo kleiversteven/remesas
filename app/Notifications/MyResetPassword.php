@@ -49,7 +49,7 @@ class MyResetPassword extends Notification
     {
         
         return (new MailMessage)
-            ->attachData( array('name'=>'Mensaje'), array('name'=>'Mensaje'), array('name'=>'Mensaje'))
+        ->from('atencionalcliente@localremesas.com','Restablecer contraseña',' ')
         ->subject('LocalRemesas - Recuperar contraseña')
         ->greeting('Hola ' . $notifiable->name )
         ->line('Estás recibiendo este correo porque hiciste una solicitud de recuperación de contraseña para tu cuenta.')

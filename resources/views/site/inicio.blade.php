@@ -53,7 +53,12 @@
     
     
 </div>
-
+</div>
+<div class="cinta-coin">
+    <br>
+        <div class="mensaje-coin">
+            Seguridad confianza y puntualidad en tus envios de dinero.
+        </div>
 </div>
 <div class="container ">
     <div class=" row">
@@ -190,14 +195,10 @@
     </div>
     
 </div>
-<div class="cinta-coin">
-    <br>
-        <div class="mensaje-coin">
-            Seguridad confianza y puntualidad en tus envios de dinero.
-        </div>
-</div>
-<div class="container col-md-12 list-site-bancos">
-    
+<br>
+<br>
+<div class="container col-md-12 list-site-bancos"  style="background-image:url({{ asset('images/cinta-bancos.jpg') }})">
+  
 </div>
 @endsection
 

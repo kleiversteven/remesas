@@ -54,10 +54,10 @@
                             {{ Form::label('Banco:', null, ['class' => 'control-label']) }}
                                 @foreach($bancos as $b)
                                     @if($b->entrada ==1)  
-                                        <?php $options[$b->idbank]=$b->banco ;  ?>
+                                        <?php $option[$b->idbank]=$b->banco ;  ?>
                                     @endif
                                 @endforeach
-                                {{ Form::select('banco-into',$options,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
+                                {{ Form::select('banco-into',$option,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
                         </div>
                     </div>
                     <!--/span-->
@@ -113,11 +113,11 @@
                         <div class="form-group">
                             {{ Form::label('Banco:', null, ['class' => 'control-label']) }}
                                 @foreach($bancos as $b)
-                                    @if($b->entrada ==1)  
-                                        <?php $options[$b->idbank]=$b->banco ;  ?>
+                                    @if($b->salida ==1)  
+                                        <?php $optio[$b->idbank]=$b->banco ;  ?>
                                     @endif
                                 @endforeach
-                                {{ Form::select('banco-out',$options,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
+                                {{ Form::select('banco-out',$optio,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
                         </div>
                     </div>
                     <div class="col-md-6 ">
@@ -135,7 +135,13 @@
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('Telefono',null, ['class' => 'control-label']) }}
-                            {!! Form::number('telefono', null, ['class' => 'form-control','placeholder' => 'Numero de telefono']) !!}
+                             <select name="country" id="country_list" class="select2 form-control col-md-4">
+                                 <option></option>
+                                @foreach($countries as $c)
+                                 <option  data-img-src="{{asset('flags/'.$c->id.'.png') }}" value="{{ $c->codigo }}">{{ $c->country }}</option>
+                                @endforeach
+                            </select>
+                            {!! Form::number('telefono', null, ['class' => 'form-control col-md-8','placeholder' => 'Numero de telefono']) !!}
                                     
                         </div>
                     </div>
@@ -156,30 +162,46 @@
 </div>
 @endsection
 @section('scripts')
-
 <script src="{{ asset('plugins/dropzone/dropzone.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/form-dropzone.min.js')}}" type="text/javascript"></script>
 <script>
 $(function(){
+    $("#country_list").select2({
+        placeholder: '<i class="fa fa-map-o"></i>&nbsp; Seleccionar codigo del pais',
+        templateResult: format,
+        templateSelection: format,
+        width: 'auto', 
+        escapeMarkup: function(m) {
+            return m;
+        }
+    });
+    
     $('#save-depositoa').submit(function(){
         
-        var formData = new FormData(document.getElementById("save-deposito"));
+            var formData = new FormData(document.getElementById("save-deposito"));
 
-        $.ajax({
-            url: '{{url("/savedeposito")}}',
-            type: "POST",
-            dataType: "HTML",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false
-        }).done(function(echo){
-            console.log(echo)
-           
-        });
-        return false;
+            $.ajax({
+                url: '{{url("/savedeposito")}}',
+                type: "POST",
+                dataType: "HTML",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function(echo){
+                console.log(echo)
+
+            });
+            return false;
+        })
     })
-})
-
+function format(state) {
+        if (!state.id) { return state.text; }
+        var flag = $(state.element).data('img-src').toLowerCase();
+        var $state = $(
+         '<span><img src="' + flag + '" class="img-flag" /> ' + state.text + ' (' + state.element.value + ' )' + '</span>'
+        );
+        return $state;
+    }
 </script>
 @endsection

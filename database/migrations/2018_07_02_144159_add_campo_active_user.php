@@ -18,7 +18,7 @@ class AddCampoActiveUser extends Migration
             $table->boolean('confirmed')->default(0);
             $table->boolean('estatus')->default(0);
             $table->string('confirmation_codemed')->nullable(0);
-            $table->string('avatar')->default('avatars/default.jpg');
+            $table->string('avatar')->default('avatars/default.png');
             
         });
         

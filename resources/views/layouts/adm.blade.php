@@ -47,7 +47,7 @@
                 <div class="container">
                     <!-- BEGIN LOGO -->
                     <div class="page-logo">
-                        <a href="{{ url('admin/inicio') }}">
+                        <a href="{{ url('inicio') }}">
                             <img src="{{ asset('images/logo2.png')}}" alt="logo" style="width:100px; margin-top: 7px;"  >
                         </a>
                     </div>
@@ -122,12 +122,12 @@
                             <!-- BEGIN USER LOGIN DROPDOWN -->
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="{{asset('images/icono.png')}}">Usuario
+                                    <img alt="" class="img-circle" src=" {{ asset('../storage/') }}/{{ Auth::user()->avatar }}">{{ Auth::user()->name }} 
                                     <span class="username username-hide-mobile"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
-                                        <a href="{{ url('admin/users/profile') }}" >
+                                        <a href="{{ url('perfil') }}" >
                                             <i class="icon-user"></i> Perfil</a>
                                     </li>
                                     <li>
@@ -176,13 +176,19 @@
                                 </a>
                                 <ul class="dropdown-menu pull-left">
                                     <li class=" ">
-                                        <a href="" class="nav-link  ">
+                                        <a href="{{ url('misdepositos') }}" class="nav-link  ">
                                             <i class="fa "></i> Mis depositos
                                         </a>
                                     </li>
                                     <li class=" ">
-                                        <a href="depositos" class="nav-link  ">
+                                        <a href="{{ url('depositos') }}" class="nav-link  ">
                                             <i class="fa "></i> Nuevo deposito
+                                        </a>
+                                    </li>
+                                   
+                                    <li class=" ">
+                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
+                                            <i class="fa "></i> Listar
                                         </a>
                                     </li>
                                 </ul>
