@@ -112,7 +112,7 @@
 }
 .cinta-coin{
     height: 180px;
-    background-color: #fd5e05;
+    background-color: #00032d;;
 }
 .mensaje-coin{
     display: block;
@@ -136,7 +136,7 @@
     width: 15%;
 }
 footer{
-    background-color: #00043a;
+    background-color: #00032d;;
     height: 200px;
     color: #fff;
     display: flex;

@@ -40,8 +40,8 @@
     </ul>
 	<ul class="nav navbar-nav navbar-right  options-user">
         @if (Auth::guest())
-		<li><a href="{{ route('login') }}" class="btn btn-outline-warning"><span class=" fa fa-sign-in"></span> Iniciar sesión</a></li>
-      <li><a href="{{ route('register') }}" class="btn btn-outline-warning"><span class="fa fa-user"></span>Registrarse</a></li>
+		<li><a href="{{ route('login') }}" class="btn btn-outline-primary"><span class=" fa fa-sign-in"></span> Iniciar sesión</a></li>
+      <li><a href="{{ route('register') }}" class="btn btn-outline-primary"><span class="fa fa-user"></span>Registrarse</a></li>
         @else
         <div class="dropdown " style="right: 30px;" >
   <button type="button" class="btn btn-outline-warning dropdown-toggle fa fa-user" data-toggle="dropdown">

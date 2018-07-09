@@ -11,12 +11,19 @@
 </div>
 <div class="row col-lg-12 col-md-12 col-sm-12 "  >
     
-    <div  class=" col-lg-2 col-md-2 col-sm-2 offset-md-1 offset-lg-1 animated bounceInRight">
+    <div  class=" col-lg-4 col-md-4 col-sm-2 offset-md-1 offset-lg-1 animated bounceInRight">
         <p  class="slogan">
-          Seguridad confianza y puntualidad en tus envios de dinero.
+          <b class="fech-font">Fecha</b>
+                    
+            <?php
+setlocale(LC_ALL,"es_ES");
+echo strftime("%A %d de %B del %Y");
+ 
+//Salida: viernes 24 de febrero del 2012
+?>
         </p>
     </div>
-    <div  class="calculadora row animated bounceInLeft col-lg-4 col-md-4 col-sm-4 offset-ld-5 offset-md-5 offset-sm-2 align-self-end"> 
+    <div  class="calculadora row animated bounceInLeft col-lg-4 col-md-4 col-sm-4 offset-ld-2 offset-md-2 offset-sm-1 align-self-end"> 
         <h3>Calculadora de remesas:</h3>
         <div class="form-row">
             <div class="form-group col-md-12">
