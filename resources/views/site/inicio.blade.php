@@ -16,6 +16,7 @@
           <b class="fech-font">Fecha</b>
                     
             <?php
+date_default_timezone_set('America/Caracas');
 setlocale(LC_ALL,"es_ES");
 echo strftime("%A %d de %B del %Y");
  
