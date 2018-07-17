@@ -120,9 +120,9 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'true'),
+    'log' => env('APP_LOG', 'single'),
 
-    'log_level' => env('APP_LOG_LEVEL', 'false'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
