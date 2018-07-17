@@ -157,43 +157,58 @@
                     <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
                     <div class="hor-menu  ">
                         <ul class="nav navbar-nav">
-                            <!--
-                            <li class="menu-dropdown classic-menu-dropdown ">
-                                <a href="javascript:;"> Usuarios
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="dropdown-menu pull-left">
-                                    <li class=" ">
-                                        <a href="usuarios" class="nav-link  ">
-                                            <i class="fa "></i> Listar
+                           
+                                    @role('cliente')
+                                    <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Depositos
+                                            <span class="arrow"></span>
                                         </a>
-                                    </li>
-                                </ul>
-                            </li>-->
-                            <li class="menu-dropdown classic-menu-dropdown ">
-                                <a href="javascript:;"> Depositos
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="dropdown-menu pull-left">
-                                    <li class=" ">
-                                        <a href="{{ url('misdepositos') }}" class="nav-link  ">
-                                            <i class="fa "></i> Mis depositos
-                                        </a>
-                                    </li>
-                                    <li class=" ">
-                                        <a href="{{ url('depositos') }}" class="nav-link  ">
-                                            <i class="fa "></i> Nuevo deposito
-                                        </a>
-                                    </li>
-                                   <!--
-                                    <li class=" ">
-                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
-                                            <i class="fa "></i> Listar
-                                        </a>
-                                    </li>
-                                        -->
-                                </ul>
-                            </li>
+                                        <ul class="dropdown-menu pull-left">
+                                                <li class=" ">
+                                                    <a href="{{ url('misdepositos') }}" class="nav-link  ">
+                                                        <i class="fa "></i> Mis depositos
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="{{ url('depositos') }}" class="nav-link  ">
+                                                        <i class="fa "></i> Nuevo deposito
+                                                    </a>
+                                                </li>
+                                          </ul>
+                                     </li>
+                                    @endrole
+                                    @role('developers')
+                                      <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Administrar
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('bancos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Bancos
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('tasas') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Tasas de cambio
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Depositos
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                    @endrole
+                                
                             
                            
                         </ul>

@@ -30,7 +30,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('Monto:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('monto',null,['class'=>'form-control  placeholder-no-fix','placeholder'=>'Monto' ]) !!}
+                            {!! Form::number('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
                         </div>
                     </div>
                     <!--/span-->
@@ -42,7 +42,7 @@
                                         <?php $options[$m->iso]=$m->descripcion;  ?>
                                     @endif
                                 @endforeach
-                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','placeholder' => 'Seleccione moneda depositada'])}}
+                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','placeholder' => 'Seleccione moneda depositada','onchange'=>'calmonto()'])}}
                         </div>
                     </div>
                     <!--/span-->
@@ -86,7 +86,9 @@
                 <!--/row-->
           
                 <!--/row-->
-                <h3 class="form-section">Datos dinero a transferir: </h3>
+                <h3 class="form-section">Datos a transferir:
+                <span class="monto-trans"></span>
+                </h3>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -203,5 +205,17 @@ function format(state) {
         );
         return $state;
     }
+function calmonto(){
+    var de = $('#moneda-into').val();
+    var a = 'VEF';
+    var monto = $('#monto').val();
+    $('#resultado').val(de/a);
+    if(de != '' && monto > 0){
+        $.get("calcular","isoa="+de+"&isob="+a+"&monto="+monto,function(e){
+            console.log(e);
+             $('.monto-trans').html(e);
+        })
+    }
+}
 </script>
 @endsection

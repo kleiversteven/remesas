@@ -23,6 +23,13 @@ echo strftime("%A %d de %B del %Y");
 //Salida: viernes 24 de febrero del 2012
 ?>
         </p>
+        <div class="row widget-row">
+                <div class="col-md-12">
+                   <div class="alert alert-warning" role="alert">
+                      Precio del dolar:
+                    </div>
+                </div>
+        </div>
     </div>
     <div  class="calculadora row animated bounceInLeft col-lg-4 col-md-4 col-sm-4 offset-ld-2 offset-md-2 offset-sm-1 align-self-end"> 
         <h3>Calculadora de remesas:</h3>
@@ -70,135 +77,10 @@ echo strftime("%A %d de %B del %Y");
 </div>
 <div class="container ">
     <div class=" row">
-        <div class="col-md-3 info-coin tasas-cambio  animated bounceInDown ">
-            <div class="">
-                <img src="{{ asset('images/bolivares.png') }}">
-                <div>
-                    <h3>Bolivares</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td> Moneda</td>
-                                <td> Tasa de cambio</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        
-                            @foreach($tasas as $t)
-                                @if($t->iso == 'VEF')
-                                    @if($t->isoa != $t->isob)
-                                        <tr><td> 
-                                            @if($t->isoa == 'VEF') 
-                                                {{ $t->isob }}
-                                            @else
-                                                {{ $t->isoa }}
-                                            @endif</td>    
-                                        <td>{{ number_format($t->camb,2,",",".") }}</td></tr>
-                                    @endif
-                                @endif
-                            @endforeach
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </div>            
-        </div>
-        <div class="col-md-3 info-coin tasas-cambio  animated bounceInDown ">
-            <div class="">
-                <img src="{{ asset('images/pesos.png') }}">
-                <div>
-                    <h3>Pesos</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td> Moneda</td>
-                                <td> Tasa de cambio</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($tasas as $t)
-                                @if($t->iso == 'COP')
-                                    @if($t->isoa != $t->isob)
-                                        <tr><td>
-                                           @if($t->isoa == 'COP') 
-                                                {{ $t->isob }}
-                                            @else
-                                                {{ $t->isoa }}
-                                            @endif
-                                        </td>    
-                                        <td>{{ number_format($t->camb,5,",",".") }}</td></tr>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 info-coin tasas-cambio  animated bounceInDown ">
-            <div class="">
-                <img src="{{ asset('images/soles.png') }}">
-                <div>
-                    <h3>Soles</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td> Moneda</td>
-                                <td> Tasa de cambio</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @foreach($tasas as $t)
-                                @if($t->iso == 'PEN')
-                                    @if($t->isoa != $t->isob)
-                                        <tr><td>
-                                           @if($t->isoa == 'PEN') 
-                                                {{ $t->isob }}
-                                            @else
-                                                {{ $t->isoa }}
-                                            @endif
-                                        </td>    
-                                        <td>{{ number_format($t->camb,5,",",".") }}</td></tr>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 info-coin tasas-cambio  animated bounceInDown ">
-            <div class="">
-                <img src="{{ asset('images/dolares.png') }}">
-                <div>
-                    <h3>Dolares</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <td> Moneda</td>
-                                <td> Tasa de cambio</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($tasas as $t)
-                                @if($t->iso == 'USD')
-                                    @if($t->isoa != $t->isob)
-                                        <tr><td>
-                                           @if($t->isoa == 'USD') 
-                                                {{ $t->isob }}
-                                            @else
-                                                {{ $t->isoa }}
-                                            @endif
-                                        </td>    
-                                        <td>{{ number_format($t->camb,8,",",".") }}</td></tr>
-                                    @endif
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    
+        
+       
+        
         
     </div>
     

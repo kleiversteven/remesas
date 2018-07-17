@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -48,10 +48,10 @@
      {{ Auth::user()->name }} 
   </button>
         <div class="dropdown-menu">
+            <a class="dropdown-item" href="administrar" > Administrar cuenta  </a>
             <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                            Logout
+                            onclick="event.preventDefault();  document.getElementById('logout-form').submit();">
+                            Cerrar sesión
                         </a>
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -106,9 +106,12 @@
 
     
 <script>
+    
+   
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+
 </script>
 
 
