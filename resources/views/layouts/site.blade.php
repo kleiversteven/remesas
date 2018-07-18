@@ -13,8 +13,12 @@
     <!-- css -->
 	<link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ asset('plugins/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('assets/global/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css" />
+    
 	<link href="{{ asset('css/animate.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+    @yield('otros')
     <link rel="shortcut icon" href="{{ asset('images/icono.png') }}" type="image/x-icon"/>
 </head>
 
@@ -120,7 +124,7 @@
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script src="{{ asset('js/jquery.waypoints.min.js') }}"></script>
 	<script src="{{ asset('plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    
+    <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
     
     @yield('scripts')		
 </body>

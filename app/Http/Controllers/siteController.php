@@ -66,15 +66,20 @@ class siteController extends Controller
      
         return view('site/respuesta');
     }
-    public function sendmail(){
-        $data=array('name'=>"Prueba");
-            Mail::send('emails.welcome',$data,function($message){
-                $message->from('kleiversteven6@gmail.com','Prueba');
-                $message->to('caraquedeveloper@gmail.com')->subject('Mensaje de prueba');
-            });
-        return "Mensaje de prueba enviado";
-                
+    public function enviarcorreo(Request $request){
+        $respons = $request->all();
 
+        $data=array('name'=>$respons['fname'],
+                    'email'=>$respons['email'],
+                    'phone'=>$respons['country'].' '.$respons['phone'],
+                    'subject'=>$respons['subject'],
+                    'mensaje'=>$respons['message']);
+        $email=$respons['email'];
+        Mail::send('emails.contacto',['mensaje'=>$data],function($message)use($email,$data){
+            $message->from($email,'Contacto');
+            $message->to('atencionalcliente@localremesas.com')->subject($data['subject']);
+        });
+        return "Mensaje enviado";
     }
     public function calculadora($de,$para,$monto){
         
@@ -102,6 +107,14 @@ class siteController extends Controller
         }  
         
         return $monto;
+    }
+    public function contacto(Request $request){
+        $country= \DB::table('countries')
+             ->select('*')
+             ->where(['status'=>'1'])
+             ->orderBy('country')
+             ->get();
+        return view('contacto')->with(['countries'=>$country]);
     }
         
 }

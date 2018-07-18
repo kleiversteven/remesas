@@ -24,7 +24,7 @@
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
             {!! Form::open(['url'=>'savedeposito','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
-            <div class="form-body">
+            <div class="form-body"> 
                 <h3 class="form-section">Datos del deposito</h3>
                 <div class="row">
                     <div class="col-md-6">
@@ -140,7 +140,7 @@
                              <select name="country" id="country_list" class="select2 form-control col-md-4">
                                  <option></option>
                                 @foreach($countries as $c)
-                                 <option  data-img-src="{{asset('flags/'.$c->id.'.png') }}" value="{{ $c->codigo }}">{{ $c->country }}</option>
+                                 <option  data-img-src="{{asset('flags/'.strtolower($c->id).'.png') }}" value="{{ $c->codigo }}">{{ $c->country }}</option>
                                 @endforeach
                             </select>
                             {!! Form::number('telefono', null, ['class' => 'form-control col-md-8','placeholder' => 'Numero de telefono']) !!}

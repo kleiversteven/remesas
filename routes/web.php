@@ -20,9 +20,11 @@ use App\Http\Controllers\DepositosController;
  Route::get('/respuesta', 'siteController@respuesta' ); 
  Route::get('/activacion/{code?}', 'UserController@activate' ); 
 
-Route::get('/contacto', function () {
-    return view('contacto');
-});
+//Enviar correo
+    Route::get('/enviarcorreo', 'siteController@enviarcorreo' );
+
+Route::get('/contacto','siteController@contacto');
+
 Auth::routes();
 
 
@@ -40,6 +42,8 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     //PERFIL
     Route::get('/perfil', 'AdminController@profile' );
+    
+    
 });
 
 

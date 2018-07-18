@@ -74,5 +74,13 @@ class AdminController extends Controller
         
         return $monto;
     }
+    public function contacto(Request $request){
+         $data=array('name'=>"Contacto");
+            Mail::send('emails.welcome',$data,function($message){
+                $message->from('kleiversteven6@gmail.com','Prueba');
+                $message->to('caraquedeveloper@gmail.com')->subject('Mensaje de prueba');
+            });
+        return "Mensaje de prueba enviado";
+    }
    
 }
