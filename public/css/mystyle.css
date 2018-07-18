@@ -28,7 +28,7 @@
     font-weight: 900;
 }
 .img-moneda{
-    max-width: 36px;
+    max-width: 30px;
     margin: 0 auto;
     display: block;
     margin-top: 15px;
@@ -64,12 +64,16 @@
 }
 .slogan{
         width: 100%;
-    margin-top: 25%;
     background-color: #00000085;
     padding: 10px;
     color: #fff;
     font-variant-caps: petite-caps;
-    text-align: justify;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.fech-font {
+    
 }
 .container-auth{
     background-size: cover;
@@ -144,4 +148,13 @@ footer{
 }
 .icons-footer{
     width:30px;
+}
+.table-monedas{
+    background-color: #00000085;
+    color: #ffc107;
+}
+.linea-table{
+    border-right: solid;
+    border-color: #ffa500;
+    border-width: 2px;
 }

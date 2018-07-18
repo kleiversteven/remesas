@@ -11,24 +11,80 @@
 </div>
 <div class="row col-lg-12 col-md-12 col-sm-12 "  >
     
-    <div  class=" col-lg-4 col-md-4 col-sm-2 offset-md-1 offset-lg-1 animated bounceInRight">
-        <p  class="slogan">
-          <b class="fech-font">Fecha</b>
-                    
+    <div  class=" row col-lg-4 col-md-4 col-sm-2 offset-md-1 offset-lg-1 animated bounceInRight" style="margin-top: 5%;">
+        <div  class="slogan col-lg-4 col-md-4 btn-block " >
+            
+            
+            <p class="btn btn-outline-warning">
+                <b class="fech-font ">Fecha:</b><br>
             <?php
-date_default_timezone_set('America/Caracas');
-setlocale(LC_ALL,"es_ES");
-echo strftime("%A %d de %B del %Y");
- 
-//Salida: viernes 24 de febrero del 2012
-?>
-        </p>
-        <div class="row widget-row">
-                <div class="col-md-12">
-                   <div class="alert alert-warning" role="alert">
-                      Precio del dolar:
-                    </div>
-                </div>
+            date_default_timezone_set('America/Caracas');
+            setlocale(LC_ALL,"es_ES");
+            echo strftime("%A %d ");
+            echo "DE <br>";
+            echo strftime("%B del %Y");
+            ?>
+                </p>
+        </div>
+      
+        <div class="  col-lg-8 col-md-8 table-monedas">
+            <table>
+                <tr><th></th><th>=</th><th>Tasa de cambio</th></tr>
+                <tr>
+                    <th class="linea-table">
+                        <table>
+                            <tr>
+                                <td>1</td>
+                                <td><img src="{{ asset('images/soles.png') }}" class="img-moneda"  /></td>
+                                <td><img src="{{asset('flags/PE.png') }}" class="img-moneda"  /></td></tr>
+                        </table>
+                        
+                        
+                    </th>
+                    <th class="align-middle"> &nbsp; {{ $sol_bs }} &nbsp; </th>
+                    <th>
+                        <table>
+                        <tr>
+                        <td><img src="{{ asset('images/bolivares.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/VE.png') }}" class="img-moneda"  /></td>
+                            </tr>
+                        </table>
+                        </th>
+                </tr>
+                <tr>
+                    <th class="linea-table"> <table>
+                        <tr>
+                            <td>1</td>
+                        <td><img src="{{ asset('images/dolares.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/US.png') }}" class="img-moneda"  /></td>
+                            </tr>
+                        </table></th>
+                    <th class="align-middle"> &nbsp; {{ $dol_so }} &nbsp; </th>
+                    <th class="align-middle"> <table>
+                        <tr>
+                        <td><img src="{{ asset('images/soles.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/PE.png') }}" class="img-moneda"  /></td>
+                            </tr>
+                        </table></th>
+                </tr>
+                <tr>
+                    <th class="linea-table"> <table>
+                        <tr>
+                            <td>1</td>
+                        <td><img src="{{ asset('images/dolares.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/US.png') }}" class="img-moneda"  /></td>
+                            </tr>
+                        </table></th>
+                    <th class="align-middle"> &nbsp; {{ $dol_bs }} &nbsp; </th>
+                    <th  class="align-middle"> <table>
+                        <tr>
+                        <td><img src="{{ asset('images/bolivares.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/VE.png') }}" class="img-moneda"  /></td>
+                            </tr>
+                        </table></th>
+                </tr>
+            </table>
+            <br>
         </div>
     </div>
     <div  class="calculadora row animated bounceInLeft col-lg-4 col-md-4 col-sm-4 offset-ld-2 offset-md-2 offset-sm-1 align-self-end"> 

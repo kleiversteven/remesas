@@ -76,6 +76,8 @@
     
     <div class="row container col-md-10 offset-md-1">
         <div class="col-md-12" style="text-align: center;">
+            <font color="#ffc107">RUC:&nbsp; </font> &nbsp; 20603289812
+            <br>
             <button  class="btn btn-outline-warning"> Se emite boleta electronica de la SUNAT </button>
             <br>
             <br>

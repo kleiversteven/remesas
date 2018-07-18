@@ -26,8 +26,10 @@ class siteController extends Controller
              ->where(['estatus'=>'1'])
             ->orderBy('monedas.iso')
              ->get();
-        
-        return view('site/inicio')->with(['monedas'=>$monedas,"tasas"=>$tasas]);
+        $sol_bs=$this->calculadora('PEN','VEF',1);
+        $dol_so=$this->calculadora('USD','PEN',1);
+        $dol_bs=$this->calculadora('USD','VEF',1);
+        return view('site/inicio')->with(['monedas'=>$monedas,"tasas"=>$tasas,'sol_bs'=>$sol_bs,'dol_so'=>$dol_so,'dol_bs'=>$dol_bs]);
     }
     
     public function calcular(Request $request){
@@ -74,6 +76,32 @@ class siteController extends Controller
                 
 
     }
-    
+    public function calculadora($de,$para,$monto){
+        
+        $data=array();
+        $data = \DB::table('tasas')
+                ->select('*')
+                ->where(['isoa'=>$de,'isob'=>$para ])
+                ->get();
+        $data=$data->all();
+         if(empty($data)){
+       
+            $data = \DB::table('tasas')
+                    ->select('cambio')
+                    ->where(['isob'=>$de,'isoa'=>$para])
+                    ->get();
+                $tipo=2;
+             $data=$data->all();
+             $monto=$monto/$data[0]->cambio;
+        }else{
+             $monto=$data[0]->cambio*$monto;
+            $tipo=1;
+        }
+        if(empty($data)){
+            $tipo=3;
+        }  
+        
+        return $monto;
+    }
         
 }
