@@ -36,7 +36,7 @@
                             <tr>
                                 <td>1</td>
                                 <td><img src="{{ asset('images/soles.png') }}" class="img-moneda"  /></td>
-                                <td><img src="{{asset('flags/PE.png') }}" class="img-moneda"  /></td></tr>
+                                <td><img src="{{asset('flags/pe.png') }}" class="img-moneda"  /></td></tr>
                         </table>
                         
                         
@@ -46,7 +46,7 @@
                         <table>
                         <tr>
                         <td><img src="{{ asset('images/bolivares.png') }}" class="img-moneda"  /></td>
-                        <td><img src="{{asset('flags/VE.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/ve.png') }}" class="img-moneda"  /></td>
                             </tr>
                         </table>
                         </th>
@@ -56,14 +56,14 @@
                         <tr>
                             <td>1</td>
                         <td><img src="{{ asset('images/dolares.png') }}" class="img-moneda"  /></td>
-                        <td><img src="{{asset('flags/US.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/us.png') }}" class="img-moneda"  /></td>
                             </tr>
                         </table></th>
                     <th class="align-middle"> &nbsp; {{ $dol_so }} &nbsp; </th>
                     <th class="align-middle"> <table>
                         <tr>
                         <td><img src="{{ asset('images/soles.png') }}" class="img-moneda"  /></td>
-                        <td><img src="{{asset('flags/PE.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/pe.png') }}" class="img-moneda"  /></td>
                             </tr>
                         </table></th>
                 </tr>
@@ -72,14 +72,14 @@
                         <tr>
                             <td>1</td>
                         <td><img src="{{ asset('images/dolares.png') }}" class="img-moneda"  /></td>
-                        <td><img src="{{asset('flags/US.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/us.png') }}" class="img-moneda"  /></td>
                             </tr>
                         </table></th>
                     <th class="align-middle"> &nbsp; {{ $dol_bs }} &nbsp; </th>
                     <th  class="align-middle"> <table>
                         <tr>
                         <td><img src="{{ asset('images/bolivares.png') }}" class="img-moneda"  /></td>
-                        <td><img src="{{asset('flags/VE.png') }}" class="img-moneda"  /></td>
+                        <td><img src="{{asset('flags/ve.png') }}" class="img-moneda"  /></td>
                             </tr>
                         </table></th>
                 </tr>
