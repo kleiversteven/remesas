@@ -27,8 +27,6 @@
                             <th class="all">Monto</th>
                             <th class="all">Fecha</th>
                             <th class="all">Estatus</th>
-                            <th class="none">Titular</th>
-                            <th class="none">Cuenta</th>
                             <th class="none">De</th>
                             <th class="none">A</th>
                             <th class="none">Tasa de cambio</th>
@@ -53,12 +51,10 @@
                                     <span class="label label-success"> Transacción completa </span>
                                 @endif
                             </td>
-                            <td>{{ $d->titular }}</td>
-                            <td>{{ $d->cuenta }}</td>
                             <td>{{ $d->mnd_ent_desc }}</td>
                             <td>{{ $d->mnd_sal_desc }}</td>
-                            <td>{{ $d->tasa }}</td>
-                            <td>{{ $d->monto_out }}</td>
+                            <td>{{ number_format($d->tasa,2,",",".") }}</td>
+                            <td>{{ number_format($d->monto_out,2,",",".") }}</td>
                         </tr>
                         @endforeach
                     </tbody>

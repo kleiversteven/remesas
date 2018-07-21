@@ -37,10 +37,10 @@
                                         <h4 class="widget-thumb-heading">Mis depositos</h4>
                                         <div class="widget-thumb-wrap">
                                             <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
-                                            <div class="widget-thumb-body">
+                                            <a class="widget-thumb-body">
                                                 <span class="widget-thumb-subtitle"></span>
                                                 <span class="widget-thumb-body-stat">{{ $depositos }}</span>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                     <!-- END WIDGET THUMB -->
@@ -51,10 +51,10 @@
                                         <h4 class="widget-thumb-heading">Transacciones completas</h4>
                                         <div class="widget-thumb-wrap">
                                             <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
-                                            <div class="widget-thumb-body">
+                                            <a class="widget-thumb-body">
                                                 <span class="widget-thumb-subtitle"></span>
                                                 <span class="widget-thumb-body-stat">{{ $procesados }}</span>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                     <!-- END WIDGET THUMB -->

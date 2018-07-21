@@ -32,11 +32,17 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/administrar', 'AdminController@index' );
     
     Route::get('/depositos', 'DepositosController@cargardeposito' );
+    
+    Route::post('/savecuenta', 'DepositosController@savecuenta' );
+    
     Route::post('/savedeposito', 'DepositosController@savedeposito' );
     Route::get('/misdepositos', 'DepositosController@listardepositos');
     Route::get('/listardepositos', 'DepositosController@alldepositos');
     
     Route::get('/bancos', 'AdminController@bancos');
+    
+    Route::get('/savebanco', 'AdminController@savebanco');
+    
     Route::get('/tasas', 'AdminController@tasas');
     
     

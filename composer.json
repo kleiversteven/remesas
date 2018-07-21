@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "acacha/admin-lte-template-laravel": "4.*",
         "atnic/laravel-admin-lte": "^0.5.1",
+        "faustbrian/laravel-cookie-consent": "^4.0",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",

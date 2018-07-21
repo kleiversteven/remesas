@@ -23,6 +23,18 @@
 </head>
 
 <body >
+
+<div class='loader'>
+  <div class='loader-container'>
+    <h3><img src="{{ asset('images/logo2.png') }}" class="img-logo" /><br>
+        <b>Pro favor espere un momento mientras preparamos el contenido</b></h3>
+    <div class='progress progress-striped active'>
+      <div class='progress-bar progress-bar-color' id='bar' role='progressbar' style='width: 0%;'></div>
+    </div>
+  </div>
+</div>
+    
+    
 <div class="">
 <nav class="navbar navbar-expand-lg navbar-light bg-turquesa">
   <a class="navbar-brand" href="#"><img src="{{ asset('images/logo.png') }}" class="img-logo" /></a>
@@ -111,22 +123,42 @@
 </footer>
 
     
-<script>
-    
-   
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
 
-</script>
 
 
 	<script src="{{ asset('js/jquery.min.js') }}"></script>
 	<script src="{{ asset('js/jquery.waypoints.min.js') }}"></script>
 	<script src="{{ asset('plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
+    <script>
+  $(function(){
+    var progress = setInterval(function () {
+        var $bar = $("#bar");
+
+        if ($bar.width() >= 600) {
+            clearInterval(progress);
+        } else {
+            $bar.width($bar.width() + 60);
+        }
+        $bar.text($bar.width() / 6 + "%");
+        if ($bar.width() / 6 == 100){
+          $bar.text("Cargando ... " + $bar.width() / 6 + "%");
+            $(".loader").fadeOut(300);
+        }
+    }, 800);
+})
+$(window).load(function() {
+  $("#bar").width(600);
+  $(".loader").fadeOut(3000);
+});
+   
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+
+</script>
+    @yield('scripts')	
     
-    @yield('scripts')		
 </body>
 
 </html>

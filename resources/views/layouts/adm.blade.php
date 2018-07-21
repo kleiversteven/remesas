@@ -126,10 +126,10 @@
                                     <span class="username username-hide-mobile"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
-                                    <li>
+                                    <!--<li>
                                         <a href="{{ url('perfil') }}" >
                                             <i class="icon-user"></i> Perfil</a>
-                                    </li>
+                                    </li>-->
                                     <li>
                                         <a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <i class="icon-key"></i> Salir </a>
@@ -160,6 +160,11 @@
                            
                                     @role('cliente')
                                     <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="administrar"> Inicio
+                                            <span class="arrow"></span>
+                                        </a>
+                                     </li>
+                                    <li class="menu-dropdown classic-menu-dropdown ">
                                         <a href="javascript:;"> Depositos
                                             <span class="arrow"></span>
                                         </a>
@@ -178,6 +183,37 @@
                                      </li>
                                     @endrole
                                     @role('developers')
+                                      <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Administrar
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('bancos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Bancos
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('tasas') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Tasas de cambio
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Depositos
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                    @endrole
+                                    @role('super-admin')
                                       <li class="menu-dropdown classic-menu-dropdown ">
                                         <a href="javascript:;"> Administrar
                                             <span class="arrow"></span>

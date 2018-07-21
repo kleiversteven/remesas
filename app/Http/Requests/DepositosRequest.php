@@ -24,10 +24,12 @@ class DepositosRequest extends FormRequest
     public function messages()
     {
         return [
-            'ref-into.required' => 'El numero de referencia es obligatorio',
-            'email.required' => 'La direccion de correo es obligatoria',
-            'cuenta.regex' => 'Numero de cuenta invalidao',
-            'telefono.regex' => 'Numero de telefono invalido',
+            'ref-into.required' => 'El numero de referencia es obligatorio.',
+            'telefono.regex' => 'Numero de telefono invalido.',
+            'moneda-into.required' => 'Debe ingresar la moneda de deposito.',
+            'banco-into.required' => 'Debe indicar a cual banco realizo el deposito.',
+            'monto.numeric' => 'El monto debe contener solo numeros.',
+            'fecha-into.required' => 'Debe indicar la fecha del deposito.',
             
         ];
     }
@@ -35,9 +37,10 @@ class DepositosRequest extends FormRequest
     {
         return [
             'ref-into' => 'required',
-            'email'    => 'required|email',
-            'cuenta'   => 'required',
-            'telefono' => 'required|regex:/(^[0-9]{10}$)/u',
+            'monto' => 'required|numeric',
+            'moneda-into' => 'required',
+            'banco-into' => 'required',
+            'fecha-into' => 'required'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
+use App\Bancos;
 
 class AdminController extends Controller
 {
@@ -37,7 +38,7 @@ class AdminController extends Controller
             ->where(['bancos.eliminado'=>0])
             ->get() ;
        $data=$data->all();
-        return view('administrar.bancos')->with(['data'=>$data]);
+        return view('administrar.bancos')->with(['bancos'=>$data]);
     }
     public function tasas(Request $request){
         $id= Auth::user()->id;
@@ -81,6 +82,18 @@ class AdminController extends Controller
                 $message->to('caraquedeveloper@gmail.com')->subject('Mensaje de prueba');
             });
         return "Mensaje de prueba enviado";
+    }
+    public function savebanco(Request $request){
+        $data=$request->all();
+         $id_bank= \DB::table('bancos')->insertGetId(
+            array(
+                    'idcuenta'=>$data['cuenta'],
+                    'banco'=>$data['desc'],
+                    'entrada'=>$data['entrada'],
+                    'salida'=>$data['salida']
+                )
+       );
+        return $id_bank;
     }
    
 }
