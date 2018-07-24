@@ -17,19 +17,32 @@ class RolesAndPermissions extends Seeder
         app()['cache']->forget('spatie.permission.cache');
 
         // create permissions
-        Permission::create(['name' => 'Recibos']);
-        Permission::create(['name' => 'Cargar pagos']);
-        Permission::create(['name' => 'Actualizar usuario']);
-        Permission::create(['name' => 'Mis bancos']);
-        Permission::create(['name' => 'Usuarios']);
-        Permission::create(['name' => 'Transferencias']);
+        Permission::create(['name' => 'depositos']);
+        Permission::create(['name' => 'bancos']);
+        Permission::create(['name' => 'cambiartasas']);
+        Permission::create(['name' => 'deletebanco']);
+        Permission::create(['name' => 'getbanco']);
+        Permission::create(['name' => 'listardepositos']);
+        Permission::create(['name' => 'listarusuarios']);
+        Permission::create(['name' => 'misdepositos']);
+        Permission::create(['name' => 'savecuenta']);
+        Permission::create(['name' => 'savebanco']);
+        Permission::create(['name' => 'savedeposito']);
+        Permission::create(['name' => 'tasa']);
+        Permission::create(['name' => 'tasas']);
+        Permission::create(['name' => 'updatebanco']);
+        Permission::create(['name' => 'cargarpagos']);
 
         // create roles and assign created permissions
 
+        $role = Role::create(['name' => 'Mayorista']);
+        $role->givePermissionTo('depositos');
+        $role->givePermissionTo('cargarpagos');
+        $role->givePermissionTo('misdepositos');
+        
         $role = Role::create(['name' => 'cliente']);
-        $role->givePermissionTo('Recibos');
-        $role->givePermissionTo('Cargar pagos');
-        $role->givePermissionTo('Mis bancos');
+        $role->givePermissionTo('depositos');
+        $role->givePermissionTo('misdepositos');
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());

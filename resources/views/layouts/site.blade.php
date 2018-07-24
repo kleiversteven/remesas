@@ -102,6 +102,7 @@
         <div class="col-md-4">
             <img class="icons-footer" src="{{ asset('images/ico-gmail.png') }}">
             Localremesas@gmail.com
+            atencionalcliente@localremesas.com
         </div>
         <div class="col-md-4">
             <img class="icons-footer" src="{{ asset('images/ico-send.png') }}">&nbsp;

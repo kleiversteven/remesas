@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\DepositosController;
+use App\Http\Controllers\AdminController;
 
 
  Route::get('/inicio', 'siteController@index' ); 
@@ -41,17 +42,25 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     Route::get('/bancos', 'AdminController@bancos');
     
+    Route::get('/cambiartasas', 'AdminController@cambiartasas');
+    Route::get('/tasa', 'AdminController@tasa');
+    
     Route::get('/savebanco', 'AdminController@savebanco');
+    Route::get('/deletebanco', 'AdminController@deletebanco');
+    Route::get('/getbanco', 'AdminController@getbanco');
+    Route::get('/updatebanco', 'AdminController@updatebanco');
     
     Route::get('/tasas', 'AdminController@tasas');
     
     
     //PERFIL
     Route::get('/perfil', 'AdminController@profile' );
+    Route::get('/listarusuarios', 'AdminController@listarusuarios' );
+    Route::get('/adduser', 'AdminController@adduser' );
+    
+    Route::get('/estatus', 'AdminController@estatus' );
     
     
 });
 
 
-//Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('/sendmail', 'siteController@sendmail');

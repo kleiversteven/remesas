@@ -159,7 +159,7 @@
                         <ul class="nav navbar-nav">
                            
                                     @role('cliente')
-                                    <li class="menu-dropdown classic-menu-dropdown ">
+                                    <li class=" ">
                                         <a href="administrar"> Inicio
                                             <span class="arrow"></span>
                                         </a>
@@ -183,6 +183,11 @@
                                      </li>
                                     @endrole
                                     @role('developers')
+                                    <li class=" ">
+                                        <a href="administrar"> Inicio
+                                            <span class="arrow"></span>
+                                        </a>
+                                     </li>
                                       <li class="menu-dropdown classic-menu-dropdown ">
                                         <a href="javascript:;"> Administrar
                                             <span class="arrow"></span>
@@ -214,6 +219,11 @@
                                          </li>
                                     @endrole
                                     @role('super-admin')
+                                    <li class=" ">
+                                        <a href="administrar"> Inicio
+                                            <span class="arrow"></span>
+                                        </a>
+                                     </li>
                                       <li class="menu-dropdown classic-menu-dropdown ">
                                         <a href="javascript:;"> Administrar
                                             <span class="arrow"></span>
@@ -239,6 +249,23 @@
                                                     <li class=" ">
                                                         <a href="{{ url('listardepositos') }}" class="nav-link  ">
                                                             <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Usuarios
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('listarusuarios') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('adduser') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Agregar
                                                         </a>
                                                     </li>
                                               </ul>
