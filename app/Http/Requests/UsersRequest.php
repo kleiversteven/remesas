@@ -32,7 +32,8 @@ class UsersRequest extends FormRequest
             'email.email' => 'Ingrese un correo electronico valido.',
             'email.unique' => 'El correo indicado ya esta en uso.',
             'password.required' => 'Debe indicar la contraseña de usuario.',
-            'password.confirmed' => 'Las contraseñas deben coincidir.'
+            'password.confirmed' => 'Las contraseñas deben coincidir.',
+            'password.min' => 'Las contraseñas deben tener mminimo 6 caracteres.'
             
         ];
     }

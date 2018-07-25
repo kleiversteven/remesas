@@ -57,6 +57,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/perfil', 'AdminController@profile' );
     Route::get('/listarusuarios', 'AdminController@listarusuarios' );
     Route::get('/adduser', 'AdminController@adduser' );
+    Route::post('/saveuser', 'AdminController@create' );
     
     Route::get('/estatus', 'AdminController@estatus' );
     

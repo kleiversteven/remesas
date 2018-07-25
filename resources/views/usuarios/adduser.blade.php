@@ -22,7 +22,7 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-            {!! Form::open(['url'=>'adduser','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-user']) !!}
+            {!! Form::open(['url'=>'saveuser','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-user']) !!}
             <div class="form-body"> 
                 <h3 class="form-section">Datos del usuario</h3>
                 <div class="row">

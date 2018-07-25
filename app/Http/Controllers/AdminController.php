@@ -164,7 +164,7 @@ class AdminController extends Controller
     
     public function listarusuarios(Request $request){
         $users = \DB::table('users')
-                ->select('users.*','model_has_roles.*','roles.name')
+                ->select('users.*','model_has_roles.*','roles.name as rol_name')
                 ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
                 ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
                 ->where('model_has_roles.role_id','!=','3')
