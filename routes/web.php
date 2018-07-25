@@ -60,6 +60,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     Route::get('/estatus', 'AdminController@estatus' );
     
+    Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
     
 });
 

@@ -213,4 +213,38 @@ class DepositosController extends Controller
         //dd(HasRoles);
          return view('depositos.depositos')->with(['depositos'=>$data]);
     }
+    public function transaccion($transc=''){
+        $transaccion = \DB::table('depositos')
+            ->select('depositos.banco_into',
+                        'depositos.tasa',
+                        'depositos.moneda_into',
+                        'depositos.moneda_out',
+                        'depositos.monto_into',
+                        'depositos.monto_out',
+                        'depositos.referencia_into',
+                        'depositos.estatus',
+                        'depositos.comprobante_into',
+                        'depositos.codeuser',
+                        'depositos.fecha_into',
+                        'users.name',
+                        'users.email',
+                        'salidas.idfrecuente',
+                        'salidas.monto_into',
+                        'salidas.monto_out',
+                        'frecuentes.titular',
+                        'frecuentes.cedula',
+                        'banc_sal.banco as b_sal',
+                        'frecuentes.cuenta',
+                        'frecuentes.correo',
+                        'banc_ent.banco as b_ent' )
+             ->join('users', 'depositos.codeuser', '=', 'users.id')
+             ->join('salidas', 'depositos.idtrans', '=', 'salidas.codedepo')
+             ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
+             ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
+             ->join('bancos AS banc_ent', 'depositos.banco_into', '=', 'banc_ent.idbank')
+             ->where('depositos.idtrans','=', $transc)
+        ->get();
+        $data = $transaccion->all();
+        return view('depositos.detalles')->with(['deposito'=>$data]);
+    }
 }
