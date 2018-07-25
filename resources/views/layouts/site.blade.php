@@ -46,11 +46,16 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <a class="nav-link" href="{{ url('inicio') }}">Inicio </a>
-      </li><li class="nav-item active">
-        <a class="nav-link" href="#">¿Quienes somos? </a>
-      </li><li class="nav-item active">
-        <a class="nav-link" href="#">Preguntas frecuentes </a>
-      </li><li class="nav-item active">
+      </li>
+        <!--
+        <li class="nav-item active">
+            <a class="nav-link" href="#">¿Quienes somos? </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Preguntas frecuentes </a>
+        </li>
+        -->
+        <li class="nav-item active">
         <a class="nav-link" href="contacto">Contacto </a>
       </li>
     </ul>

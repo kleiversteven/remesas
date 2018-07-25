@@ -219,7 +219,7 @@ class DepositosController extends Controller
                         'depositos.tasa',
                         'depositos.moneda_into',
                         'depositos.moneda_out',
-                        'depositos.monto_into',
+                        'depositos.monto_into as depo_into',
                         'depositos.monto_out',
                         'depositos.referencia_into',
                         'depositos.estatus',
@@ -233,15 +233,20 @@ class DepositosController extends Controller
                         'salidas.monto_out',
                         'frecuentes.titular',
                         'frecuentes.cedula',
+                        'frecuentes.tipo',
                         'banc_sal.banco as b_sal',
                         'frecuentes.cuenta',
                         'frecuentes.correo',
+                        'moneda_salida.descripcion AS mnd_sal_desc',
+                        'moneda_entrada.descripcion AS mnd_ent_desc',
                         'banc_ent.banco as b_ent' )
              ->join('users', 'depositos.codeuser', '=', 'users.id')
              ->join('salidas', 'depositos.idtrans', '=', 'salidas.codedepo')
              ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
              ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
              ->join('bancos AS banc_ent', 'depositos.banco_into', '=', 'banc_ent.idbank')
+             ->join('monedas AS moneda_salida', 'depositos.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos.moneda_into', '=', 'moneda_entrada.iso')
              ->where('depositos.idtrans','=', $transc)
         ->get();
         $data = $transaccion->all();
