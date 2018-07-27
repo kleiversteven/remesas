@@ -28,6 +28,12 @@
                         @role('super-admin')
                             Administrador
                         @endrole
+                        @role('recaudador')
+                            Recaudador
+                        @endrole
+                        @role('Mayorista')
+                            Mayorista
+                        @endrole
                         </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
@@ -58,40 +64,7 @@
                 </div>
                 <!-- END PORTLET MAIN -->
                 <!-- PORTLET MAIN -->
-                <div class="portlet light ">
-                    <!-- STAT -->
-                    <div class="row list-separated profile-stat">
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> 37 </div>
-                            <div class="uppercase profile-stat-text"> Projects </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> 51 </div>
-                            <div class="uppercase profile-stat-text"> Tasks </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4 col-xs-6">
-                            <div class="uppercase profile-stat-title"> 61 </div>
-                            <div class="uppercase profile-stat-text"> Uploads </div>
-                        </div>
-                    </div>
-                    <!-- END STAT -->
-                    <div>
-                        <h4 class="profile-desc-title">About Marcus Doe</h4>
-                        <span class="profile-desc-text"> Lorem ipsum dolor sit amet diam nonummy nibh dolore. </span>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-globe"></i>
-                            <a href="http://www.keenthemes.com">www.keenthemes.com</a>
-                        </div>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-twitter"></i>
-                            <a href="http://www.twitter.com/keenthemes/">@keenthemes</a>
-                        </div>
-                        <div class="margin-top-20 profile-desc-link">
-                            <i class="fa fa-facebook"></i>
-                            <a href="http://www.facebook.com/keenthemes/">keenthemes</a>
-                        </div>
-                    </div>
-                </div>
+                
                 <!-- END PORTLET MAIN -->
             </div>
             <!-- END BEGIN PROFILE SIDEBAR -->
@@ -126,30 +99,17 @@
                                     <div class="tab-pane active" id="tab_1_1">
                                         <form role="form" action="#">
                                             <div class="form-group">
-                                                <label class="control-label">First Name</label>
+                                                <label class="control-label">Nombre</label>
                                                 <input type="text" placeholder="John" class="form-control" /> </div>
                                             <div class="form-group">
-                                                <label class="control-label">Last Name</label>
+                                                <label class="control-label">Apellido</label>
                                                 <input type="text" placeholder="Doe" class="form-control" /> </div>
                                             <div class="form-group">
-                                                <label class="control-label">Mobile Number</label>
+                                                <label class="control-label">Telefono: </label>
                                                 <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Interests</label>
-                                                <input type="text" placeholder="Design, Web etc." class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Occupation</label>
-                                                <input type="text" placeholder="Web Developer" class="form-control" /> </div>
-                                            <div class="form-group">
-                                                <label class="control-label">About</label>
-                                                <textarea class="form-control" rows="3" placeholder="We are KeenThemes!!!"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label">Website Url</label>
-                                                <input type="text" placeholder="http://www.mywebsite.com" class="form-control" /> </div>
                                             <div class="margiv-top-10">
-                                                <a href="javascript:;" class="btn green"> Save Changes </a>
-                                                <a href="javascript:;" class="btn default"> Cancel </a>
+                                                <a href="javascript:;" class="btn green"> Guardar </a>
+                                                <a href="javascript:;" class="btn default"> Cancelar </a>
                                             </div>
                                         </form>
                                     </div>

@@ -155,6 +155,9 @@ class AdminController extends Controller
         if(!empty($data['may'])){
             $datos['mayorista']=$data['may'];
         }
+        if(!empty($data['reca'])){
+            $datos['recaudador']=$data['reca'];
+        }
         if(!empty($datos))
         {
             \DB::table('tasas')->where('id',$data['id'])->update($datos);

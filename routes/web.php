@@ -39,6 +39,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::post('/savedeposito', 'DepositosController@savedeposito' );
     Route::get('/misdepositos', 'DepositosController@listardepositos');
     Route::get('/listardepositos', 'DepositosController@alldepositos');
+    Route::get('/modtransaccion', 'DepositosController@modtransaccion');
     
     Route::get('/bancos', 'AdminController@bancos');
     
@@ -62,6 +63,12 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/estatus', 'AdminController@estatus' );
     
     Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
+    Route::get('/informacion/{transc?}', 'DepositosController@informacion');
+    
+    
+    
+    
+    Route::post('/savereferencia', 'DepositosController@savereferencia');
     
 });
 

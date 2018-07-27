@@ -34,7 +34,7 @@
                                 <div class="col-md-3">
                                     <!-- BEGIN WIDGET THUMB -->
                                     <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                                        <h4 class="widget-thumb-heading">Mis depositos</h4>
+                                        <h4 class="widget-thumb-heading"><a href="{{ url('misdepositos') }}" >Mis depositos</a></h4>
                                         <div class="widget-thumb-wrap">
                                             <i class="widget-thumb-icon bg-purple icon-screen-desktop"></i>
                                             <a class="widget-thumb-body">
@@ -48,7 +48,7 @@
                                 <div class="col-md-3">
                                     <!-- BEGIN WIDGET THUMB -->
                                     <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
-                                        <h4 class="widget-thumb-heading">Transacciones completas</h4>
+                                        <h4 class="widget-thumb-heading"><a href="{{ url('misdepositos') }}" >Transacciones completas</a></h4>
                                         <div class="widget-thumb-wrap">
                                             <i class="widget-thumb-icon bg-blue icon-bar-chart"></i>
                                             <a class="widget-thumb-body">

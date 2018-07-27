@@ -53,7 +53,7 @@
                                         <?php $options[$m->iso]=$m->descripcion;  ?>
                                     @endif
                                 @endforeach
-                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','placeholder' => 'Seleccione moneda depositada','onchange'=>'calmonto()'])}}
+                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','placeholder' => 'Seleccione moneda depositada','onchange'=>'calmonto(this)'])}}
                         </div>
                     </div>
                     <!--/span-->
@@ -96,7 +96,8 @@
                 <!--/row-->
           
                 <!--/row-->
-                <h3 class="form-section">Cuentas a transferir:<span class="monto-trans"></span><span style="    position: absolute;    right: 120px" onclick="addcuenta()" class="btn btn-primary">Agregar</span>
+                <h3 class="form-section">Cuentas a transferir:<span class="monto-trans"></span>
+                    <span style="float: right" onclick="addcuenta()" class="btn btn-primary">Agregar</span>
                 
                     <br>
                     <br>
@@ -168,17 +169,24 @@ function format(state) {
         );
         return $state;
     }
-function calmonto(){
+function calmonto(e){
+   
     var de = $('#moneda-into').val();
     var a = 'VEF';
     var monto = $('#monto').val();
     $('#resultado').val(de/a);
+     var sel = $('#moneda-into').children('option:selected').text();
+    if(de != '')
+        $('.addmonto').attr({'placeholder':'Monto en '+sel});
+    
+    $('.addmonto').attr({'placeholder':'Monto en '+sel});
     if(de != '' && monto > 0){
         $.get("calcular","isoa="+de+"&isob="+a+"&monto="+monto,function(e){
-            console.log(e);
-             $('.monto-trans').html(e);
+            $('.monto-trans').html(e);
+            $('.addmonto').attr({'max':monto});
+            
         })
-        $('.addmonto').attr('max',monto);
+        
     }
     
 }
@@ -199,6 +207,8 @@ function cerrar(){
 }
 function savecuenta(){
     var min=0;
+    var de = $('#moneda-into').val();
+    var sel = $('#moneda-into').children('option:selected').text();
           min = $('#monto').val() + 0;
         if(min == 0)
             min =50;
@@ -214,10 +224,30 @@ function savecuenta(){
        var tipo=$('#tipo').val();
        var banco=$('#banco').val();
        var cuenta=$('#cuenta').val();
-        
-        
-        
-        $.post("savecuenta",$('#save-cuenta').serialize(),function(response){
+       var salvar = 1;
+        if(titular == ''){
+           alertify.error("Debe ingresar el nombre del titular de la cuenta");
+            salvar=0;
+        }
+        if(tipo <= ''){
+            alertify.error("Debe indicar el tipo de cuenta");
+            salvar=0;
+        }
+        if(banco == ''){
+            alertify.error("Debe seleccionar el banco");
+            salvar=0;
+        }
+        if(cuenta.length != 20){
+            alertify.error("El numero de cuenta debe estar compuesto de 20 digitos");
+            salvar=0;
+        }
+        if(cuenta.length != 20){
+            alertify.error("El numero de cuenta debe estar compuesto de 20 digitos");
+            salvar=0;
+        }
+        if(salvar == 1)
+        {
+            $.post("savecuenta",$('#save-cuenta').serialize(),function(response){
             $('.lista-frecuentes').children('#id-'+response).remove();
             var html = '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+response+'" style="font-size: 12px;">';
                 html+= '<div class="form-group"><input type="hidden" name="frecuente[]" value="'+response+'" >';
@@ -231,6 +261,7 @@ function savecuenta(){
             
             document.getElementById("save-cuenta").reset();
         });
+        }
         
     }else if(activo == 1){
         var html='';
@@ -249,6 +280,9 @@ function savecuenta(){
        $('.lista-frecuentes').append(html);
         
     }
+    if(de != '')
+        $('.addmonto').attr({'placeholder':'Monto en '+sel});
+        
     if(activo > 0){
         cerrar();
     }
@@ -258,6 +292,9 @@ function savecuenta(){
         console.log('class-'+id);
         $('.class-'+id).removeClass('active');
         $(e).parent('a').remove();
+    }
+    function solonumeros(e){
+        $(e).value = ($(e).value + '').replace(/[^0-9]/g, '');        
     }
 function activar(e){
     var c=0;
@@ -392,7 +429,7 @@ function activar(e){
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
-                            {!! Form::number('cuenta',null,['class'=>'form-control','placeholder'=>'N de cuenta', 'id'=>'cuenta']) !!}
+                            {!! Form::number('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)']) !!}
                         </div>
                     </div> 
                 <!--

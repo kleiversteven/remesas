@@ -23,7 +23,7 @@
 </head>
 
 <body >
-
+<!--
 <div class='loader'>
   <div class='loader-container'>
     <h3><img src="{{ asset('images/logo2.png') }}" class="img-logo" /><br>
@@ -33,7 +33,7 @@
     </div>
   </div>
 </div>
-    
+    -->
     
 <div class="">
 <nav class="navbar navbar-expand-lg navbar-light bg-turquesa">
@@ -44,9 +44,10 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link" href="{{ url('inicio') }}">Inicio </a>
       </li>
+       
         <!--
         <li class="nav-item active">
             <a class="nav-link" href="#">¿Quienes somos? </a>
@@ -55,9 +56,36 @@
             <a class="nav-link" href="#">Preguntas frecuentes </a>
         </li>
         -->
-        <li class="nav-item active">
-        <a class="nav-link" href="contacto">Contacto </a>
+        <li class="nav-item ">
+        <a class="nav-link" href="{{ url('contacto') }}">Contacto </a>
       </li>
+         @if (Auth::guest())
+        @else
+         @role('cliente')
+        <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Depositos
+            </a>
+            <ul class="dropdown-menu">
+                <a href="{{ url('misdepositos') }}" class="dropdown-item  ">
+                    <i class="fa "></i> Mis depositos
+                </a>
+                <a href="{{ url('depositos') }}" class="dropdown-item  ">
+                    <i class="fa "></i> Nuevo deposito
+                </a>
+              </ul>
+         </li>
+         @endrole
+        @role('super-admin')
+        <li class="nav-item ">
+            <a class="nav-link" href="{{ url('administrar') }}">Administrar </a>
+        </li>
+        <li class="nav-item ">
+                <a class="nav-link" href="{{ url('listardepositos') }}">Listar depositos </a>
+        </li>
+        @endrole
+        
+        @endif
     </ul>
 	<ul class="nav navbar-nav navbar-right  options-user">
         @if (Auth::guest())
@@ -138,6 +166,7 @@
     <script src="{{ asset('assets/global/plugins/select2/js/select2.full.min.js')}}" type="text/javascript"></script>
     <script>
   $(function(){
+      /*
     var progress = setInterval(function () {
         var $bar = $("#bar");
 
@@ -152,10 +181,13 @@
             $(".loader").fadeOut(300);
         }
     }, 800);
+    */
 })
 $(window).load(function() {
+    /*
   $("#bar").width(600);
   $(".loader").fadeOut(3000);
+  */
 });
    
         window.Laravel = {!! json_encode([

@@ -53,7 +53,6 @@
                     </div>
                     <!-- END LOGO -->
                     <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                       <a href="javascript:;" class="menu-toggler"></a>
                     <!-- END RESPONSIVE MENU TOGGLER -->
                     <!-- BEGIN TOP NAVIGATION MENU -->
                     <div class="top-menu">
@@ -127,10 +126,12 @@
                                     <span class="username username-hide-mobile"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
-                                    <!--<li>
+                                    @role('cliente')
+                                    <li>
                                         <a href="{{ url('perfil') }}" >
                                             <i class="icon-user"></i> Perfil</a>
-                                    </li>-->
+                                    </li>
+                                    @endrole
                                     <li>
                                         <a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             <i class="icon-key"></i> Salir </a>
@@ -161,7 +162,7 @@
                            
                                     @role('cliente')
                                     <li class=" ">
-                                        <a href="administrar"> Inicio
+                                        <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
                                         </a>
                                      </li>
@@ -185,7 +186,7 @@
                                     @endrole
                                     @role('developers')
                                     <li class=" ">
-                                        <a href="administrar"> Inicio
+                                        <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
                                         </a>
                                      </li>
@@ -221,7 +222,7 @@
                                     @endrole
                                     @role('super-admin')
                                     <li class=" ">
-                                        <a href="administrar"> Inicio
+                                        <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
                                         </a>
                                      </li>

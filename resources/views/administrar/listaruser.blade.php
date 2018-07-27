@@ -18,7 +18,7 @@
                     <i class="fa fa-users"></i>Usuarios
                 </div>
                 <div class="actions">
-                    <a href="{{ url('adduser') }}" class="btn btn-warning fa fa-plus" >Agregar</a href="agregar usuario">
+                    <a href="{{ url('adduser') }}" class="btn btn-warning fa fa-plus" >Agregar</a >
                 </div>
             </div>
             <div class="portlet-body">

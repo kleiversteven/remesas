@@ -216,6 +216,7 @@ class DepositosController extends Controller
     public function transaccion($transc=''){
         $transaccion = \DB::table('depositos')
             ->select('depositos.banco_into',
+                        'depositos.idtrans',
                         'depositos.tasa',
                         'depositos.moneda_into',
                         'depositos.moneda_out',
@@ -229,8 +230,11 @@ class DepositosController extends Controller
                         'users.name',
                         'users.email',
                         'salidas.idfrecuente',
+                        'salidas.codesali',
                         'salidas.monto_into',
                         'salidas.monto_out',
+                        'salidas.referencia_out',
+                        'salidas.comprobante_out',
                         'frecuentes.titular',
                         'frecuentes.cedula',
                         'frecuentes.tipo',
@@ -251,5 +255,69 @@ class DepositosController extends Controller
         ->get();
         $data = $transaccion->all();
         return view('depositos.detalles')->with(['deposito'=>$data]);
+    }
+    public function informacion($transc=''){
+        $transaccion = \DB::table('depositos')
+            ->select('depositos.banco_into',
+                        'depositos.idtrans',
+                        'depositos.tasa',
+                        'depositos.moneda_into',
+                        'depositos.moneda_out',
+                        'depositos.monto_into as depo_into',
+                        'depositos.monto_out',
+                        'depositos.referencia_into',
+                        'depositos.estatus',
+                        'depositos.comprobante_into',
+                        'depositos.codeuser',
+                        'depositos.fecha_into',
+                        'users.name',
+                        'users.email',
+                        'salidas.idfrecuente',
+                        'salidas.codesali',
+                        'salidas.monto_into',
+                        'salidas.monto_out',
+                        'salidas.referencia_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.titular',
+                        'frecuentes.cedula',
+                        'frecuentes.tipo',
+                        'banc_sal.banco as b_sal',
+                        'frecuentes.cuenta',
+                        'frecuentes.correo',
+                        'moneda_salida.descripcion AS mnd_sal_desc',
+                        'moneda_entrada.descripcion AS mnd_ent_desc',
+                        'banc_ent.banco as b_ent' )
+             ->join('users', 'depositos.codeuser', '=', 'users.id')
+             ->join('salidas', 'depositos.idtrans', '=', 'salidas.codedepo')
+             ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
+             ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
+             ->join('bancos AS banc_ent', 'depositos.banco_into', '=', 'banc_ent.idbank')
+             ->join('monedas AS moneda_salida', 'depositos.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos.moneda_into', '=', 'moneda_entrada.iso')
+             ->where('depositos.idtrans','=', $transc)
+        ->get();
+        $data = $transaccion->all();
+        return view('depositos.informacion')->with(['deposito'=>$data]);
+    }
+    public function modtransaccion(Request $request){
+        $data =$request->all();
+        $resp = \DB::table('depositos')
+             ->where('idtrans','=', $data['transac'])
+             ->update(['estatus' => $data['estatus'] ]);
+    }
+    public function savereferencia(Request $request){
+        $image='';
+        
+        if($request->hasFile('capture')){
+            $image=$request->file('capture')->store('public');
+        }
+        $fecha =  date("Y-m-d");
+        $ref=$request->referencia;
+        $id=$request->transc;
+        $resp = \DB::table('salidas')
+             ->where('codesali','=', $id)
+             ->update(['referencia_out' =>$ref,'fecha_out'=>$fecha,'comprobante_out'=>$image ]);
+        
+        return back()->with(['mensaje'=>'Datos actualizados','imagen'=>$image]);
     }
 }

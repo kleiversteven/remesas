@@ -28,6 +28,7 @@
                             <th>A</th>
                             <th>Minoristas</th>
                             <th>Mayoristas</th>
+                            <th>Recaudador</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -41,6 +42,7 @@
                             <td>{{ $t->salida }}</td>
                             <td>{{ $t->cambio }}</td>
                             <td>{{ $t->mayorista }}</td>
+                            <td>{{ $t->recaudador }}</td>
                             <td><b class="btn btn-primary fa fa-pencil" onclick="editar('{{ $t->id }}',this)" ></b></td>
                         </tr>
                         @endif
@@ -60,30 +62,35 @@
 function editar(id,e){
     var camb = $(e).parents('tr').children('td:eq(2)').text();
     var mayr = $(e).parents('tr').children('td:eq(3)').text();
+    var reca = $(e).parents('tr').children('td:eq(4)').text();
     var cambio =      "<input type='number' id='cambio' name='cambio' placeholder='"+camb+"' class='form-control' >";
     var mayoritario = "<input type='number' id='mayori' name='mayori' placeholder='"+mayr+"' class='form-control' >";
-    var botones = "<b class='btn btn-danger fa fa-times' onclick=cancelar('"+id+"',this,'"+camb+"','"+mayr+"')></b><b class='btn btn-success fa fa-check' onclick=salvar('"+id+"',this,'"+camb+"','"+mayr+"')></b>";
+    var recaudador = "<input type='number' id='recaudador' name='recaudador' placeholder='"+reca+"' class='form-control' >";
+    var botones = "<b class='btn btn-danger fa fa-times' onclick=cancelar('"+id+"',this,'"+camb+"','"+mayr+"','"+reca+"')></b><b class='btn btn-success fa fa-check' onclick=salvar('"+id+"',this,'"+camb+"','"+mayr+"','"+reca+"')></b>";
     $(e).parents('tr').children('td:eq(2)').html(cambio);
     $(e).parents('tr').children('td:eq(3)').html(mayoritario);
-    $(e).parents('tr').children('td:eq(4)').html(botones);
+    $(e).parents('tr').children('td:eq(4)').html(recaudador);
+    $(e).parents('tr').children('td:eq(5)').html(botones);
 }
     
-function cancelar(id,e,minor,mayor){
+function cancelar(id,e,minor,mayor,reca){
     var boton ='<b class="btn btn-primary fa fa-pencil" onclick=editar("'+id+'",this) ></b>';
     $.get('tasa','id='+id,function(r){
         r = jQuery.parseJSON(r);
         $(e).parents('tr').children('td:eq(2)').html(r.cambio);
         $(e).parents('tr').children('td:eq(3)').html(r.mayorista);
-        $(e).parents('tr').children('td:eq(4)').html(boton);
+        $(e).parents('tr').children('td:eq(4)').html(r.recaudador);
+        $(e).parents('tr').children('td:eq(5)').html(boton);
     })
 }
-function salvar(id,e,minor,mayor){
+function salvar(id,e,minor,mayor,reca){
     var c =$('#cambio').val();
     var m =$('#mayori').val();
-    var data = 'camb='+c+'&may='+m+'&id='+id;
+    var r =$('#recaudador').val();
+    var data = 'camb='+c+'&may='+m+'&id='+id+'&reca='+r;
     var boton ='<b class="btn btn-primary fa fa-pencil" onclick=editar("'+id+'",this) ></b>';
     $.get('cambiartasas',data,function(r){
-        cancelar(id,e,minor,mayor)
+        cancelar(id,e,minor,mayor,reca)
     })
 }
 </script>
