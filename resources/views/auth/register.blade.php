@@ -45,7 +45,7 @@
 
                             <div class="col-md-12">
                                 <input id="password" type="password" class="form-control" name="password" required>
-
+                                
                                 @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>

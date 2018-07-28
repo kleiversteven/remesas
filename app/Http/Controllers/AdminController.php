@@ -13,6 +13,7 @@ use App\Bancos;
 use App\Tasas;
 use App\User;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\PasswordRequest;
 
 class AdminController extends Controller
 {
@@ -28,8 +29,40 @@ class AdminController extends Controller
         return view('admin')->with(['dolar'=>$dolar,"sol"=>$sol,'depositos'=>$depositos,'procesados'=>$procesados]);
     }
     public function profile(){
-        
-        return view('usuarios.profile');
+        $id= Auth::user()->id;
+         $country= \DB::table('countries')
+             ->select('*')
+             ->where(['status'=>'1'])
+             ->orderBy('country')
+             ->get();
+         $frecuentes= \DB::table('frecuentes')
+             ->select('frecuentes.codefrec','frecuentes.cedula','frecuentes.codibank','frecuentes.cuenta','frecuentes.titular',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'),'frecuentes.correo','bancos.banco')
+            ->join('bancos','frecuentes.codibank','=','bancos.idbank')
+             ->where(['.frecuentes.eliminado'=>'0','frecuentes.codeuser'=>$id])
+             ->get();
+        $user=\DB::table('users')
+            ->where(['id'=>$id])
+            ->first();
+        return view('usuarios.profile')->with(['usuario'=>$user,'countries'=>$country,'frecuentes'=>$frecuentes]);
+    }
+    public function profileuser($user){
+        $id= Auth::user()->id;
+         $country= \DB::table('countries')
+             ->select('*')
+             ->where(['status'=>'1'])
+             ->orderBy('country')
+             ->get();
+         $frecuentes= \DB::table('frecuentes')
+             ->select('frecuentes.codefrec','frecuentes.cedula','frecuentes.codibank','frecuentes.cuenta','frecuentes.titular',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'),'frecuentes.correo','bancos.banco')
+            ->join('bancos','frecuentes.codibank','=','bancos.idbank')
+             ->where(['.frecuentes.eliminado'=>'0','frecuentes.codeuser'=>$user])
+             ->get();
+        $user=\DB::table('users')
+            ->where(['id'=>$user])
+            ->first();
+        return view('usuarios.profile')->with(['usuario'=>$user,'countries'=>$country,'frecuentes'=>$frecuentes]);
     }
     
     public function misdepositos($estatus){
@@ -221,6 +254,35 @@ class AdminController extends Controller
              ->where('id', $data['id'])
              ->update(['estatus' => $data['estatus'] ]);
         return $data['estatus'];
+    }
+    public function upateuser(Request $request){
+        $data =$request->all();
+        $id= Auth::user()->id;
+        
+        if(!empty($data['nombre']))
+            $query['name']=$data['nombre'];
+        if(!empty($data['telefono']))
+            $query['country']=$data['country'];
+        if(!empty($data['telefono']))
+            $query['telefono'] = $data['telefono'];
+            
+        $resp = \DB::table('users')
+             ->where('id', $id)
+             ->update($query);
+        return redirect('perfil')->with(['mensaje'=>' Datos actualizados ']);
+    }
+   public function updateavatar(Request $request){
+        $data =$request->all();
+        $id= Auth::user()->id;
+        $image['avatar']= Auth::user()->avatar;
+        if($request->hasFile('avatar')){
+            $image['avatar']=$request->file('avatar')->store('./avatars');
+        }
+            
+        $resp = \DB::table('users')
+             ->where('id', $id)
+             ->update($image);
+        return redirect('perfil')->with(['mensaje'=>' Nueva imagen actualizada ']);
     }
    
 }

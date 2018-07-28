@@ -56,9 +56,13 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     //PERFIL
     Route::get('/perfil', 'AdminController@profile' );
+    Route::get('/perfil/{user}', 'AdminController@profileuser' );
     Route::get('/listarusuarios', 'AdminController@listarusuarios' );
     Route::get('/adduser', 'AdminController@adduser' );
     Route::post('/saveuser', 'AdminController@create' );
+    Route::post('/upateuser', 'AdminController@upateuser' );
+    Route::post('/updateavatar', 'AdminController@updateavatar' );
+    Route::post('/updatepass', 'UserController@updatepass' );
     
     Route::get('/estatus', 'AdminController@estatus' );
     

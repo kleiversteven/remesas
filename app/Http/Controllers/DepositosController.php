@@ -320,4 +320,5 @@ class DepositosController extends Controller
         
         return back()->with(['mensaje'=>'Datos actualizados','imagen'=>$image]);
     }
+    
 }

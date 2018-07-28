@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\MyResetPassword;
-
+use App\Http\Requests\PasswordRequest;
+use Hash;
 class UserController extends Controller
 {
     /**
@@ -100,7 +101,19 @@ class UserController extends Controller
         //
     }
 
-    
+    public function updatepass(PasswordRequest $request){
+        
+        $data =$request->all();
+            if(Hash::check($data['pass'],Auth::user()->password)){
+                $user = new User;
+                $user->where('email','=',Auth::user()->email)
+                    ->update(['password' => bcrypt($data['password'])] );
+                return redirect('perfil')->with(['mensaje'=>' Datos actualizados ']);
+            }else{
+                return redirect('perfil')->with(['mensaje'=>' Contraseña actual invalida']);
+
+            }
+    }
 
 
 }

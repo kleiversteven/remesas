@@ -85,6 +85,7 @@ class RegisterController extends Controller
         
         return $user;
     }
+    
     function Email($dates,$email){
       Mail::send('emails.welcome',$dates,function($message)use($email,$dates){
             $message->subject('Benvenid@ '.$dates['name'].' a LocalRemesas');
