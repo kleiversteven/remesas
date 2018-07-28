@@ -273,6 +273,59 @@
                                               </ul>
                                          </li>
                                     @endrole
+                                    @role('Mayorista')
+                                    <li class=" ">
+                                        <a href="{{ url('administrar') }}"> Inicio
+                                            <span class="arrow"></span>
+                                        </a>
+                                     </li>
+                                      <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Administrar
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('bancos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Bancos
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('tasas') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Tasas de cambio
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Depositos
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Usuarios
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('listarusuarios') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('adduser') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Agregar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                    @endrole
                                 
                             
                            
