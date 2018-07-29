@@ -34,7 +34,7 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-            {!! Form::open(['url'=>'savedeposito','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
+            {!! Form::open(['url'=>'savedeefectivo','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
             <div class="form-body"> 
                 <h3 class="form-section">Datos del deposito</h3>
                 <div class="row">
@@ -58,42 +58,6 @@
                     </div>
                     <!--/span-->
                 </div>
-                <!--/row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('Banco:', null, ['class' => 'control-label']) }}
-                                @foreach($bancos as $b)
-                                    @if($b->entrada ==1)  
-                                        <?php $option[$b->idbank]=$b->banco ;  ?>
-                                    @endif
-                                @endforeach
-                                {{ Form::select('banco-into',$option,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
-                        </div>
-                    </div>
-                    <!--/span-->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('Operacion:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('ref-into',null,['class'=>'form-control  placeholder-no-fix','placeholder'=>'N° de Operacion' ]) !!}</div>
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('Fecha:', null, ['class' => 'control-label']) }}
-                            {!! Form::date('fecha-into',null,['class'=>'form-control  placeholder-no-fix','placeholder'=>'N° Referencia','max'=>date('Y-m-d') ]) !!}
-                        </div>
-                    </div>
-                    <!--/span-->
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            <input type="file" name="comprobante" title="Cargar comprobante">
-                        </div>
-                        
-                    </div>
-                </div>
-                
-                <!--/row-->
           
                 <!--/row-->
                 <h3 class="form-section">Cuentas a transferir:<span class="monto-trans"></span>

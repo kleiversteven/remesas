@@ -279,48 +279,36 @@
                                             <span class="arrow"></span>
                                         </a>
                                      </li>
-                                      <li class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;"> Administrar
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;">Mis depositos
                                             <span class="arrow"></span>
                                             </a>
                                             <ul class="dropdown-menu pull-left">
                                                     <li class=" ">
-                                                        <a href="{{ url('bancos') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Bancos
+                                                        <a href="{{ url('misdepositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Trasferencias
                                                         </a>
                                                     </li>
-                                                    <li class=" ">
-                                                        <a href="{{ url('tasas') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Tasas de cambio
+                                                <li class=" ">
+                                                        <a href="{{ url('listarefectivo') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Efectivo
                                                         </a>
                                                     </li>
                                               </ul>
                                          </li>
                                         <li class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;"> Depositos
+                                        <a href="javascript:;"> Depostios
                                             <span class="arrow"></span>
                                             </a>
                                             <ul class="dropdown-menu pull-left">
                                                     <li class=" ">
-                                                        <a href="{{ url('listardepositos') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Listar
-                                                        </a>
-                                                    </li>
-                                              </ul>
-                                         </li>
-                                        <li class="menu-dropdown classic-menu-dropdown ">
-                                        <a href="javascript:;"> Usuarios
-                                            <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                    <li class=" ">
-                                                        <a href="{{ url('listarusuarios') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Listar
+                                                        <a href="{{ url('depositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Nuevo deposito
                                                         </a>
                                                     </li>
                                                     <li class=" ">
-                                                        <a href="{{ url('adduser') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Agregar
+                                                        <a href="{{ url('efectivo') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Deposito en efectivo
                                                         </a>
                                                     </li>
                                               </ul>

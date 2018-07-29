@@ -84,6 +84,27 @@
                 <a class="nav-link" href="{{ url('listardepositos') }}">Listar depositos </a>
         </li>
         @endrole
+        @role('Mayorista')
+        <li class="nav-item ">
+            <a class="nav-link" href="{{ url('administrar') }}">Administrar </a>
+        </li>
+        <li class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Depositos
+            </a>
+            <ul class="dropdown-menu">
+                <a href="{{ url('misdepositos') }}" class="dropdown-item  ">
+                    <i class="fa "></i> Mis depositos
+                </a>
+                <a href="{{ url('depositos') }}" class="dropdown-item  ">
+                    <i class="fa "></i> Nuevo deposito
+                </a>
+                <a href="{{ url('efectivo') }}" class="dropdown-item  ">
+                    <i class="fa "></i> Nuevo deposito en efectivo
+                </a>
+              </ul>
+         </li>
+        @endrole
         
         @endif
     </ul>

@@ -159,11 +159,11 @@ class AdminController extends Controller
         $data=$request->all();
         
         $datos=array();
-            if(!empty($data['desc'])){
-                $datos['idcuenta']=$data['desc'];
-            }
             if(!empty($data['cuenta'])){
-                $datos['banco']=$data['cuenta'];
+                $datos['idcuenta']=$data['cuenta'];
+            }
+            if(!empty($data['desc'])){
+                $datos['banco']=$data['desc'];
             }
         $datos['entrada']= $data['entrada'];
         $datos['salida']= $data['salida'];
@@ -283,6 +283,22 @@ class AdminController extends Controller
              ->where('id', $id)
              ->update($image);
         return redirect('perfil')->with(['mensaje'=>' Nueva imagen actualizada ']);
+    }
+    public function validarbanco(Request $request){
+       
+        $data=$request->all();
+        if(!empty($data['cuenta']) ){
+            $cue = substr($data['cuenta'],0,4);
+            $resp = \DB::table('bancos')->where('idcuenta',$cue)->first();
+            if(!empty($resp)){
+                $resp=json_encode($resp);
+            }else{
+                $resp =0;
+            }
+        }else{
+           $resp =0; 
+        }
+        return $resp;
     }
    
 }

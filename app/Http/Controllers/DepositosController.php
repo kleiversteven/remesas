@@ -96,6 +96,7 @@ class DepositosController extends Controller
                 ])
              ->get();
         $tasa->all();
+        $cambio = $tasa[0]->cambio;
         if(count($tasa) <= 0){
             $p=2;
             $tasa= \DB::table('tasas')->select('*')
@@ -105,18 +106,19 @@ class DepositosController extends Controller
                 ])
              ->get();
             $tasa->all();
+            $cambio= $tasa[0]->cambio;
         }
      
-          if($p==1){
-          $monto_out=$data['monto']/$tasa[0]->cambio;
+      if($p==1){
+          $monto_out=$data['monto']/$cambio;
       }elseif($p==2){
-          $monto_out=$data['monto']*$tasa[0]->cambio;
+          $monto_out=$data['monto']*$cambio;
       }
           
           $iddepo=  \DB::table('depositos')->insertGetId(
                 array(
                     'banco_into'=>$data['banco-into'],
-                    'tasa'=>$tasa[0]->cambio,
+                    'tasa'=>$cambio,
                     'codeuser'=>$id,
                     'moneda_into'=>$data['moneda-into'],
                     'moneda_out'=>'VEF',
@@ -319,6 +321,34 @@ class DepositosController extends Controller
              ->update(['referencia_out' =>$ref,'fecha_out'=>$fecha,'comprobante_out'=>$image ]);
         
         return back()->with(['mensaje'=>'Datos actualizados','imagen'=>$image]);
+    }
+    public function efectivo(Request $request){
+        $data= array();
+         $id= Auth::user()->id;
+        $bancos = \DB::table('bancos')
+                ->select('*')
+                ->where(['estatus'=>'1','eliminado'=>'0'])
+                ->get();
+        $bancos=$bancos->all();
+        $monedas=  \DB::table('monedas')
+             ->select('*')
+             ->where(['estatus'=>'1'])
+             ->get();
+        $monedas=$monedas->all();
+        $country= \DB::table('countries')
+             ->select('*')
+             ->where(['status'=>'1'])
+             ->orderBy('country')
+             ->get();
+        
+        $frecuentes= \DB::table('frecuentes')
+             ->select('frecuentes.codefrec','frecuentes.cedula','frecuentes.codibank','frecuentes.cuenta','frecuentes.titular',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'),'frecuentes.correo','bancos.banco')
+            ->join('bancos','frecuentes.codibank','=','bancos.idbank')
+             ->where(['.frecuentes.eliminado'=>'0','frecuentes.codeuser'=>$id])
+             
+             ->get();
+        return view('depositos.efectivo')->with(['bancos'=>$bancos,'monedas'=>$monedas,'countries'=>$country,'frecuentes'=>$frecuentes]);
     }
     
 }

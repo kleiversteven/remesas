@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th class="all">Banco</th>
-                            <th class="all">Cuenta</th>
+                            <th class="all">Codigo del banco</th>
                             <th class="all">Entrada</th>
                             <th class="all">Salida</th>
                             <th class="all">Opciones</th>
@@ -99,17 +99,21 @@ function addbank(){
     var datos = 'desc='+$("[name='descripcion']").val()+'&cuenta='+$("[name='cuenta']").val()+'&salida='+sal+'&entrada='+ent;
     var desc= $("[name='descripcion']").val();
     var cuenta =$("[name='cuenta']").val();
-    $.get('savebanco',datos,function(r){
-        cancelar();
-       var html= "<tr>  ";
-        html += "<td>"+desc+"</td>";
-        html += "<td>"+cuenta+"</td>";
-        html += "<td>"+htm_ent+"</td>";
-        html += "<td>"+htm_sal+"</td>";
-        html += "<td><b class='fa fa-pencil btn btn-primary' onclick=editar('"+r+"',this) ></b><b class='fa fa-trash btn btn-danger' onclick=eliminar('"+r+"',this) ></b</td>";
-        html += "</tr> ";
-        $('.list-bancos').prepend(html);
-    })
+    if(cuenta.length != 4){
+        alertify.error("El codigo de la cuenta debe contener 4 digitos");
+    }else{
+        $.get('savebanco',datos,function(r){
+            cancelar();
+           var html= "<tr>  ";
+            html += "<td>"+desc+"</td>";
+            html += "<td>"+cuenta+"</td>";
+            html += "<td>"+htm_ent+"</td>";
+            html += "<td>"+htm_sal+"</td>";
+            html += "<td><b class='fa fa-pencil btn btn-primary' onclick=editar('"+r+"',this) ></b><b class='fa fa-trash btn btn-danger' onclick=eliminar('"+r+"',this) ></b</td>";
+            html += "</tr> ";
+            $('.list-bancos').prepend(html);
+        })
+    }
 }
 function cancelar(){
     $('.form-banco').remove();
@@ -178,9 +182,13 @@ function cambiar(e,i){
     var datos = 'id='+i+'&desc='+$("[name='descripcionedt']").val()+'&cuenta='+$("[name='cuentaedt']").val()+'&salida='+sal+'&entrada='+ent;
     var desc= $("[name='descripcionedt']").val();
     var cuenta =$("[name='cuentaedt']").val();
-    $.get('updatebanco',datos,function(r){
-        cancela(e,i);
-    })
+     if(cuenta.length != 4){
+        alertify.error("El codigo de la cuenta debe contener 4 digitos");
+    }else{
+        $.get('updatebanco',datos,function(r){
+            cancela(e,i);
+        })
+    }
     
 }
 </script>
