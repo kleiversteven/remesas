@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
+use App\User;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class siteController extends Controller
 {
@@ -34,6 +38,7 @@ class siteController extends Controller
     
     public function calcular(Request $request){
         $respons = $request->all();
+        $user = new User;
         
         $data=array();
         $data = \DB::table('tasas')
@@ -41,6 +46,16 @@ class siteController extends Controller
                 ->where(['isoa'=>$respons['isoa'],'isob'=>$respons['isob'] ])
                 ->get();
         $data=$data->all();
+        
+        if(!empty($data)){
+            if($user->hasRole('Mayorista') == true)
+                $cambio = $data[0]->mayorista;
+            elseif($user->hasRole('recaudador')== true )
+                $cambio = $data[0]->cambio + (($data[0]->recudador/100)*$data[0]->cambio);
+            else
+                $cambio = $data[0]->cambio;
+        }
+        
         
          if(empty($data)){
        
@@ -50,6 +65,12 @@ class siteController extends Controller
                     ->get();
                 $tipo=2;
              $data=$data->all();
+             if($user->hasRole('Mayorista') == true)
+                $cambio = $data[0]->mayorista;
+            elseif($user->hasRole('recaudador')== true )
+                $cambio = $data[0]->cambio + (($data[0]->recudador/100)*$data[0]->cambio);
+            else
+                $cambio = $data[0]->cambio;
              $monto=$respons['monto']/$data[0]->cambio;
         }else{
              $monto=$data[0]->cambio*$respons['monto'];

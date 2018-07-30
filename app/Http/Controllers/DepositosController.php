@@ -11,12 +11,75 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
-
-
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Mail;
 
 class DepositosController extends Controller
 {
     use HasRoles;
+    
+    private function notificar_cliente($id,$dato,$data,$cambio,$monto_out){
+        
+        $email = Auth::user()->email;
+        
+        $data=array('name'=>Auth::user()->name,
+                    'codigo'=>$id,
+                    'tasa'=>$cambio,
+                    'ingreso'=>$data['monto'],
+                    'salida'=>$monto_out,
+                    'moneda_into'=>$data['moneda-into'],
+                    'referencia'=>$data['ref-into'],
+                    'moneda_out'=>'VEF',
+                    'fecha'=>date('d-m-Y')
+                   );
+        
+        Mail::send('emails.cliente',['mensaje'=>$data],function($message)use($email,$data){
+            $message->from('atencionalcliente@localremesas.com','Recibo LocalRemesas');
+            $message->to($email)->subject('Recibo de trasferencia');
+        });
+        
+    }
+    private function notificar_localremesas($id,$dato,$data,$cambio,$monto_out){
+        $frecuente= \DB::table('frecuentes')->select(
+                                'frecuentes.codefrec',
+                                'frecuentes.cedula',
+                                'frecuentes.telefono',
+                                'frecuentes.codibank',
+                                'frecuentes.cuenta',
+                                'frecuentes.tipo',
+                                'frecuentes.correo',
+                                'frecuentes.titular',
+                                'bancos.banco')
+                ->join('bancos','frecuentes.codibank','=','bancos.idbank')
+                ->whereIn('frecuentes.codefrec',$data['frecuente'])
+                ->get();
+        $frecuente= $frecuente->all();
+        $banco = \DB::table('bancos')->select('*')
+                ->where('idbank',$data['banco-into'])
+                ->first();
+        $data=array('name'=>Auth::user()->name,
+                    'codigo'=>$id,
+                    'email'=>Auth::user()->email,
+                    'tasa'=>$cambio,
+                    'ingreso'=>$data['monto'],
+                    'salida'=>$monto_out,
+                    'data'=>$data,
+                    'moneda_into'=>$data['moneda-into'],
+                    'referencia'=>$data['ref-into'],
+                    'moneda_out'=>'VEF',
+                    'frecuente'=>$frecuente,
+                    'banco'=>$banco->banco,
+                    'fecha'=>date('d-m-Y')
+                   );
+        $email= Auth::user()->email;
+        Mail::send('emails.trasferido',['mensaje'=>$data],function($message)use($email,$data){
+            $message->from($email,'Nueva trasferencia');
+            $message->to('atencionalcliente@localremesas.com')->subject('Nueva trasferencia');
+        });
+        
+       
+    }
+    
     public function cargardeposito(){
         $id= Auth::user()->id;
         $bancos = \DB::table('bancos')
@@ -82,6 +145,7 @@ class DepositosController extends Controller
     public function savedeposito(DepositosRequest $request){
         $data=$request->all();
         $id= Auth::user()->id;
+        $user = new User;
         $image='';
         if($request->hasFile('comprobante')){
             $image=$request->file('comprobante')->store('public');
@@ -96,7 +160,17 @@ class DepositosController extends Controller
                 ])
              ->get();
         $tasa->all();
-        $cambio = $tasa[0]->cambio;
+        $dato= $tasa->all();
+        if(!empty($dato)){
+            if($user->hasRole('Mayorista') == true)
+                $cambio = $tasa[0]->mayorista;
+            elseif($user->hasRole('recaudador')== true )
+                    $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
+            else
+                $cambio = $tasa[0]->cambio;
+        }
+        
+        
         if(count($tasa) <= 0){
             $p=2;
             $tasa= \DB::table('tasas')->select('*')
@@ -106,7 +180,12 @@ class DepositosController extends Controller
                 ])
              ->get();
             $tasa->all();
-            $cambio= $tasa[0]->cambio;
+            if($user->hasRole('Mayorista') == true)
+                $cambio = $tasa[0]->mayorista;
+            elseif($user->hasRole('recaudador')== true )
+                $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
+            else
+                $cambio = $tasa[0]->cambio;
         }
      
       if($p==1){
@@ -114,42 +193,53 @@ class DepositosController extends Controller
       }elseif($p==2){
           $monto_out=$data['monto']*$cambio;
       }
-          
-          $iddepo=  \DB::table('depositos')->insertGetId(
-                array(
-                    'banco_into'=>$data['banco-into'],
-                    'tasa'=>$cambio,
-                    'codeuser'=>$id,
-                    'moneda_into'=>$data['moneda-into'],
-                    'moneda_out'=>'VEF',
-                    'monto_into'=>$data['monto'],
-                    'monto_out'=>$monto_out,
-                    'comision'=>0,
-                    'fecha_into'=>$data['fecha-into'],
-                    'referencia_into'=>$data['ref-into'],
-                    'estatus'=>1,
-                    'comprobante_into'=>$image
-                    )
-            );
         
-     foreach($data['frecuente'] as $k => $f){
-      if($p==1){
-          $monto_out=$data['montofrecuente'][$k]/$tasa[0]->cambio;
-      }elseif($p==2){
-          $monto_out=$data['montofrecuente'][$k]*$tasa[0]->cambio;
-      }
-          
-          \DB::table('salidas')->insert(
-                array(
-                        'codedepo'=>$iddepo,
-                        'idfrecuente'=>$f,
-                        'monto_into'=>$data['montofrecuente'][$k],
-                        'monto_out'=>$monto_out,
-                    )
-            );
-      }
+        $depo =\DB::table('depositos')->select('idtrans')
+             ->where('referencia_into',$data['ref-into'])
+             ->first();
         
-         return redirect( 'misdepositos')->with(['mensaje'=>' Deposito registrado con exito! ']); 
+        if(empty($depo)){
+                      $iddepo=  \DB::table('depositos')->insertGetId(
+                            array(
+                                'banco_into'=>$data['banco-into'],
+                                'tasa'=>$cambio,
+                                'codeuser'=>$id,
+                                'moneda_into'=>$data['moneda-into'],
+                                'moneda_out'=>'VEF',
+                                'monto_into'=>$data['monto'],
+                                'monto_out'=>$monto_out,
+                                'comision'=>0,
+                                'fecha_into'=>$data['fecha-into'],
+                                'referencia_into'=>$data['ref-into'],
+                                'estatus'=>1,
+                                'comprobante_into'=>$image
+                                )
+                        );
+                    $this->notificar_cliente($id,$dato,$data,$cambio,$monto_out);
+                    $this->notificar_localremesas($id,$dato,$data,$cambio,$monto_out);
+                 foreach($data['frecuente'] as $k => $f){
+
+
+                  if($p==1){
+                      $monto_out=$data['montofrecuente'][$k]/$cambio;
+                  }elseif($p==2){
+                      $monto_out=$data['montofrecuente'][$k]*$cambio;
+                  }
+
+                      \DB::table('salidas')->insert(
+                            array(
+                                    'codedepo'=>$iddepo,
+                                    'idfrecuente'=>$f,
+                                    'monto_into'=>$data['montofrecuente'][$k],
+                                    'monto_out'=>$monto_out,
+                                )
+                        );
+                  }
+            return redirect( 'misdepositos')->with(['mensaje'=>' Deposito registrado con exito! ']); 
+        }else{
+           return redirect( 'depositos')->with(['error'=>' El numero de operacion ya se encuentra registrado por favor validar']); 
+        }
+        
     }
     public function listardepositos(Request $request){
 
@@ -318,8 +408,7 @@ class DepositosController extends Controller
         $id=$request->transc;
         $resp = \DB::table('salidas')
              ->where('codesali','=', $id)
-             ->update(['referencia_out' =>$ref,'fecha_out'=>$fecha,'comprobante_out'=>$image ]);
-        
+             ->update(['referencia_out' =>$ref,'fecha_out'=>$fecha,'comprobante_out'=>$image ]);            
         return back()->with(['mensaje'=>'Datos actualizados','imagen'=>$image]);
     }
     public function efectivo(Request $request){
@@ -348,6 +437,8 @@ class DepositosController extends Controller
              ->where(['.frecuentes.eliminado'=>'0','frecuentes.codeuser'=>$id])
              
              ->get();
+        $user = new User;
+        
         return view('depositos.efectivo')->with(['bancos'=>$bancos,'monedas'=>$monedas,'countries'=>$country,'frecuentes'=>$frecuentes]);
     }
     

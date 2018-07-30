@@ -26,7 +26,11 @@
         </ul>
     </div>
 @endif
-
+@if(!empty(session('error')))
+<div class="alert alert-danger">
+  <strong>Error!</strong> {{session('error')}}.
+</div>
+@endif
 <div class="portlet box blue">
     <div class="portlet-title">
         <div class="caption">

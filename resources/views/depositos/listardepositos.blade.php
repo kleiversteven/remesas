@@ -27,11 +27,12 @@
                             <th class="all">Monto</th>
                             <th class="all">Fecha</th>
                             <th class="all">Estatus</th>
-                            <th class="all">Opciones</th>
-                            <th class="none">De</th>
-                            <th class="none">A</th>
-                            <th class="none">Tasa de cambio</th>
-                            <th class="none">Trasferido</th>
+                            <th class="all"> </th>
+                            <th class="none">N° de operacion:</th>
+                            <th class="none">De:</th>
+                            <th class="none">A:</th>
+                            <th class="none">Tasa de cambio:</th>
+                            <th class="none">Trasferido:</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +58,7 @@
                                     <a href="{{ url('informacion/'.$d->idtrans) }}" class="btn btn-primary fa fa-eye" ></a>
                                 @endif
                             </td>
+                            <td>{{ $d->referencia_into }}</td>
                             <td>{{ $d->mnd_ent_desc }}</td>
                             <td>{{ $d->mnd_sal_desc }}</td>
                             <td>{{ number_format($d->tasa,2,",",".") }}</td>
