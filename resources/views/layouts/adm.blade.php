@@ -123,7 +123,7 @@
                             <!-- BEGIN USER LOGIN DROPDOWN -->
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="{{ Storage::url($user->avatar) }}">{{ Auth::user()->name }} 
+                                    <img alt="" class="img-circle" src="{{ asset('../storage/') }}/app/{{ $user->avatar }}">{{ Auth::user()->name }} 
                                     <span class="username username-hide-mobile"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
