@@ -276,7 +276,7 @@ class AdminController extends Controller
         $id= Auth::user()->id;
         $image['avatar']= Auth::user()->avatar;
         if($request->hasFile('avatar')){
-            $image['avatar']=$request->file('avatar')->store('./avatars');
+            $image['avatar']=$request->file('avatar')->store('public/avatars');
         }
             
         $resp = \DB::table('users')

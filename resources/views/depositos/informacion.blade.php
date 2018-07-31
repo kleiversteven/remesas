@@ -60,8 +60,9 @@
                         {{ number_format($deposito[0]->monto_out,2,",",".") }}</div>
                     @if(!empty($deposito[0]->comprobante_into))
                     <div class="col-md-4"><b>Comprobante:</b>
-                        <a class="fancybox" href="{{ asset('../storage/') }}/app/{{ $deposito[0]->comprobante_into }}" data-fancybox="images" data-width="2048" data-height="1365">
-                            <img class="grouped_elements" style="width: 150px;" src=" {{ asset('../storage/') }}/app/{{ $deposito[0]->comprobante_into }}">
+                       
+                        <a class="fancybox" href="{{ asset(Storage::url($deposito[0]->comprobante_into)) }}" data-fancybox="images" data-width="2048" data-height="1365">
+                            <img class="grouped_elements" style="width: 150px;" src="{{ asset(Storage::url($deposito[0]->comprobante_into)) }}">
                         </a>
                     </div>
                     @else
@@ -90,7 +91,7 @@
                         @foreach($deposito as $d)
                         {!! Form::open(['url'=>'savedreferencia','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
                         <input type="hidden" name="idtrans" value="{{ $d->codesali }}">
-                        <input type="hidden" id="imagen" value="{{ asset('../storage/') }}/app/{{ $d->comprobante_out }} ">
+                        <input type="hidden" id="imagen" value="{{ asset(Storage::url($d->comprobante_out)) }}">
                         <input type="hidden" id="referencia" value="{{ $d->referencia_out }} ">
                         <tr>
                             <td>{{ $d->titular }}</td>
