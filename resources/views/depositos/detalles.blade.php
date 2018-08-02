@@ -63,8 +63,8 @@
                     <div class="col-md-4"><b>Monto en {{ $deposito[0]->mnd_sal_desc }}:</b> {{ number_format($deposito[0]->monto_out,2,",",".") }} {{ $deposito[0]->moneda_out }}</div>
                     @if(!empty($deposito[0]->comprobante_into))
                     <div class="col-md-4"><b>Comprobante:</b>
-                        <a class="fancybox" href="{{ asset('../storage/') }}/app/{{ $deposito[0]->comprobante_into }}" data-fancybox="images" data-width="2048" data-height="1365">
-                            <img class="grouped_elements" style="width: 150px;" src=" {{ asset('../storage/') }}/app/{{ $deposito[0]->comprobante_into }}">
+                        <a class="fancybox" href="{{ asset(Storage::url($deposito[0]->comprobante_into)) }}" data-fancybox="images" data-width="2048" data-height="1365">
+                            <img class="grouped_elements" style="width: 150px;" src="{{ asset(Storage::url($deposito[0]->comprobante_into)) }}">
                         </a>
                     </div>
                     @else
