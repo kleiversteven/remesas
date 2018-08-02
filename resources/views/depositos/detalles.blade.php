@@ -94,7 +94,7 @@
                         @foreach($deposito as $d)
                         {!! Form::open(['url'=>'savedreferencia','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
                         <input type="hidden" name="idtrans" value="{{ $d->codesali }}">
-                        <input type="hidden" id="imagen" value="{{ asset('../storage/') }}/app/{{ $d->comprobante_out }} ">
+                        <input type="hidden" id="imagen" value="{{ asset(Storage::url($d->comprobante_out )) }}">
                         <input type="hidden" id="referencia" value="{{ $d->referencia_out }} ">
                         <tr>
                             <td>{{ $d->titular }}</td>
@@ -115,8 +115,8 @@
                             </td>
                             <td class="file">
                                 @if(!empty($d->comprobante_out))
-                                <a class="fancybox" href="{{ asset('../storage/') }}/app/{{ $d->comprobante_out }}" data-fancybox="images" data-width="2048" data-height="1365">
-                                <img class="grouped_elements" style="max-width: 100px;max-height: 120px;" src=" {{ asset('../storage/') }}/app/{{ $d->comprobante_out }}">
+                                <a class="fancybox" href="{{ asset(Storage::url($d->comprobante_out  )) }}" data-fancybox="images" data-width="2048" data-height="1365">
+                                <img class="grouped_elements" style="max-width: 100px;max-height: 120px;" src="{{ asset(Storage::url($d->comprobante_out  )) }}">
                                 </a>
                                 @endif
                             </td>
