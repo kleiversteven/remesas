@@ -301,8 +301,10 @@ function savecuenta(){
         var numero = $(e).val();
         if(numero.length > 19)
         {
-            $(e).val(numero.substr(0,20));
+            $('.error-cuenta').show();
             return false;
+        }else{
+            $('.error-cuenta').hide()
         }
             
         $(e).value = ($(e).value + '').replace(/[^0-9]/g, '');  
@@ -449,6 +451,12 @@ function activar(e){
                         <div class="form-group">
                             {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
                             {!! Form::number('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)']) !!}
+                            
+                            <div class="alert alert-danger error-cuenta" style="display: none" role="alert">
+                                <ul>
+                                    El numero de cuenta no debe tener mas de 20 numeros.
+                                </ul>
+                            </div>
                         </div>
                     </div> 
                 <!--
