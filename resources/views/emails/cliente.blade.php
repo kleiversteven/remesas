@@ -20,7 +20,7 @@
                 <tr><td>N° de operacion {{ $mensaje['referencia'] }}</td></tr>
                 <tr><td>De:{{ $mensaje['moneda_into'] }}  A:  {{ $mensaje['moneda_out'] }}</td></tr>
                 <tr><td>Tasa de cambio: {{ $mensaje['tasa'] }}</td></tr>
-                <tr><td>Monto depositado: {{ $mensaje['ingreso'] }}</td></tr>
+                <tr><td>Monto depositado: {{ number_format($mensaje['ingreso'],2,",",".") }}</td></tr>
                 <tr><td>Monto convertido: {{ number_format($mensaje['salida'],2,",",".") }}</td></tr>
                 <tr><td></td></tr>
         </table>

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
+use PDF;
 
 class DepositosController extends Controller
 {

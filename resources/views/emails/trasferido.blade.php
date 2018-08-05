@@ -18,12 +18,14 @@
                 <tr><td>N° de operacion {{ $mensaje['referencia'] }}</td></tr>
                 <tr><td>De:{{ $mensaje['moneda_into'] }}  A:  {{ $mensaje['moneda_out'] }}</td></tr>
                 <tr><td>Tasa de cambio: {{ $mensaje['tasa'] }}</td></tr>
-                <tr><td>Monto depositado: {{ $mensaje['ingreso'] }}</td></tr>
-                <tr><td>Monto convertido: {{ $mensaje['salida'] }}</td></tr>
+                <tr><td>Monto depositado: {{ number_format($mensaje['ingreso'],2,",",".") }}</td></tr>
+                <tr><td>Monto convertido: {{ number_format($mensaje['salida'],2,",",".") }}</td></tr>
                 <tr><td></td></tr>
         </table>
         <h4>Distribuido de la siguiente manera</h4>
-        <?php $i=0; ?>
+        <?php $i=0; 
+            $tasa_new= $mensaje['salida']/$mensaje['ingreso'];
+        ?>
         @foreach($mensaje['data']['frecuente'] as $f)
             <?php 
                 $montos[$f] = $mensaje['data']['montofrecuente'][$i];
@@ -38,7 +40,8 @@
                 <th>Banco</th>
                 <th>Tipo de cuenta</th>
                 <th>N° de cuenta</th>
-                <th>Monto</th>
+                <th>Monto {{ $mensaje['moneda_into'] }}</th>
+                <th>Monto {{ $mensaje['moneda_out'] }}</th>
             </tr>
              <?php for($i=0;$i < count($mensaje['frecuente']);$i++ ){ ?>
                 <tr>
@@ -55,7 +58,8 @@
                     </td>
                     <td>{{ $mensaje['frecuente'][$i]->cuenta }}</td>
             
-                    <td>{{ $montos[$mensaje['frecuente'][$i]->codefrec] }}</td>
+                    <td>{{ number_format($montos[$mensaje['frecuente'][$i]->codefrec],2,",",".") }}</td>
+                    <td>{{ number_format($tasa_new*$montos[$mensaje['frecuente'][$i]->codefrec],2,",",".") }}</td>
                 </tr>
             <?php } ?>
         </table>
