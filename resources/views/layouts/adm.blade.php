@@ -284,11 +284,13 @@
                                                             <i class="fa "></i> Clientes
                                                         </a>
                                                     </li>
+                                                <!--
                                                     <li class=" ">
                                                         <a href="{{ url('reportebnco') }}" class="nav-link  ">
                                                             <i class="fa "></i> Bancos
                                                         </a>
                                                     </li>
+                                                -->
                                               </ul>
                                          </li>
                                     @endrole
