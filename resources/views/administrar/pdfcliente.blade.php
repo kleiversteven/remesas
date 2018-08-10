@@ -238,7 +238,7 @@ function consultar(){
     });
 }
 number_format = function (number, decimals, dec_point, thousands_sep) {
-        number = number.toFixed(decimals);
+        //number = number.toFixed(decimals);
 
         var nstr = number.toString();
         nstr += '';
