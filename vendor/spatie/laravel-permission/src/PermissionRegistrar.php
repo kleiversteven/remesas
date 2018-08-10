@@ -26,7 +26,7 @@ class PermissionRegistrar
         $this->cache = $cache;
     }
 
-    public function registerPermissions()//: bool
+    public function registerPermissions(): bool
     {
         $this->gate->before(function (Authorizable $user, string $ability) {
             try {
@@ -45,7 +45,7 @@ class PermissionRegistrar
         $this->cache->forget($this->cacheKey);
     }
 
-    public function getPermissions()//: Collection
+    public function getPermissions(): Collection
     {
         return $this->cache->remember($this->cacheKey, config('permission.cache_expiration_time'), function () {
             return app(Permission::class)->with('roles')->get();

@@ -113,7 +113,10 @@ trait HasPermissions
         }
 
         if (is_int($permission)) {
-            $permission = app(Permission::class)->findById($permission, $this->getDefaultGuardName());
+            $permission = app(Permission::class)->findById(
+                $permission,
+                $guardName ?? $this->getDefaultGuardName()
+            );
         }
 
         return $this->hasDirectPermission($permission) || $this->hasPermissionViaRole($permission);
@@ -236,6 +239,9 @@ trait HasPermissions
             ->flatten()
             ->map(function ($permission) {
                 return $this->getStoredPermission($permission);
+            })
+            ->filter(function ($permission) {
+                return $permission instanceof Permission;
             })
             ->each(function ($permission) {
                 $this->ensureModelSharesGuard($permission);

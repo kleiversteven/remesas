@@ -38,7 +38,8 @@
         <link href="{{ asset('css/alertify.default.css')}}" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="{{ asset('images/icono.png') }}" type="image/x-icon"/>
     <!-- END HEAD -->
-
+         @yield('otroscss')
+    </head>
     <body class="page-container-bg-solid page-header-top-fixed page-boxed">
         <!-- BEGIN HEADER -->
         <div class="page-header">
@@ -269,6 +270,23 @@
                                                     <li class=" ">
                                                         <a href="{{ url('adduser') }}" class="nav-link  ">
                                                             <i class="fa "></i> Agregar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Reportes
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('reportecliente') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Clientes
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('reportebnco') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Bancos
                                                         </a>
                                                     </li>
                                               </ul>

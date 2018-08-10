@@ -45,7 +45,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('Monto:', null, ['class' => 'control-label']) }}
-                            {!! Form::number('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
+                            {!! Form::text('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
                         </div>
                     </div>
                     <!--/span-->
@@ -426,7 +426,7 @@ function activar(e){
                             {!! Form::radio('nacionalidad', 'V', true) !!}V
                             {!! Form::radio('nacionalidad', 'J') !!}J
                             {!! Form::radio('nacionalidad', 'E') !!}E
-                            {!! Form::number('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
+                            {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
                         </div>
                     </div>
                     <div class="col-md-6 ">

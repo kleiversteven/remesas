@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\DepositosController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PdfController;
 
 
  Route::get('/inicio', 'siteController@index' ); 
@@ -75,6 +76,14 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     
     Route::post('/savereferencia', 'DepositosController@savereferencia');
+    
+    
+    Route::get('/pdfcliente', 'PdfController@pdfcliente');
+    Route::get('/reportecliente', 'PdfController@reportecliente');
+    Route::get('/usuarios', 'PdfController@usuarios');
+    Route::get('/reporteClientePdf', 'PdfController@reporteClientePdf');
+    Route::get('/reporteClientePdfData', 'PdfController@reporteClientePdfdata');
+    
     
 });
 
