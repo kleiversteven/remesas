@@ -48,10 +48,6 @@
         
         <table>
             <tr>
-                <th>Desde:</th><td></td>
-                <th>Hasta:</th><td></td>
-            </tr>
-            <tr>
                 <td colspan="4">
                     El repote a continuacion muestra el total de transaciones generadas desde {{ $desde }} hasta {{ $hasta }},
                     agrupado por los tipos de usuarios existentes, y tipo de moneda de cambio.
