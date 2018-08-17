@@ -77,13 +77,6 @@
     <div  class="calculadora row animated bounceInLeft col-lg-4 col-md-4 col-sm-4 offset-ld-1 offset-md-1 offset-sm-2 align-self-end"> 
         <h3>Calculadora de remesas:</h3>
         <div class="form-row">
-            <div class="form-group col-md-12">
-                <input type="text" class="form-control" id="resultado" type="text" placeholder="Resultado" readonly>
-            </div>
-             <div class="form-group col-md-12">
-                <label for="inputState">Monto:</label>
-                <input class="form-control" id="monto" type="number" min="1" placeholder="Monto">
-            </div>
             <div class="form-group col-md-6">
                 <label for="inputDe">De:</label>
                 <select id="inputDe" class="form-control">
@@ -102,6 +95,14 @@
                         <option value="{{ $m->iso }}" > {{ $m->descripcion }}</option>
                     @endforeach
                 </select>
+            </div>
+             <div class="form-group col-md-12">
+                <label for="inputState">Monto:</label>
+                <input class="form-control" id="monto" type="number" min="1" placeholder="Monto">
+            </div>
+            
+            <div class="form-group col-md-12">
+                <input type="text" class="form-control" id="resultado" type="text" placeholder="Resultado" readonly>
             </div>
             <div class="form-group col-md-12">
                 <button type="button" class="btn btn-lg btn-block btn-primary" onclick="calcular()">Calcular</button>
