@@ -158,4 +158,70 @@ class PdfController extends Controller
         }
         
     }
+    public function reportebanco(Request $request){
+        return view('administrar.pdfbanco');
+    }
+    
+    public function reporteBancoPdfData(Request $request){
+        
+       $data= $request->all();
+        if( $data['resumido']==0){
+            $depositos =\DB::table('depositos')
+            ->select('depositos.banco_into','depositos.tasa','depositos.moneda_into','depositos.monto_into','depositos.monto_out','bancos.banco','depositos.fecha_into')
+            ->join('bancos','bancos.idbank','depositos.banco_into')
+            ->whereBetween('depositos.fecha_into',[$data['desde'],$data['hasta']])
+            ->get();
+            
+        }elseif($data['resumido'] == 1){
+            $depositos =\DB::table('depositos')
+            ->select('depositos.banco_into','depositos.tasa','depositos.moneda_into',
+                     \DB::raw('sum(depositos.monto_into) as monto'),
+                     \DB::raw('COUNT(depositos.banco_into) as movimientos'),
+                     'depositos.monto_into','depositos.monto_out','bancos.banco','depositos.fecha_into')
+            ->join('bancos','bancos.idbank','depositos.banco_into')
+            ->whereBetween('depositos.fecha_into',[$data['desde'],$data['hasta']])
+            ->groupBy('depositos.banco_into')
+            ->get();
+        }
+        $depositos=$depositos->all();
+        
+         if(!empty($depositos)){
+            return json_encode($depositos);
+         }else{
+             return 0;
+         }
+        
+        
+        
+    }
+    
+    public function reportebancoPdf(Request $request){
+        
+       $data= $request->all();
+        if( $data['resumido']==0){
+            $depositos =\DB::table('depositos')
+            ->select('depositos.banco_into','depositos.tasa','depositos.moneda_into','depositos.monto_into','depositos.monto_out','bancos.banco','depositos.fecha_into')
+            ->join('bancos','bancos.idbank','depositos.banco_into')
+            ->whereBetween('depositos.fecha_into',[$data['desde'],$data['hasta']])
+            ->get();
+            
+        }elseif($data['resumido'] == 1){
+            $depositos =\DB::table('depositos')
+            ->select('depositos.banco_into','depositos.tasa','depositos.moneda_into',
+                     \DB::raw('sum(depositos.monto_into) as monto'),
+                     \DB::raw('COUNT(depositos.banco_into) as movimientos'),
+                     'depositos.monto_into','depositos.monto_out','bancos.banco','depositos.fecha_into')
+            ->join('bancos','bancos.idbank','depositos.banco_into')
+            ->whereBetween('depositos.fecha_into',[$data['desde'],$data['hasta']])
+            ->groupBy('depositos.banco_into')
+            ->get();
+        }
+        $depositos=$depositos->all();
+        
+        
+         $pdf = PDF::loadView('reportes.banco', ['depositos'=>$depositos,'desde'=>$data['desde'],'hasta'=>$data['hasta'],'resumido'=>$data['resumido']]);
+         return $pdf->download('reporte.pdf');
+        
+    }
+    
 }

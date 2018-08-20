@@ -286,7 +286,7 @@
                                                     </li>
                                                 
                                                     <li class=" ">
-                                                        <a href="{{ url('reportebnco') }}" class="nav-link  ">
+                                                        <a href="{{ url('reportebanco') }}" class="nav-link  ">
                                                             <i class="fa "></i> Bancos
                                                         </a>
                                                     </li>

@@ -78,6 +78,11 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::post('/savereferencia', 'DepositosController@savereferencia');
     
     
+    Route::get('/reportebanco', 'PdfController@reportebanco');
+    Route::get('/reporteBancoPdfData', 'PdfController@reporteBancoPdfData');
+    Route::get('/reportebancoPdf', 'PdfController@reportebancoPdf');
+    
+    
     Route::get('/pdfcliente', 'PdfController@pdfcliente');
     Route::get('/reportecliente', 'PdfController@reportecliente');
     Route::get('/usuarios', 'PdfController@usuarios');

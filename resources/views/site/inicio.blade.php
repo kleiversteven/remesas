@@ -31,43 +31,49 @@
             <table class="table table-striped table-bordered table-hover dt-responsive"  style="border: none;">
                 <tr><th style="border: none;"></th><th style="border: none;">=</th><th style="border: none;">Tasa de cambio</th></tr>
                 <tr>
+                    <th style="border: none;">
+                        <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
+                        <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
+                    </th>
+                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($sol_bs,2,",",".") }} &nbsp; </th>
                     <th class="linea-table align-middle" style="border: none;">
                                 <span class="item-tasa">1</span>
                                 <span class="item-tasa"><img src="{{ asset('images/soles.png') }}" class="img-moneda2"  /></span>
                                 <span class="item-tasa"><img src="{{asset('flags/pe.png') }}" class="img-moneda2"  /></span>
                     </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ $sol_bs }} &nbsp; </th>
-                    <th style="border: none;">
-                        <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
-                        <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
-                    </th>
+                    
+                    
                 </tr>
                 <tr>
-                    <th style="border: none;" class="linea-table align-middle"> 
-                            <span class="item-tasa">1</span>
-                            <span class="item-tasa"><img src="{{ asset('images/dolares.png') }}" class="img-moneda2"  /></span>
-                            <span class="item-tasa"><img src="{{asset('flags/us.png') }}" class="img-moneda2"  /></span>
-                        
-                    </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ $dol_so }} &nbsp; </th>
                     <th style="border: none;" class="align-middle"> 
                         
                         <span class="item-tasa"><img src="{{ asset('images/soles.png') }}" class="img-moneda2"  /></span>
                         <span class="item-tasa"><img src="{{asset('flags/pe.png') }}" class="img-moneda2"  /></span>
                             
                     </th>
+                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($dol_so,2,",",".") }} &nbsp; </th>
+                    <th style="border: none;" class="linea-table align-middle"> 
+                            <span class="item-tasa">1</span>
+                            <span class="item-tasa"><img src="{{ asset('images/dolares.png') }}" class="img-moneda2"  /></span>
+                            <span class="item-tasa"><img src="{{asset('flags/us.png') }}" class="img-moneda2"  /></span>
+                        
+                    </th>
+                    
+                    
                 </tr>
                 <tr>
+                    <th style="border: none;"  class="align-middle">
+                        <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
+                        <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
+                    </th>
+                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($dol_bs,2,",",".") }} &nbsp; </th>
                     <th style="border: none;" class="linea-table align-middle">
                         <span class="item-tasa">1</span>
                         <span class="item-tasa"><img src="{{ asset('images/dolares.png') }}" class="img-moneda2"  /></span>
                         <span class="item-tasa"><img src="{{asset('flags/us.png') }}" class="img-moneda2"  /></span>
                     </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ $dol_bs }} &nbsp; </th>
-                    <th style="border: none;"  class="align-middle">
-                        <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
-                        <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
-                    </th>
+                    
+                    
                 </tr>
             </table>
             <br>

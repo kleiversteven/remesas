@@ -1,24 +1,16 @@
 @extends('layouts.adm')
-
 @section('otroscss')
     <link rel="stylesheet" href="{{ asset('assets/global/plugins/jquery-ui/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/jquery.comiseo.daterangepicker.css') }}">
 @endsection
 @section('content')
-
-@if(!empty(session('mensaje')))
-<div class="alert alert-success">
-  <strong>Completado!</strong> {{session('mensaje')}}.
-</div>
-@endif
-
 <div class="row">
     <div class="col-md-12">
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Reporte de clientes
+                    <i class="fa fa-globe"></i>Reporte de bancos
                 </div>
                 <div class="actions">
                     <b onclick="consultar()" class="btn btn-warning"  ><i class=""></i> &nbsp;Consultar </b>
@@ -34,15 +26,13 @@
                                 </span>
                             </div>
                 </div>
-                <div class="form-group form col-md-4">
-                    <label>Buscar rol:</label>
-                    <select name="cliente" id="cliente" class="form-control" onchange="usuriosroles(this.value)">
-                        <option value="all" >Todos</option>
-                        @foreach($roles as $r)
-                        <option value="{{ $r->id }}" >{{ $r->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="form-group col-md-4">
+                        <label >Resumido:</label>
+                        <div class="input-group">
+                            <input type="checkbox" class="form-control"  id="resumido">
+                        </div>
                 </div>
+                
                 <div class="form-group col-md-4 clientes">
                 
                 </div>
@@ -74,6 +64,7 @@
     </div>
     
 </div>
+
 @endsection
 @section('scripts')
 <script src="{{ asset('assets/global/plugins/jquery-ui/jquery-ui.js') }}"></script>
@@ -128,18 +119,7 @@ $(function() {
              text: 'Mes anterior',
              dateStart: function() { return moment().add('month', -1).startOf('month')},
              dateEnd: function() { return moment().add('month', -1).endOf('month')  }
-         }],
-        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
-        dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
-        dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-         applyOnMenuSelect: false,
-         datepickerOptions: {
-             minDate: null,
-             maxDate: 0,
-             numberOfMonths : 3
-         }
+         }]
      });
 });
 function usuriosroles(rol){
@@ -158,17 +138,20 @@ function seleccionar(){
     $('#client').select2({placeholder: 'Buscar usuario'});
 }
 function consultar(){
-    var rol= $('#cliente').val();
-    var clients= $('#client').val();
     var fechas=jQuery.parseJSON($("#fechas").val());
     var start=fechas.start;
     var end=fechas.end;
     var token = "{{ csrf_token() }}";
-    var url = "{{ url('reporteClientePdfData') }}";
-    var data  = "desde="+start+"&hasta="+end+"&rol="+rol+"&clientes="+clients;
+    var url = "{{ url('reporteBancoPdfData') }}";
+    
     var header ='';
     var body ='';
-    $.get("{{ url('reporteClientePdfData') }}",data,function(e){
+    var resumido = 0;
+    if( $('#resumido').is(':checked') ) {
+        var resumido = 1;
+    }
+    var data  = "desde="+start+"&hasta="+end+"&resumido="+resumido;
+    $.get("{{ url('reporteBancoPdfData') }}",data,function(e){
         var i =1;
         if(e == 0){
             $('.reporte').fadeOut(500);
@@ -178,57 +161,34 @@ function consultar(){
            
            var response = jQuery.parseJSON(e);
             
-            if(clients != undefined && clients != null && clients != 'all'){
-                $('.btn-dowload').attr({'href':'{{ url("reporteClientePdf") }}?desde='+start+'&hasta='+end+'&rol='+rol+'&clientes='+clients });
+            if(resumido == 0){
+                $('.btn-dowload').attr({'href':'{{ url("reportebancoPdf") }}?desde='+start+'&hasta='+end+'&resumido='+resumido });
                 header+='<th>N°</th>';
-                header+='<th>Nombre</th>';
-                header+='<th>N° de deposito</th>';
-                header+='<th>Moneda</th>';
-                header+='<th>Entrada</th>';
-                header+='<th>Salida</th>';
+                header+='<th>Banco</th>';
+                header+='<th>Fecha</th>';
+                header+='<th>Monto</th>';
+                
                 $.each( response, function( key, value ) {
                   body+='<tr><td>'+i+'</td>';
-                  body+='<td>'+value.nombre+'</td>';
-                  body+='<td>'+value.referencia_into+'</td>';
-                  body+='<td>'+value.descripcion+'</td>';
-                  body+='<td>'+number_format(value.monto_entrada, 2, ',', '.')+'</td>';
-                  body+='<td>'+number_format(value.monto_salida, 2, ',', '.')+'</td></tr>';
+                  body+='<td>'+value.banco+'</td>';
+                  body+='<td>'+value.fecha_into+'</td>';
+                  body+='<td>'+number_format(value.monto_into, 2, ',', '.')+'</td></tr>';
+                  body+='</tr>';
                     i++;
                 });
                 
-            }else if(rol != 'all'){
-                $('.btn-dowload').attr({'href':'{{ url("reporteClientePdf") }}?desde='+start+'&hasta='+end+'&rol='+rol+'&clientes='+clients });
-                header+='<th>N°</th>';
-                header+='<th>Tipo de usuario</th>';
-                header+='<th>Usuario</th>';
-                header+='<th>Moneda</th>';
-                header+='<th>Entrada</th>';
-                header+='<th>Salida</th>';
+            }else if(resumido == 1){
+                $('.btn-dowload').attr({'href':'{{ url("reportebancoPdf") }}?desde='+start+'&hasta='+end+'&resumido='+resumido });
+                header+='<th>Operaciones</th>';
+                header+='<th>Banco</th>';
+                header+='<th>Monto</th>';
                 $.each( response, function( key, value ) {
-                  body+='<tr><td>'+i+'</td>';
-                  body+='<td>'+value.name+'</td>';
-                  body+='<td>'+value.nombre+'</td>';
-                  body+='<td>'+value.descripcion+'</td>';
-                  body+='<td>'+number_format(value.monto_entrada, 2, ',', '.')+'</td>';
-                  body+='<td>'+number_format(value.monto_salida, 2, ',', '.')+'</td></tr>';
-                    i++;
+                  body+='<tr><td>'+value.movimientos+'</td>';
+                  body+='<td>'+value.banco+'</td>';
+                  body+='<td>'+number_format(value.monto, 2, ',', '.')+'</td></tr>';
+                  
                 });
                 
-            }else{
-                $('.btn-dowload').attr({'href':'{{ url("reporteClientePdf") }}?desde='+start+'&hasta='+end+'&rol='+rol+'&clientes='+clients });
-                header+='<th>N°</th>';
-                header+='<th>Tipo de usuario</th>';
-                header+='<th>Moneda</th>';
-                header+='<th>Entrada</th>';
-                header+='<th>Salida</th>';
-                $.each( response, function( key, value ) {
-                  body+='<tr><td>'+i+'</td>';
-                  body+='<td>'+value.name+'</td>';
-                  body+='<td>'+value.descripcion+'</td>';
-                  body+='<td>'+number_format(value.monto_entrada, 2, ',', '.')+'</td>';
-                  body+='<td>'+number_format(value.monto_salida, 2, ',', '.')+'</td></tr>';
-                    i++;
-                });
             }
             $('.table-header').html(header);
             $('.table-body').html(body);
