@@ -302,7 +302,9 @@ function savecuenta(){
         if(numero.length > 19)
         {
             $(e).val(numero.substr(0,20));
-            $('.error-cuenta').show();
+            if(numero.length > 20)
+                $('.error-cuenta').show();
+            
             return false;
         }else{
             $('.error-cuenta').hide()

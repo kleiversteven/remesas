@@ -15,7 +15,7 @@
         <div  class="slogan col-lg-4 col-md-4 col-sm-12 btn-block " >
             
             
-            <p class="btn btn-outline-warning">
+            <p class="btn btn-outline-warning" style="font-size: 20px;">
                 <b class="fech-font ">Fecha:</b><br>
             <?php
             date_default_timezone_set('America/Caracas');
@@ -35,9 +35,9 @@
                         <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
                         <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
                     </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($sol_bs,2,",",".") }} &nbsp; </th>
+                    <th style="border: none;"  style="font-size:18px !important" class="align-middle"><span style="font-size:18px !important" > &nbsp; {{ number_format($sol_bs,2,",",".") }}</span> &nbsp; </th>
                     <th class="linea-table align-middle" style="border: none;">
-                                <span class="item-tasa">1</span>
+                                <span class="item-tasa" style="font-size:18px !important" >1</span>
                                 <span class="item-tasa"><img src="{{ asset('images/soles.png') }}" class="img-moneda2"  /></span>
                                 <span class="item-tasa"><img src="{{asset('flags/pe.png') }}" class="img-moneda2"  /></span>
                     </th>
@@ -51,9 +51,9 @@
                         <span class="item-tasa"><img src="{{asset('flags/pe.png') }}" class="img-moneda2"  /></span>
                             
                     </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($dol_so,2,",",".") }} &nbsp; </th>
+                    <th style="border: none;"  style="font-size:18px !important" class="align-middle"><span style="font-size:18px !important" > &nbsp; {{ number_format($dol_so,2,",",".") }}</span> &nbsp; </th>
                     <th style="border: none;" class="linea-table align-middle"> 
-                            <span class="item-tasa">1</span>
+                            <span class="item-tasa" style="font-size:18px !important" >1</span>
                             <span class="item-tasa"><img src="{{ asset('images/dolares.png') }}" class="img-moneda2"  /></span>
                             <span class="item-tasa"><img src="{{asset('flags/us.png') }}" class="img-moneda2"  /></span>
                         
@@ -66,9 +66,9 @@
                         <span class="item-tasa"><img src="{{ asset('images/bolivares.png') }}" class="img-moneda2"  /></span>
                         <span class="item-tasa"><img src="{{asset('flags/ve.png') }}" class="img-moneda2"  /></span>
                     </th>
-                    <th style="border: none;" class="align-middle"> &nbsp; {{ number_format($dol_bs,2,",",".") }} &nbsp; </th>
+                    <th style="border: none;"  style="font-size:18px !important" class="align-middle"><span style="font-size:18px !important" > &nbsp; {{ number_format($dol_bs,2,",",".") }}</span> &nbsp; </th>
                     <th style="border: none;" class="linea-table align-middle">
-                        <span class="item-tasa">1</span>
+                        <span class="item-tasa" style="font-size:18px !important" >1</span>
                         <span class="item-tasa"><img src="{{ asset('images/dolares.png') }}" class="img-moneda2"  /></span>
                         <span class="item-tasa"><img src="{{asset('flags/us.png') }}" class="img-moneda2"  /></span>
                     </th>
