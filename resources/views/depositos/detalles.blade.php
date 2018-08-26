@@ -110,10 +110,10 @@
                             <td>{{ $d->cuenta }}</td>
                             <td>{{ $d->monto_into }} {{ $d->moneda_into }}</td>
                             <td>{{  number_format($d->monto_out,2,",",".") }} {{ $d->moneda_out }}</td>
-                            <td class="input">
+                            <td class="input" data-referencia="{{$d->referencia_out}}">
                                 {{$d->referencia_out}}
                             </td>
-                            <td class="file">
+                            <td class="file" data-image=@if(!empty($d->comprobante_out)) "{{ asset(Storage::url($d->comprobante_out)) }}" @endif >
                                 @if(!empty($d->comprobante_out))
                                 <a class="fancybox" href="{{ asset(Storage::url($d->comprobante_out)) }}" data-fancybox="images" data-width="2048" data-height="1365">
                                 <img class="grouped_elements" style="max-width: 100px;max-height: 120px;" src="{{ asset(Storage::url($d->comprobante_out)) }}">
@@ -124,6 +124,10 @@
                                 
                                 @if($deposito[0]->estatus == 3)
                                     <b class="btn btn-primary fa fa-pencil" onclick="editar({{ $d->codesali }},this)"></b>
+                                @elseif($deposito[0]->estatus == 4)
+                                    @if(!empty($d->referencia_out))
+                                        <b class="btn btn-primary fa fa-envelope-o" onclick="notificar({{ $d->codesali }},this)"></b>
+                                    @endif                                
                                 @endif
                             
                             </td>
@@ -191,6 +195,10 @@
                  var sal = $('.depositar').data('salida');
                  html+='<b class="btn btn-primary fa fa-pencil" onclick=editar("'+sal+'",this)></b>';
              }
+            if(estatus ==  4){
+                 var sal = $('.depositar').data('salida');
+                 html+='<b class="btn btn-primary fa fa-envelope-o" onclick=editar("'+sal+'",this)></b>';
+             }
             $('.depositar').html(html);
             cancelar(estatus,idtrans);
         })
@@ -198,7 +206,9 @@
     }
         
     function editar(code,e){
-        var html= '<b class="btn btn-danger fa fa-times" onclick=cancela(this) ></b>';
+        var image = $(e).parent().parents('tr').children('td.file').data('image');
+        var referencia = $(e).parent().parents('tr').children('td.input').data('referencia');
+        var html= '<b class="btn btn-danger fa fa-times" onclick=cancela(this,"'+image+'","'+referencia+'") ></b>';
         var form = '{!! Form::open(["url"=>"savereferencia","method"=>"POST","enctype"=>"multipart/form-data","class"=>"horizontal-form","id"=>"save-deposito"]) !!}';
         var input= '<input type="number" name="referencia" placeholder="N° de referencia" class="form-control" >';
         var file= '<input type="file" name="capture" placeholder="comprobante" class="form-control" >';
@@ -212,8 +222,7 @@
         $(element).parents('td').html(html);
     }
         
-function cancela(e){
-    var image = $("#imagen").val();
+function cancela(e,image,referencia){
     var file='';
         if(image!='')
         {
@@ -221,15 +230,19 @@ function cancela(e){
             file+='<img class="grouped_elements" style="max-width: 100px;max-height: 120px;" src="'+image+'">';
             file+='</a>'
         }
-    var referencia = $("#referencia").val();
     var element = $(e).parents('tr');
      element.children( "td:eq( 7 )" ).attr({'colspan':1});
      element.children( "td:eq( 7 )" ).text(referencia);
+     element.children( "td:eq( 7 )" ).data('referencia',referencia);
      element.children( "td:eq( 8 )" ).remove();
-     element.append('<td>'+file+'</td>');
+     element.append('<td class="file" data-image="'+image+'">'+file+'</td>');
      element.append('<td><b class="btn btn-primary fa fa-pencil" onclick="editar(this,this)"></b></td>');
 }
-        
+function notificar(code){
+    $.get("{{ url('notificacion') }}",'code='+code,function(response){
+             alertify.success("El usuario ha sido notificado del pago");
+        })
+} 
     $(document).ready(function() {
         $(".fancybox").fancybox({
              'width' : '75%',

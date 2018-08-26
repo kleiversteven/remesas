@@ -460,7 +460,7 @@ function activar(e){
                             </div>
                         </div>
                     </div> 
-                <!--
+                
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('Telefono',null, ['class' => 'control-label']) }}
@@ -474,7 +474,7 @@ function activar(e){
                                     
                         </div>
                     </div>
-                    -->
+                    
                 
                 <!--/row-->
                 <br>

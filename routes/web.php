@@ -89,6 +89,8 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/reporteClientePdf', 'PdfController@reporteClientePdf');
     Route::get('/reporteClientePdfData', 'PdfController@reporteClientePdfdata');
     
+    Route::get('/notificacion', 'DepositosController@notificacion');
+    
     
 });
 
