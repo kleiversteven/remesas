@@ -183,10 +183,10 @@ function calmonto(e){
     if(de != '')
         $('.addmonto').attr({'placeholder':'Monto en '+sel});
     
-    $('.addmonto').attr({'placeholder':'Monto en '+sel});
+    
     if(de != '' && monto > 0){
         $.get("calcular","isoa="+de+"&isob="+a+"&monto="+monto,function(e){
-            $('.monto-trans').html(e);
+            $('.monto-trans').html(some_number = number_format(e, 2, ',', '.') +' Bs');
             $('.addmonto').attr({'max':monto});
             
         })
@@ -256,13 +256,17 @@ function savecuenta(){
             var html = '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+response+'" style="font-size: 12px;">';
                 html+= '<div class="form-group"><input type="hidden" name="frecuente[]" value="'+response+'" >';
                 html+=  titular + ' ' + cuenta;
+                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
                 html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
                 html+= '</div>  <i class="fa fa-times" style="position: absolute;right: 10px; margin-top:-20px;" onclick="quitar(this)" ></i> </a>';
             
             $('.in').removeClass('in');
             
             $('.lista-frecuentes').append(html);
-            
+             var sel = $('#moneda-into').children('option:selected').text();
+            if(de != '')
+                $('.addmonto').attr({'placeholder':'Monto en '+sel});
+                
             document.getElementById("save-cuenta").reset();
         });
         }
@@ -274,6 +278,7 @@ function savecuenta(){
                 $('.lista-frecuentes').children('#id-'+$(this).data('id')).remove();
                 html+= '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+$(this).data('id')+'" style="font-size: 12px;">';
                 html+= '<div class="form-group">'+$(this).data('titular') + ' ' + $(this).data('cuenta');
+                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
                 html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
                 html+= '</div>';
                 html+= '<input type="hidden" name="frecuente[]" value="'+$(this).data('id')+'" >';
@@ -338,7 +343,8 @@ function activar(e){
 }
     function cambiarmontos(e){
         var monto = $('#monto').val();
-        
+        var montoing = $(e).val();
+        var elemento=  e;
         
         if(monto >0 ){
            var mon = $(e).val();
@@ -351,14 +357,20 @@ function activar(e){
             });
             
             mont=(parseInt(monto)+parseInt(mon))-parseInt(t);
-            console.log(mont);
+            
             if(mon > mont){
                 var l =mon.length;
                 l2 =l*(-1);
                 var m = mon.substr(l2,l-1);
-                console.log(m);
+                
                 $(e).val(m);
-                alertify.error("El monto maximo de distribucion es " + monto );
+                alertify.error("El monto maximo de distribucion es " + monto);
+            }else{
+                var moneda = $('#moneda-into').val();
+                $.get("calcular","isoa="+moneda+"&isob=VEF&monto="+montoing,function(tmonto){
+                    console.log(tmonto);
+                    $(elemento).prev('span').html(some_number = number_format(tmonto, 2, ',', '.') + ' Bs');
+                })
             }
             
             
@@ -367,6 +379,29 @@ function activar(e){
             $(e).val('');
         }
         
+    }
+    function validartipo(e){
+        if($(e).val() == 1 ){
+            $('.aviso-banco').show();
+        }else{
+            $('.aviso-banco').hide();
+        }
+    }
+    
+number_format = function (number, decimals, dec_point, thousands_sep) {
+        //number = number.toFixed(decimals);
+
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
     }
 </script>
 <div class="form-registrar" style=" width: 100%;
@@ -414,6 +449,7 @@ function activar(e){
       <div id="collapse2" class="panel-collapse collapse" data-collapse='2'>
           <br>
         <div class="row">
+            
             {!! Form::open(['url'=>'','method'=>'POST','class'=>'horizontal-form ','id'=>'save-cuenta']) !!}
             <div class="form-body"> 
                     <div class="col-md-6">
@@ -431,10 +467,18 @@ function activar(e){
                             {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
                         </div>
                     </div>
+                    <div class="col-md-12 ">
+                        <div class="alert alert-danger aviso-banco" style="display: none" role="alert">
+                            <ul>
+                               Ciertos bancos no permiten depositos desde cuentas jurídicas a cuentas de ahorros personales o jurídicas. Tomar en consideración
+                            </ul>
+                        </div>
+                    </div>
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('Tipo de cuenta:', null, ['class' => 'control-label']) }}
-                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control', 'id'=>'tipo','placeholder' => 'Seleccione tipo de cuenta'])}}
+                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control','onchange'=> 'validartipo(this)', 'id'=>'tipo','placeholder' => 'Seleccione tipo de cuenta'])}}
+                            
                         </div>
                     </div>
                     <div class="col-md-6 ">
@@ -442,6 +486,7 @@ function activar(e){
                             {{ Form::label('Banco', 'Banco', ['class' => 'control-label']) }}
                            {{ Form::text('banco',null,['disabled'=>'disabled','class' => 'form-control', 'id'=>'banco','placeholder' => 'Banco'])}}
                             {{ Form::hidden('banco-out',null,['disable'=>'disable', 'id'=>'banco-out','placeholder' => 'Seleccione banco'])}}
+                            
                         </div>
                     </div>
                     <div class="col-md-6 ">
@@ -476,8 +521,7 @@ function activar(e){
                                     
                         </div>
                     </div>
-                    
-                
+                 
                 <!--/row-->
                 <br>
             </div>
