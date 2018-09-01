@@ -102,6 +102,8 @@
                 <!--/row-->
                 <h3 class="form-section">Cuentas a transferir:<span class="monto-trans"></span>
                     <span style="float: right" onclick="addcuenta()" class="btn btn-primary">Agregar</span>
+                    <span style="float: right" class="btn btn-outline-secondary sobrante">0</span>
+                    
                 
                     <br>
                     <br>
@@ -174,14 +176,16 @@ function format(state) {
         return $state;
     }
 function calmonto(e){
-   
     var de = $('#moneda-into').val();
     var a = 'VEF';
     var monto = $('#monto').val();
-    $('#resultado').val(de/a);
+    $('.sobrante').text(monto);
+    //$('#resultado').val(de/a);
      var sel = $('#moneda-into').children('option:selected').text();
-    if(de != '')
+    if(de != ''){
         $('.addmonto').attr({'placeholder':'Monto en '+sel});
+        $('.sobrante').text(monto + ' ' +  de);
+    }
     
     
     if(de != '' && monto > 0){
@@ -298,7 +302,7 @@ function savecuenta(){
 }
     function quitar(e){
         var id = $(e).prev('input').val();
-        console.log('class-'+id);
+        //console.log('class-'+id);
         $('.class-'+id).removeClass('active');
         $(e).parent('a').remove();
     }
@@ -366,12 +370,22 @@ function activar(e){
                 $(e).val(m);
                 alertify.error("El monto maximo de distribucion es " + monto);
             }else{
-                var moneda = $('#moneda-into').val();
-                $.get("calcular","isoa="+moneda+"&isob=VEF&monto="+montoing,function(tmonto){
-                    console.log(tmonto);
-                    $(elemento).prev('span').html(some_number = number_format(tmonto, 2, ',', '.') + ' Bs');
-                })
-            }
+                
+                if(t > 0){
+                    var newmonto = monto-t;
+                    var de = $('#moneda-into').val();
+                    $('.sobrante').text(newmonto + ' ' );
+                    if(de != ''){
+                        $('.sobrante').text(newmonto + ' ' +  de);
+                    }
+
+                }
+                    var moneda = $('#moneda-into').val();
+                    $.get("calcular","isoa="+moneda+"&isob=VEF&monto="+montoing,function(tmonto){
+                        //console.log(tmonto);
+                        $(elemento).prev('span').html(some_number = number_format(tmonto, 2, ',', '.') + ' Bs');
+                    })
+                }
             
             
         }else{
