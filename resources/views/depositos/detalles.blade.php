@@ -49,6 +49,7 @@
                 <div class="col-md-12">
                     <div class="col-md-4">{{ $deposito[0]->name }}</div>
                     <div class="col-md-4">{{ $deposito[0]->email }}</div>
+                    <div class="col-md-4">{{ $deposito[0]->telefono }}</div>
                 </div>
                 <div class="col-md-12">
                     <legend>Detalles de deposito: </legend>

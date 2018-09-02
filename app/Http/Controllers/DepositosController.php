@@ -73,12 +73,12 @@ class DepositosController extends Controller
                     'fecha'=>date('d-m-Y')
                    );
         $email= Auth::user()->email;
-        /*
+        
         Mail::send('emails.trasferido',['mensaje'=>$data],function($message)use($email,$data){
             $message->from($email,'Nueva trasferencia');
             $message->to('atencionalcliente@localremesas.com')->subject('Nueva trasferencia');
         });
-        */
+        
         
        
     }
@@ -325,6 +325,7 @@ class DepositosController extends Controller
                         'depositos.fecha_into',
                         'users.name',
                         'users.email',
+                        'users.telefono',
                         'salidas.idfrecuente',
                         'salidas.codesali',
                         'salidas.monto_into',
@@ -397,13 +398,15 @@ class DepositosController extends Controller
     }
     public function modtransaccion(Request $request){
         $data =$request->all();
+        
+        if($data['estatus'] == '3')
+            $this->changestatus($data['transac']);
+        if($data['estatus'] == '2')
+            $this->changestatuscancelar($data['transac']);
+        
         $resp = \DB::table('depositos')
              ->where('idtrans','=', $data['transac'])
              ->update(['estatus' => $data['estatus'] ]);
-        if($data['estatus'] == 3)
-            $this->changestatus($data['transac']);
-        if($data['estatus'] == 2)
-            $this->changestatuscancelar($data['transac']);
         
     }
     public function savereferencia(Request $request){

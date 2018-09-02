@@ -19,7 +19,7 @@
         @endif
        </p>
         
-        <p><img src="{{ asset('images/logo2.png')}}" alt="logo" style="width:100px;"  >
+        <p><img src="{{ asset('images/logo2.png')}}" alt="logo" style="width:50px;"  >
             LocarRemesas agradece por preferirnos </p>
               
         
