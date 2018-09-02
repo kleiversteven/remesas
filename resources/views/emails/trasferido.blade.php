@@ -10,7 +10,7 @@
 <body>
     <div id="app">
         
-        LocalRemesas ha recibio un nuevo deposito gracias a  <b >{{ $mensaje['name'] }}</b>
+        LocalRemesas ha recibido un nuevo deposito gracias a  <b >{{ $mensaje['name'] }}</b>
         con el correo {{ $mensaje['email'] }}
         <table style="width: 250px;text-align: center;border: solid;background: #ffe9aa;border-width: 1px;">
                 <tr><td> <b> Recibo de trasferencia </b></td></tr>
@@ -37,6 +37,7 @@
                 <th>Titular </th>
                 <th>Cedula</th>
                 <th>Correo</th>
+                <th>Telefono</th>
                 <th>Banco</th>
                 <th>Tipo de cuenta</th>
                 <th>N° de cuenta</th>
@@ -48,6 +49,7 @@
                     <td>{{ $mensaje['frecuente'][$i]->titular }}</td>
                     <td>{{ $mensaje['frecuente'][$i]->cedula }}</td>
                     <td>{{ $mensaje['frecuente'][$i]->correo }}</td>
+                    <td>{{ $mensaje['frecuente'][$i]->telefono }}</td>
                     <td>{{ $mensaje['frecuente'][$i]->banco }}</td>
                     <td>
                         @if( $mensaje['frecuente'][$i]->tipo == 0)
