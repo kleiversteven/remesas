@@ -324,11 +324,13 @@
                                                             <i class="fa "></i> Trasferencias
                                                         </a>
                                                     </li>
+                                                <!--
                                                 <li class=" ">
                                                         <a href="{{ url('listarefectivo') }}" class="nav-link  ">
                                                             <i class="fa "></i> Efectivo
                                                         </a>
                                                     </li>
+                                                -->
                                               </ul>
                                          </li>
                                         <li class="menu-dropdown classic-menu-dropdown ">
@@ -341,11 +343,13 @@
                                                             <i class="fa "></i> Nuevo deposito
                                                         </a>
                                                     </li>
+                                                <!--
                                                     <li class=" ">
                                                         <a href="{{ url('efectivo') }}" class="nav-link  ">
                                                             <i class="fa "></i> Deposito en efectivo
                                                         </a>
                                                     </li>
+                                                -->
                                               </ul>
                                          </li>
                                     @endrole

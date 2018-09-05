@@ -40,7 +40,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td> {{ ucfirst($user->rol_name) }}</td>
                                 <td>
-                                    <input type="checkbox" class="btn_changepermission make-switch "   @if($user->estatus == 1 ) checked=checked  @endif;  data-on-color="success"  data-size="small" data-off-color="danger" data-on-text="<i class='fa fa-check' data-id='{{ $user->id  }}' data-estatus='0' ></i>" data-off-text="<i class='fa fa-power-off' data-id='{{ $user->id  }}' data-estatus='1' ></i>" >
+                                    <input type="checkbox" class="btn_changepermission make-switch " data-id='{{ $user->id  }}'   @if($user->estatus == 1 ) checked=checked  @endif;  data-on-color="success"  data-size="small" data-off-color="danger" data-on-text="<i class='fa fa-check' data-id='{{ $user->id  }}' data-estatus='0' ></i>" data-off-text="<i class='fa fa-power-off' data-id='{{ $user->id  }}' data-estatus='1' ></i>" >
                                 </td>
                                
                             </tr>
@@ -56,18 +56,19 @@
 @section('scripts')
 <script>
 $(document).ready(function() {
-    $('.btn_changepermission').bootstrapSwitch({size : 'small'});
-    var stopchange = false;
+    
     $('.btn_changepermission').on('switchChange.bootstrapSwitch', function (e, state) {
+    
         var obj = $(this);
-        if(stopchange === false){
-            
+         var id = obj.data('id');
+        if(state === false){
+           estatus(id,0)
+        }else{
+           estatus(id,1) 
         }
     }); 
 });
-function estatus(e){
-    var id = $(e).data('id');
-    var estatus = $(e).data('estatus');
+function estatus(id,estatus){
     $.get('estatus','id='+id+'&estatus='+estatus,function(response){
         if(response == 1)
             alertify.success('Usuario activado');
