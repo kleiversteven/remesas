@@ -20,9 +20,9 @@
             <?php
             date_default_timezone_set('America/Caracas');
             setlocale(LC_ALL,"es_ES");
-            echo utf8_decode(strftime("%A %d "));
+            echo utf8_encode(strftime("%A %d "));
             echo "DE <br>";
-            echo utf8_decode(strftime("%B del %Y"));
+            echo utf8_encode(strftime("%B del %Y"));
             ?>
                 </p>
         </div>
