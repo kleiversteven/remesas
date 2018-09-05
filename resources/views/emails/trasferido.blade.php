@@ -49,7 +49,14 @@
                     <td>{{ $mensaje['frecuente'][$i]->titular }}</td>
                     <td>{{ $mensaje['frecuente'][$i]->cedula }}</td>
                     <td>{{ $mensaje['frecuente'][$i]->correo }}</td>
-                    <td>{{ $mensaje['frecuente'][$i]->telefono }}</td>
+                    <td>
+                        {{ $mensaje['frecuente'][$i]->telefono }}
+                        @if(!empty($mensaje['frecuente'][$i]->telefono))
+                       <a href="api.whatsapp.com/send?phone={{ $mensaje['frecuente'][$i]->telefono }}&text=Bienvenido a localremesas">
+                            <img src="{{ asset('images/ico-ws.png')}}" style="width: 20px;height: 20px" />
+                       </a>
+                        @endif
+                    </td>
                     <td>{{ $mensaje['frecuente'][$i]->banco }}</td>
                     <td>
                         @if( $mensaje['frecuente'][$i]->tipo == 0)

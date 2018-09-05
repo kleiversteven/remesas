@@ -14,6 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Mail;
 use PDF;
+use Session;
 
 class DepositosController extends Controller
 {
@@ -108,8 +109,12 @@ class DepositosController extends Controller
              ->where(['.frecuentes.eliminado'=>'0','frecuentes.codeuser'=>$id])
              
              ->get();
-        
-        return view('depositos.cargar')->with(['bancos'=>$bancos,'monedas'=>$monedas,'countries'=>$country,'frecuentes'=>$frecuentes]);
+
+        if(Session::get('BLOQUEO') == 1)
+            return redirect('administrar'); 
+        else
+            return view('depositos.cargar')->with(['bancos'=>$bancos,'monedas'=>$monedas,'countries'=>$country,'frecuentes'=>$frecuentes]);
+            
     }
     
     public function savecuenta(Request $request){

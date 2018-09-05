@@ -178,11 +178,14 @@
                                                         <i class="fa "></i> Mis depositos
                                                     </a>
                                                 </li>
+                                            
+                                            @if(Session::get('BLOQUEO') != 1)
                                                 <li class=" ">
                                                     <a href="{{ url('depositos') }}" class="nav-link  ">
                                                         <i class="fa "></i> Nuevo deposito
                                                     </a>
                                                 </li>
+                                            @endif
                                           </ul>
                                      </li>
                                     @endrole
@@ -207,6 +210,12 @@
                                                             <i class="fa "></i> Tasas de cambio
                                                         </a>
                                                     </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('parametros') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Parametros
+                                                        </a>
+                                                    </li>
+                                                
                                               </ul>
                                          </li>
                                         <li class="menu-dropdown classic-menu-dropdown ">
@@ -241,6 +250,11 @@
                                                     <li class=" ">
                                                         <a href="{{ url('tasas') }}" class="nav-link  ">
                                                             <i class="fa "></i> Tasas de cambio
+                                                        </a>
+                                                    </li>
+                                                    <li class=" ">
+                                                        <a href="{{ url('parametros') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Parametros
                                                         </a>
                                                     </li>
                                               </ul>

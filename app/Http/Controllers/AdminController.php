@@ -25,8 +25,12 @@ class AdminController extends Controller
        $sol   = $this->calculadora('PEN','VEF',1);
        $depositos=$this->misdepositos(1);
        $procesados=$this->misdepositos(3);
-       
-        return view('admin')->with(['dolar'=>$dolar,"sol"=>$sol,'depositos'=>$depositos,'procesados'=>$procesados]);
+       $resp = \DB::table('parametros')->get()->all();
+        foreach($resp as $r){
+            $data[$r->descpara]['status']= $r->valopara;
+            $data[$r->descpara]['motivo']= $r->motivo;
+        }
+        return view('admin')->with(['dolar'=>$dolar,"sol"=>$sol,'depositos'=>$depositos,'procesados'=>$procesados,'parametros'=>$data]);
     }
     public function profile(){
         $id= Auth::user()->id;
@@ -300,5 +304,21 @@ class AdminController extends Controller
         }
         return $resp;
     }
+    public function parametros(){
+       $resp = \DB::table('parametros')->get()->all();
+        foreach($resp as $r){
+            $data[$r->descpara]['status']= $r->valopara;
+            $data[$r->descpara]['motivo']= $r->motivo;
+        }
+        return view('administrar.parametros')->with(['parametros'=>$data]);
+    }
+    public function bloqdepositos(Request $request){
+       $data=$request->all();
+        
+        $datos['motivo']= $data['motivo'];
+        $datos['valopara']= $data['check'];
+       $resp = \DB::table('parametros')->where('descpara','BLOQUEO')->update($datos);
+    }
+    
    
 }

@@ -8,7 +8,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Role;
 use App\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Session;
 class siteController extends Controller
 {
     
@@ -33,6 +33,16 @@ class siteController extends Controller
         $sol_bs=$this->calculadora('PEN','VEF',1);
         $dol_so=$this->calculadora('USD','PEN',1);
         $dol_bs=$this->calculadora('USD','VEF',1);
+        $resp = \DB::table('parametros')->get()->all();
+        foreach($resp as $r){
+            $data[$r->descpara]['status']= $r->valopara;
+            $data[$r->descpara]['motivo']= $r->motivo;
+        }
+        $resp = \DB::table('parametros')->get()->all();
+        foreach($resp as $r){
+            Session::put($r->descpara,$r->valopara);
+        }
+        
         return view('site/inicio')->with(['monedas'=>$monedas,"tasas"=>$tasas,'sol_bs'=>$sol_bs,'dol_so'=>$dol_so,'dol_bs'=>$dol_bs]);
     }
     

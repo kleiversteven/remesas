@@ -70,9 +70,11 @@
                 <a href="{{ url('misdepositos') }}" class="dropdown-item  ">
                     <i class="fa "></i> Mis depositos
                 </a>
+                @if(Session::get('BLOQUEO') != 1)
                 <a href="{{ url('depositos') }}" class="dropdown-item  ">
                     <i class="fa "></i> Nuevo deposito
                 </a>
+                @endif
               </ul>
          </li>
          @endrole
@@ -96,12 +98,14 @@
                 <a href="{{ url('misdepositos') }}" class="dropdown-item  ">
                     <i class="fa "></i> Mis depositos
                 </a>
+                @if(Session::get('BLOQUEO') != 1)
                 <a href="{{ url('depositos') }}" class="dropdown-item  ">
                     <i class="fa "></i> Nuevo deposito
                 </a>
                 <a href="{{ url('efectivo') }}" class="dropdown-item  ">
                     <i class="fa "></i> Nuevo deposito en efectivo
                 </a>
+                @endif
               </ul>
          </li>
         @endrole

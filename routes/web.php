@@ -31,6 +31,8 @@ Auth::routes();
 
 
 Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
+    
+    
     Route::get('/administrar', 'AdminController@index' );
     
     Route::get('/depositos', 'DepositosController@cargardeposito' );
@@ -68,6 +70,8 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::post('/updatepass', 'UserController@updatepass' );
     
     Route::get('/estatus', 'AdminController@estatus' );
+    Route::get('/parametros', 'AdminController@parametros' );
+    Route::get('/bloqdepositos', 'AdminController@bloqdepositos' );
     
     Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
     Route::get('/informacion/{transc?}', 'DepositosController@informacion');

@@ -40,7 +40,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td> {{ ucfirst($user->rol_name) }}</td>
                                 <td>
-                                    <input type="checkbox" class="make-switch "   @if($user->estatus == 1 ) checked=checked  @endif;  data-on-color="success"  data-size="small" data-off-color="danger" data-on-text="<i class='fa fa-check' data-id='{{ $user->id  }}' data-estatus='0' onclick='estatus(this)'></i>" data-off-text="<i class='fa fa-power-off' data-id='{{ $user->id  }}' data-estatus='1' onclick='estatus(this)'></i>" >
+                                    <input type="checkbox" class="make-switch "   @if($user->estatus == 1 ) checked=checked  @endif;  data-on-color="success"  data-size="small" data-off-color="danger" data-on-text="<i class='fa fa-check' data-id='{{ $user->id  }}' data-estatus='0' ></i>" data-off-text="<i class='fa fa-power-off' data-id='{{ $user->id  }}' data-estatus='1' ></i>" >
                                 </td>
                                
                             </tr>
@@ -55,6 +55,11 @@
 @endsection
 @section('scripts')
 <script>
+$(function(){
+    $('.make-switch').ready('click',function(){
+        alert();
+    })
+})
 function estatus(e){
     var id = $(e).data('id');
     var estatus = $(e).data('estatus');

@@ -61,5 +61,13 @@
                                 </div>
                             </div>
 </div>
+@if($parametros['BLOQUEO']['status'] == 1)
+<div class="alert alert-info">
+  <strong>Advertencia!</strong> la carga de pedidos ha sido deshabilitada debido:
+    <p>
+       &nbsp; &nbsp; &nbsp; {{ $parametros['BLOQUEO']['motivo'] }}
+    </p>
+</div>
+@endif
 
 @endsection
