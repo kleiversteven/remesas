@@ -582,7 +582,7 @@ class DepositosController extends Controller
                         'monedas.descripcion',
                         'depositos.monto_out as general_out',
                         'depositos.moneda_into',
-                        'depositos.moneda_ou',
+                        'depositos.moneda_out',
                         'depositos.monto_into as general_into',
                         'users.email',
                      \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
@@ -596,7 +596,7 @@ class DepositosController extends Controller
         //return view('emails.completado')->with(['frecuentes'=>$frecuentes]);
         $email = $email=$frecuentes[0]->email;
        // $email ="kleiversteven6@gmail.com";
-      
+        
         Mail::send('emails.completado',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
             $message->from('atencionalcliente@localremesas.com','Trasferencia en proceso');
             $message->to($email)->subject('Trasferencia en proceso');
