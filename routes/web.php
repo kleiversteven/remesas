@@ -95,6 +95,8 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     Route::get('/notificacion', 'DepositosController@notificacion');
     
+    Route::get('/complete/{code}', 'DepositosController@changestatuscomplet');
+    
     
 });
 

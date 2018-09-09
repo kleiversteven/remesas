@@ -408,6 +408,8 @@ class DepositosController extends Controller
             $this->changestatus($data['transac']);
         if($data['estatus'] == '2')
             $this->changestatuscancelar($data['transac']);
+        if($data['estatus'] == '4')
+            $this->changestatuscomplet($data['transac']);
         
         $resp = \DB::table('depositos')
              ->where('idtrans','=', $data['transac'])
@@ -559,6 +561,43 @@ class DepositosController extends Controller
         //return view('emails.proceso')->with(['frecuentes'=>$frecuentes]);
         $email = $email=$frecuentes[0]->email;;
         Mail::send('emails.proceso',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Trasferencia en proceso');
+            $message->to($email)->subject('Trasferencia en proceso');
+        });
+    }
+    public function changestatuscomplet($code){
+        
+        $email = Auth::user()->email;
+        $frecuentes= \DB::table('salidas')->select('salidas.monto_out',
+                        'salidas.comprobante_out',
+                        'salidas.referencia_out',
+                        'frecuentes.cedula',
+                        'frecuentes.telefono',
+                        'salidas.monto_into',
+                        'depositos.fecha_into',
+                        'bancos.banco',
+                        'frecuentes.cuenta',
+                        'frecuentes.titular',
+                        'frecuentes.correo',
+                        'monedas.descripcion',
+                        'depositos.monto_out as general_out',
+                        'depositos.moneda_into',
+                        'depositos.moneda_ou',
+                        'depositos.monto_into as general_into',
+                        'users.email',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
+            ->join('frecuentes','frecuentes.codefrec','=','salidas.idfrecuente')
+            ->join('bancos','bancos.idbank','=','frecuentes.codibank')
+            ->join('depositos','salidas.codedepo','=','depositos.idtrans')
+            ->join('monedas','monedas.iso','=','depositos.moneda_into')
+            ->join('users','depositos.codeuser','=','users.id')
+            ->where(['depositos.idtrans'=>$code])
+            ->get();
+        //return view('emails.completado')->with(['frecuentes'=>$frecuentes]);
+        $email = $email=$frecuentes[0]->email;
+       // $email ="kleiversteven6@gmail.com";
+      
+        Mail::send('emails.completado',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
             $message->from('atencionalcliente@localremesas.com','Trasferencia en proceso');
             $message->to($email)->subject('Trasferencia en proceso');
         });
