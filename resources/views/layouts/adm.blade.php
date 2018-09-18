@@ -162,7 +162,7 @@
                     <div class="hor-menu  ">
                         <ul class="nav navbar-nav">
                            
-                                    @role('cliente')
+                                    @role('Cliente')
                                     <li class=" ">
                                         <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
@@ -189,7 +189,7 @@
                                           </ul>
                                      </li>
                                     @endrole
-                                    @role('developers')
+                                    @role('Developers')
                                     <li class=" ">
                                         <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
@@ -231,7 +231,7 @@
                                               </ul>
                                          </li>
                                     @endrole
-                                    @role('super-admin')
+                                    @role('Super-admin')
                                     <li class=" ">
                                         <a href="{{ url('administrar') }}"> Inicio
                                             <span class="arrow"></span>
@@ -267,6 +267,12 @@
                                                     <li class=" ">
                                                         <a href="{{ url('listardepositos') }}" class="nav-link  ">
                                                             <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              
+                                                    <li class=" ">
+                                                        <a href="{{ url('listardepositosenefectivo') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar en efectivo
                                                         </a>
                                                     </li>
                                               </ul>
@@ -324,13 +330,13 @@
                                                             <i class="fa "></i> Trasferencias
                                                         </a>
                                                     </li>
-                                                <!--
+                                              <!--  /*
                                                 <li class=" ">
-                                                        <a href="{{ url('listarefectivo') }}" class="nav-link  ">
+                                                        <a href="{{ url('misdepositosefectivo') }}" class="nav-link  ">
                                                             <i class="fa "></i> Efectivo
                                                         </a>
                                                     </li>
-                                                -->
+                                                */-->
                                               </ul>
                                          </li>
                                         <li class="menu-dropdown classic-menu-dropdown ">
@@ -348,12 +354,56 @@
                                                         <a href="{{ url('efectivo') }}" class="nav-link  ">
                                                             <i class="fa "></i> Deposito en efectivo
                                                         </a>
+                                                    </li>-->
+                                              </ul> 
+                                         </li>
+                                    @endrole
+                                @role('Recaudadores')
+                                    <li class=" ">
+                                        <a href="{{ url('administrar') }}"> Inicio
+                                            <span class="arrow"></span>
+                                        </a>
+                                     </li>
+                                        @if(Session::get('BLOQUEO') != 1)
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;">Mis depositos
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('misdepositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Trasferencias
+                                                        </a>
                                                     </li>
-                                                -->
+                                                
+                                                <li class=" ">
+                                                        <a href="{{ url('misdepositosefectivo') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Efectivo
+                                                        </a>
+                                                    </li>
+                                                
+                                              </ul>
+                                         </li>
+                                        @endif
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> Depostios
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('depositos') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Nuevo deposito
+                                                        </a>
+                                                    </li>
+                                                
+                                                    <li class=" ">
+                                                        <a href="{{ url('efectivo') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Deposito en efectivo
+                                                        </a>
+                                                    </li>
                                               </ul>
                                          </li>
                                     @endrole
-                                
                             
                            
                         </ul>

@@ -9,7 +9,7 @@
         <div class="portlet box blue">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-globe"></i>Depositos</div>
+                    <i class="fa fa-globe"></i>Depositos en efectivo</div>
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
@@ -30,7 +30,7 @@
                     <tbody>
                         @foreach($depositos as $d)
                         <tr>
-                            <td>{{ str_pad($d->idtrans,8,0,STR_PAD_LEFT) }}</td>
+                            <td>{{ str_pad($d->codeefec,8,0,STR_PAD_LEFT) }}</td>
                             <td>{{ $d->monto_into }}</td>
                             <td>{{ $d->fecha_into }}</td>
                             <td>
@@ -45,7 +45,7 @@
                                     <span class="label label-success"> Transacción completa </span>
                                 @endif
                             </td>
-                            <td><a href="{{ url('transaccion/'.$d->idtrans) }}" class="btn btn-warning fa fa-eye" ></a></td>
+                            <td><a href="{{ url('transaccionefectivo/'.$d->codeefec) }}" class="btn btn-warning fa fa-eye" ></a></td>
                             <td>{{ $d->mnd_ent_desc }}</td>
                             <td>{{ $d->mnd_sal_desc }}</td>
                             <td>{{ number_format($d->tasa,2,",",".") }}</td>

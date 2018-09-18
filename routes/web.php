@@ -74,7 +74,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/bloqdepositos', 'AdminController@bloqdepositos' );
     
     Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
-    Route::get('/informacion/{transc?}', 'DepositosController@informacion');
+    Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
     
     
     
@@ -94,10 +94,22 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/reporteClientePdfData', 'PdfController@reporteClientePdfdata');
     
     Route::get('/notificacion', 'DepositosController@notificacion');
+    Route::get('/notificacionefec', 'DepositosController@notificacionefec');
     
     Route::get('/complete/{code}', 'DepositosController@changestatuscomplet');
     
     
+    
+    Route::get('/savedeefectivo', 'DepositosController@savedeefectivo');
+    Route::get('/misdepositosefectivo', 'DepositosController@misdepositosefectivo');
+    Route::get('/listardepositosenefectivo', 'DepositosController@listardepositosenefectivo');
+    
+    Route::get('/informacionefectivo/{transc?}', 'DepositosController@informacionefectivo');
+    Route::get('/transaccionefectivo/{transc?}', 'DepositosController@transaccionefectivo');
+    Route::get('/modtransaccionefec', 'DepositosController@modtransaccionefec');
+    
+    
+    Route::get('/deudasuser', 'AdminController@deudasuser');
 });
 
 

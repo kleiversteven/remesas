@@ -30,7 +30,61 @@ class AdminController extends Controller
             $data[$r->descpara]['status']= $r->valopara;
             $data[$r->descpara]['motivo']= $r->motivo;
         }
-        return view('admin')->with(['dolar'=>$dolar,"sol"=>$sol,'depositos'=>$depositos,'procesados'=>$procesados,'parametros'=>$data]);
+       $deudas=array();
+       $user= Auth::user();
+       if($user->hasRole('Super-admin') == true){
+           
+           $deudas= \DB::table('users')
+             ->select('users.name',
+                        'users.email',
+                        'depositos_efectivo.moneda_into',    
+                        'monedas.descripcion',
+                        'depositos_efectivo.estatus',
+                        'users.id',
+                        \DB::raw('Sum(IF( ISNULL(salidas.referencia_out),0,salidas.monto_into)) AS trasferido'),      
+                        \DB::raw('Sum(depositos_efectivo.monto_into) AS total'),    
+                        \DB::raw('Count(depositos_efectivo.codeefec) AS transacciones'))
+            ->join('depositos_efectivo','depositos_efectivo.codeuser','=','users.id')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('salidas','depositos_efectivo.codeefec','=','salidas.codeefec')
+             ->whereIn('depositos_efectivo.estatus',array(1,3,4))
+             ->groupBy('users.id','depositos_efectivo.moneda_into')
+             ->get();
+           
+       }
+       
+       
+        return view('admin')->with(['deudas'=>$deudas,'dolar'=>$dolar,"sol"=>$sol,'depositos'=>$depositos,'procesados'=>$procesados,'parametros'=>$data,'deudas'=>$deudas]);
+    }
+    
+    public function deudasuser(Request $request){
+        $data=$request->all();
+        
+        $deudas= \DB::table('users')
+             ->select('users.name',
+                        'users.email',
+                        'depositos_efectivo.moneda_into',    
+                        'monedas.descripcion',
+                        'depositos_efectivo.estatus',
+                        'users.id',
+                        'salidas.monto_into',
+                        'depositos_efectivo.monto_into',
+                        'depositos_efectivo.tasa',
+                        'depositos_efectivo.fecha_into',
+                        'depositos_efectivo.comision',
+                        \DB::raw('Sum(IF( ISNULL(salidas.referencia_out),0,salidas.monto_into)) AS trasferido')
+                       )
+            ->join('depositos_efectivo','depositos_efectivo.codeuser','=','users.id')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('salidas','depositos_efectivo.codeefec','=','salidas.codeefec')
+            ->whereIn('depositos_efectivo.estatus',array(1,3,4))
+            ->where('depositos_efectivo.moneda_into','=',$data['iso'])
+            ->where('users.id','=',$data['user'])
+             ->groupBy('depositos_efectivo.codeefec')
+             ->get();
+        
+        
+        return json_encode($deudas);
     }
     public function profile(){
         $id= Auth::user()->id;

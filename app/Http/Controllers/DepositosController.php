@@ -602,5 +602,292 @@ class DepositosController extends Controller
             $message->to($email)->subject('Trasferencia en proceso');
         });
     }
+    public function savedeefectivo(Request $request){
+        $data=$request->all();
+        $id= Auth::user()->id;
+        $user= Auth::user();
+        $comision=0;
+     
+        $p=1;
+        $tasa= \DB::table('tasas')->select('*')
+                ->where([
+                   ['tasas.isoa', '=', 'VEF'],
+                   ['tasas.isob', '=',trim($data['moneda-into']) ]
+                ])
+             ->get();
+        $tasa->all();
+        $dato= $tasa->all();
+        if(!empty($dato)){
+            if($user->hasRole('Mayorista') == true)
+                $cambio = $tasa[0]->mayorista;
+            elseif($user->hasRole('Recaudadores')== true ){
+                $comision=$tasa[0]->recaudador;
+                    $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
+            }else
+                $cambio = $tasa[0]->cambio;
+        }
+        
+        //dd($user->hasRole('Recaudadores'));
+        if(count($tasa) <= 0){
+            $p=2;
+            $tasa= \DB::table('tasas')->select('*')
+                ->where([
+                   ['tasas.isob', '=', 'VEF'],
+                   ['tasas.isoa', '=',trim($data['moneda-into']) ]
+                ])
+             ->get();
+            $tasa->all();
+            if($user->hasRole('Mayorista') == true)
+                $cambio = $tasa[0]->mayorista;
+            elseif($user->hasRole('Recaudadores')== true ){
+                $comision=$tasa[0]->recaudador;
+                $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
+            }else
+                $cambio = $tasa[0]->cambio;
+        }
+     
+      if($p==1){
+          $monto_out=$data['monto']/$cambio;
+      }elseif($p==2){
+          $monto_out=$data['monto']*$cambio;
+      }
+        
+        
+                  $iddepo=  \DB::table('depositos_efectivo')->insertGetId(
+                        array(
+                            'banco_into'=>'',
+                            'tasa'=>$cambio,
+                            'codeuser'=>$id,
+                            'moneda_into'=>$data['moneda-into'],
+                            'moneda_out'=>'VEF',
+                            'monto_into'=>$data['monto'],
+                            'monto_out'=>$monto_out,
+                            'comision'=>$comision,
+                            'fecha_into'=>date("Y-m-d"),
+                            'referencia_into'=>'',
+                            'estatus'=>1,
+                            'comprobante_into'=>''
+                            )
+                    );
+                   // $this->notificar_localremesas_efectivo($id,$dato,$data,$cambio,$monto_out);
+                 foreach($data['frecuente'] as $k => $f){
+
+
+                  if($p==1){
+                      $monto_out=$data['montofrecuente'][$k]/$cambio;
+                  }elseif($p==2){
+                      $monto_out=$data['montofrecuente'][$k]*$cambio;
+                  }
+
+                      \DB::table('salidas')->insert(
+                            array(
+                                    'codedepo'=>'',
+                                    'idfrecuente'=>$f,
+                                    'monto_into'=>$data['montofrecuente'][$k],
+                                    'monto_out'=>$monto_out,
+                                    'codeefec'=> $iddepo
+                                )
+                        );
+                  }
+        
+            return redirect( 'misdepositosefectivo')->with(['mensaje'=>' Deposito registrado con exito! ']); 
+        
+        
+    }
+    public function misdepositosefectivo(Request $request){
+        $data= array();
+        $depositos= array();
+       
+        $depositos = \DB::table('depositos_efectivo')
+               ->select(
+                    'depositos_efectivo.codeefec',
+                    'depositos_efectivo.tasa',
+                    'depositos_efectivo.monto_into',
+                    'depositos_efectivo.monto_out',
+                    'depositos_efectivo.comision',
+                    'depositos_efectivo.fecha_into',
+                    'depositos_efectivo.estatus',
+                    'moneda_salida.descripcion AS mnd_sal_desc',
+                    'moneda_salida.iso AS mnd_sal_iso',
+                    'moneda_salida.simbolo AS mnd_sal_sim',
+                    'moneda_entrada.descripcion AS mnd_ent_desc',
+                    'moneda_entrada.iso AS mnd_ent_iso',
+                   'moneda_entrada.simbolo AS mnd_ent_sim')
+             ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+             ->where('codeuser',Auth::user()->id)
+             ->get();
+        $data = $depositos->all();
+         return view('depositos.misdepositosefectivo')->with(['depositos'=>$depositos]);
+        
+    }
+    public function listardepositosenefectivo(Request $request){
+        $data= array();
+        $depositos= array();
+       
+        $depositos = \DB::table('depositos_efectivo')
+               ->select(
+                    'depositos_efectivo.codeefec',
+                    'depositos_efectivo.tasa',
+                    'depositos_efectivo.monto_into',
+                    'depositos_efectivo.monto_out',
+                    'depositos_efectivo.comision',
+                    'depositos_efectivo.fecha_into',
+                    'depositos_efectivo.estatus',
+                    'moneda_salida.descripcion AS mnd_sal_desc',
+                    'moneda_salida.iso AS mnd_sal_iso',
+                    'moneda_salida.simbolo AS mnd_sal_sim',
+                    'moneda_entrada.descripcion AS mnd_ent_desc',
+                    'moneda_entrada.iso AS mnd_ent_iso',
+                   'moneda_entrada.simbolo AS mnd_ent_sim')
+             ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+             ->get();
+        $data = $depositos->all();
+         return view('depositos.listardepositosenefectivo')->with(['depositos'=>$depositos]);
+        
+    }
+    
+    
+    public function informacionefectivo($transc = ''){
+        $transaccion = \DB::table('depositos')
+            ->select('depositos.banco_into',
+                        'depositos.idtrans',
+                        'depositos.tasa',
+                        'depositos.moneda_into',
+                        'depositos.moneda_out',
+                        'depositos.monto_into as depo_into',
+                        'depositos.monto_out',
+                        'depositos.referencia_into',
+                        'depositos.estatus',
+                        'depositos.comprobante_into',
+                        'depositos.codeuser',
+                        'depositos.fecha_into',
+                        'users.name',
+                        'users.email',
+                        'salidas.idfrecuente',
+                        'salidas.codesali',
+                        'salidas.monto_into',
+                        'salidas.monto_out',
+                        'salidas.referencia_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.titular',
+                        'frecuentes.cedula',
+                        'frecuentes.tipo',
+                        'banc_sal.banco as b_sal',
+                        'frecuentes.cuenta',
+                        'frecuentes.correo',
+                        'moneda_salida.descripcion AS mnd_sal_desc',
+                        'moneda_entrada.descripcion AS mnd_ent_desc',
+                        'banc_ent.banco as b_ent' )
+             ->join('users', 'depositos.codeuser', '=', 'users.id')
+             ->join('salidas', 'depositos.idtrans', '=', 'salidas.codedepo')
+             ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
+             ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
+             ->join('bancos AS banc_ent', 'depositos.banco_into', '=', 'banc_ent.idbank')
+             ->join('monedas AS moneda_salida', 'depositos.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos.moneda_into', '=', 'moneda_entrada.iso')
+             ->where('depositos.informacionefectivo','=', $transc)
+        ->get();
+        $data = $transaccion->all();
+        return view('depositos.informacionefectivo')->with(['deposito'=>$data]);
+        
+    }
+    public function transaccionefectivo($transc = ''){
+       $transaccion = \DB::table('depositos_efectivo')
+            ->select(
+                        'depositos_efectivo.codeefec',
+                        'depositos_efectivo.tasa',
+                        'depositos_efectivo.moneda_into',
+                        'depositos_efectivo.moneda_out',
+                        'depositos_efectivo.monto_into as depo_into',
+                        'depositos_efectivo.monto_out',
+                        'depositos_efectivo.estatus',
+                        'depositos_efectivo.codeuser',
+                        'depositos_efectivo.fecha_into',
+                        'users.name',
+                        'users.email',
+                        'users.telefono',
+                        'salidas.idfrecuente',
+                        'salidas.codesali',
+                        'salidas.monto_into',
+                        'salidas.monto_out',
+                        'salidas.referencia_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.titular',
+                        'frecuentes.cedula',
+                        'frecuentes.tipo',
+                        'banc_sal.banco as b_sal',
+                        'frecuentes.cuenta',
+                        'frecuentes.correo',
+                        'moneda_salida.descripcion AS mnd_sal_desc',
+                        'moneda_entrada.descripcion AS mnd_ent_desc')
+             ->join('users', 'depositos_efectivo.codeuser', '=', 'users.id')
+             ->join('salidas', 'depositos_efectivo.codeefec', '=', 'salidas.codeefec')
+             ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
+             ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
+             ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+             ->where('depositos_efectivo.codeefec','=', $transc)
+        ->get();
+        $data = $transaccion->all();
+        
+        //dd($data);
+        return view('depositos.transaccionefectivo')->with(['deposito'=>$data]);
+        
+    }
+    public function modtransaccionefec(Request $request){
+        $data =$request->all();
+        /*
+        if($data['estatus'] == '3')
+            $this->changestatus($data['transac']);
+        if($data['estatus'] == '2')
+            $this->changestatuscancelar($data['transac']);
+        if($data['estatus'] == '4')
+            $this->changestatuscomplet($data['transac']);
+        */
+        $resp = \DB::table('depositos_efectivo')
+             ->where('codeefec','=', $data['transac'])
+             ->update(['estatus' => $data['estatus'] ]);
+        
+    }
+    public function notificacionefec(Request $request){
+        
+        $email = Auth::user()->email;
+        $code=$request->all();
+        $frecuentes= \DB::table('salidas')->select('salidas.monto_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.cedula',
+                        'frecuentes.telefono',
+                        'salidas.monto_into',
+                        'bancos.banco',
+                        'frecuentes.cuenta',
+                        'frecuentes.titular',
+                        'frecuentes.correo',
+                        'monedas.descripcion',
+                        'users.email',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
+            ->join('frecuentes','frecuentes.codefrec','=','salidas.idfrecuente')
+            ->join('bancos','bancos.idbank','=','frecuentes.codibank')
+            ->join('depositos_efectivo','salidas.codeefec','=','depositos_efectivo.codeefec')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('users','depositos_efectivo.codeuser','=','users.id')
+            ->where(['salidas.codesali'=>$code['code']])
+             ->first();
+        
+        //return view('emails.notificar')->with(['frecuentes'=>$frecuentes]);
+        $email=$frecuentes->email;
+        Mail::send('emails.notificar',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Reporte de pago');
+            $message->to($email)->subject('Reporte de pago');
+        });   
+        $email=$frecuentes->correo;
+        Mail::send('emails.notificar',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Reporte de pago');
+            $message->to($email)->subject('Reporte de pago');
+        });
+        
+        
+    }
     
 }

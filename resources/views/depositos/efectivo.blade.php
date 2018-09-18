@@ -34,7 +34,7 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-            {!! Form::open(['url'=>'savedeefectivo','method'=>'POST','enctype'=>'multipart/form-data','class'=>'horizontal-form','id'=>'save-deposito']) !!}
+            {!! Form::open(['url'=>'savedeefectivo','method'=>'GET','class'=>'horizontal-form','id'=>'save-deposito']) !!}
             <div class="form-body"> 
                 <h3 class="form-section">Datos del deposito</h3>
                 <div class="row">
@@ -123,7 +123,21 @@ $(function(){
         }
             
     })
-    
+    number_format = function (number, decimals, dec_point, thousands_sep) {
+        //number = number.toFixed(decimals);
+
+        var nstr = number.toString();
+        nstr += '';
+        x = nstr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? dec_point + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + thousands_sep + '$2');
+
+        return x1 + x2;
+    }
 })
 function format(state) {
         if (!state.id) { return state.text; }
@@ -134,19 +148,21 @@ function format(state) {
         return $state;
     }
 function calmonto(e){
-   
     var de = $('#moneda-into').val();
     var a = 'VEF';
     var monto = $('#monto').val();
-    $('#resultado').val(de/a);
+    $('.sobrante').text(monto);
+    //$('#resultado').val(de/a);
      var sel = $('#moneda-into').children('option:selected').text();
-    if(de != '')
+    if(de != ''){
         $('.addmonto').attr({'placeholder':'Monto en '+sel});
+        $('.sobrante').text(monto + ' ' +  de);
+    }
     
-    $('.addmonto').attr({'placeholder':'Monto en '+sel});
+    
     if(de != '' && monto > 0){
         $.get("calcular","isoa="+de+"&isob="+a+"&monto="+monto,function(e){
-            $('.monto-trans').html(e);
+            $('.monto-trans').html(some_number = number_format(e, 2, ',', '.') +' Bs');
             $('.addmonto').attr({'max':monto});
             
         })
@@ -159,12 +175,9 @@ function addcuenta(){
     $('.lista-frecuentes a').each(function(){
         t++;
     })
-    if(t <3)
-    {
+    
          $('.form-registrar').fadeIn(300);   
-   }else{
-       alertify.error("Solo puede añadir un maximo de 3 cuentas a transferir");
-   }
+   
 } 
 function cerrar(){
     $('.form-registrar').fadeOut(300);
@@ -216,13 +229,17 @@ function savecuenta(){
             var html = '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+response+'" style="font-size: 12px;">';
                 html+= '<div class="form-group"><input type="hidden" name="frecuente[]" value="'+response+'" >';
                 html+=  titular + ' ' + cuenta;
+                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
                 html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
                 html+= '</div>  <i class="fa fa-times" style="position: absolute;right: 10px; margin-top:-20px;" onclick="quitar(this)" ></i> </a>';
             
             $('.in').removeClass('in');
             
             $('.lista-frecuentes').append(html);
-            
+             var sel = $('#moneda-into').children('option:selected').text();
+            if(de != '')
+                $('.addmonto').attr({'placeholder':'Monto en '+sel});
+                
             document.getElementById("save-cuenta").reset();
         });
         }
@@ -234,6 +251,7 @@ function savecuenta(){
                 $('.lista-frecuentes').children('#id-'+$(this).data('id')).remove();
                 html+= '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+$(this).data('id')+'" style="font-size: 12px;">';
                 html+= '<div class="form-group">'+$(this).data('titular') + ' ' + $(this).data('cuenta');
+                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
                 html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
                 html+= '</div>';
                 html+= '<input type="hidden" name="frecuente[]" value="'+$(this).data('id')+'" >';
@@ -262,7 +280,12 @@ function savecuenta(){
         if(numero.length > 19)
         {
             $(e).val(numero.substr(0,20));
+            if(numero.length > 20)
+                $('.error-cuenta').show();
+            
             return false;
+        }else{
+            $('.error-cuenta').hide()
         }
             
         $(e).value = ($(e).value + '').replace(/[^0-9]/g, '');  
@@ -293,7 +316,8 @@ function activar(e){
 }
     function cambiarmontos(e){
         var monto = $('#monto').val();
-        
+        var montoing = $(e).val();
+        var elemento=  e;
         
         if(monto >0 ){
            var mon = $(e).val();
@@ -306,15 +330,31 @@ function activar(e){
             });
             
             mont=(parseInt(monto)+parseInt(mon))-parseInt(t);
-            console.log(mont);
+            
             if(mon > mont){
                 var l =mon.length;
                 l2 =l*(-1);
                 var m = mon.substr(l2,l-1);
-                console.log(m);
+                
                 $(e).val(m);
-                alertify.error("El monto maximo de distribucion es " + monto );
-            }
+                alertify.error("El monto maximo de distribucion es " + monto);
+            }else{
+                
+                if(t > 0){
+                    var newmonto = monto-t;
+                    var de = $('#moneda-into').val();
+                    $('.sobrante').text(newmonto + ' ' );
+                    if(de != ''){
+                        $('.sobrante').text(newmonto + ' ' +  de);
+                    }
+
+                }
+                    var moneda = $('#moneda-into').val();
+                    $.get("calcular","isoa="+moneda+"&isob=VEF&monto="+montoing,function(tmonto){
+                        //console.log(tmonto);
+                        $(elemento).prev('span').html(some_number = number_format(tmonto, 2, ',', '.') + ' Bs');
+                    })
+                }
             
             
         }else{
@@ -323,6 +363,18 @@ function activar(e){
         }
         
     }
+    
+function validartipo(e){
+        if($(e).val() == 1 ){
+            $('.aviso-banco').show();
+        }else{
+            $('.aviso-banco').hide();
+        }
+    }
+    
+    
+    
+    
 </script>
 <div class="form-registrar" style=" width: 100%;
         height: 100%;
@@ -411,8 +463,7 @@ function activar(e){
                             {!! Form::number('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)']) !!}
                         </div>
                     </div> 
-                <!--
-                    <div class="col-md-6 ">
+                <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('Telefono',null, ['class' => 'control-label']) }}
                              <select name="country" id="country_list" class="select2 form-control col-md-4" style="z-index: 9999;">
@@ -425,9 +476,6 @@ function activar(e){
                                     
                         </div>
                     </div>
-                    -->
-                
-                <!--/row-->
                 <br>
             </div>
             {!! Form::close() !!}
