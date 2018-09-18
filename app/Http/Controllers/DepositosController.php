@@ -154,7 +154,8 @@ class DepositosController extends Controller
     public function savedeposito(DepositosRequest $request){
         $data=$request->all();
         $id= Auth::user()->id;
-        $user = new User;
+        $user= Auth::user()->id;
+         
         $image='';
         if($request->hasFile('comprobante')){
             $image=$request->file('comprobante')->store('public');
@@ -173,7 +174,7 @@ class DepositosController extends Controller
         if(!empty($dato)){
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
-            elseif($user->hasRole('recaudador')== true )
+            elseif($user->hasRole('Recaudadores')== true )
                     $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
             else
                 $cambio = $tasa[0]->cambio;
@@ -191,7 +192,7 @@ class DepositosController extends Controller
             $tasa->all();
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
-            elseif($user->hasRole('recaudador')== true )
+            elseif($user->hasRole('Recaudadores')== true )
                 $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
             else
                 $cambio = $tasa[0]->cambio;
