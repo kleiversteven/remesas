@@ -175,7 +175,7 @@ class DepositosController extends Controller
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
             elseif($user->hasRole('Recaudadores')== true )
-                    $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
+                    $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
             else
                 $cambio = $tasa[0]->cambio;
         }
@@ -193,7 +193,7 @@ class DepositosController extends Controller
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
             elseif($user->hasRole('Recaudadores')== true )
-                $cambio = $tasa[0]->cambio + (($tasa[0]->recudador/100)*$tasa[0]->cambio);
+                $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
             else
                 $cambio = $tasa[0]->cambio;
         }
