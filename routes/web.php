@@ -16,6 +16,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PdfController;
 
 
+ Route::get('/home', 'siteController@index' ); 
  Route::get('/inicio', 'siteController@index' ); 
  Route::get('/', 'siteController@index' ); 
  Route::get('/calcular', 'siteController@calcular' ); 
@@ -110,6 +111,8 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     
     Route::get('/deudasuser', 'AdminController@deudasuser');
+    
+    Route::get('/reportarpago', 'DepositosController@reportarpago');
 });
 
 

@@ -512,7 +512,7 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
-                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)']) !!}
+                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onchange'=>'solonumeros(this)']) !!}
                             
                             <div class="alert alert-danger error-cuenta" style="display: none" role="alert">
                                 <ul>

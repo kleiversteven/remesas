@@ -377,10 +377,15 @@
                                                     </li>
                                                 
                                                 <li class=" ">
-                                                        <a href="{{ url('misdepositosefectivo') }}" class="nav-link  ">
-                                                            <i class="fa "></i> Efectivo
-                                                        </a>
-                                                    </li>
+                                                    <a href="{{ url('misdepositosefectivo') }}" class="nav-link  ">
+                                                        <i class="fa "></i> Efectivo
+                                                    </a>
+                                                </li>
+                                                <li class=" ">
+                                                    <a href="{{ url('reportarpago') }}" class="nav-link  ">
+                                                        <i class="fa "></i> Reportar pago
+                                                    </a>
+                                                </li>
                                                 
                                               </ul>
                                          </li>

@@ -890,5 +890,30 @@ class DepositosController extends Controller
         
         
     }
-    
+    public function reportarpago(Request $request){
+        $data= array();
+        $depositos= array();
+       
+        $depositos = \DB::table('depositos_efectivo')
+               ->select(
+                    'depositos_efectivo.codeefec',
+                    'depositos_efectivo.tasa',
+                    'depositos_efectivo.monto_into',
+                    'depositos_efectivo.monto_out',
+                    'depositos_efectivo.comision',
+                    'depositos_efectivo.fecha_into',
+                    'depositos_efectivo.estatus',
+                    'moneda_salida.descripcion AS mnd_sal_desc',
+                    'moneda_salida.iso AS mnd_sal_iso',
+                    'moneda_salida.simbolo AS mnd_sal_sim',
+                    'moneda_entrada.descripcion AS mnd_ent_desc',
+                    'moneda_entrada.iso AS mnd_ent_iso',
+                   'moneda_entrada.simbolo AS mnd_ent_sim')
+             ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+             ->get();
+        $data = $depositos->all();
+         return view('depositos.reportarpago')->with(['depositos'=>$depositos]);
+        
+    }
 }
