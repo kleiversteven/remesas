@@ -154,7 +154,7 @@ class DepositosController extends Controller
     public function savedeposito(DepositosRequest $request){
         $data=$request->all();
         $id= Auth::user()->id;
-        $user= Auth::user()->id;
+        $user= Auth::user();
          
         $image='';
         if($request->hasFile('comprobante')){
