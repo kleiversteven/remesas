@@ -54,8 +54,8 @@
                                 @endif
                             </td>
                             <td>
-                                @if($d->estatus == 4)
-                                    <a href="{{ url('informacion/'.$d->idtrans) }}" class="btn btn-primary fa fa-eye" ></a>
+                                @if($d->estatus == 4 || $d->estatus == 5)
+                                    <a href="{{ url('informacionefectivo/'.$d->codeefec) }}" class="btn btn-primary fa fa-eye" ></a>
                                 @endif
                             </td>
                             <td>{{ $d->codeefec }}</td>

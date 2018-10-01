@@ -113,6 +113,9 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/deudasuser', 'AdminController@deudasuser');
     
     Route::get('/reportarpago', 'DepositosController@reportarpago');
+    
+    Route::get('/listareporte', 'DepositosController@listareporte');
+    Route::post('/savedereporte', 'DepositosController@savedereporte');
 });
 
 

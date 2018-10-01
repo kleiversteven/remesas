@@ -560,4 +560,5 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
     </div>
     
 </div>
+</div>
 @endsection

@@ -751,19 +751,19 @@ class DepositosController extends Controller
     
     
     public function informacionefectivo($transc = ''){
-        $transaccion = \DB::table('depositos')
-            ->select('depositos.banco_into',
-                        'depositos.idtrans',
-                        'depositos.tasa',
-                        'depositos.moneda_into',
-                        'depositos.moneda_out',
-                        'depositos.monto_into as depo_into',
-                        'depositos.monto_out',
-                        'depositos.referencia_into',
-                        'depositos.estatus',
-                        'depositos.comprobante_into',
-                        'depositos.codeuser',
-                        'depositos.fecha_into',
+        $transaccion = \DB::table('depositos_efectivo')
+            ->select('depositos_efectivo.banco_into',
+                        'depositos_efectivo.codeefec',
+                        'depositos_efectivo.tasa',
+                        'depositos_efectivo.moneda_into',
+                        'depositos_efectivo.moneda_out',
+                        'depositos_efectivo.monto_into as depo_into',
+                        'depositos_efectivo.monto_out',
+                        'depositos_efectivo.referencia_into',
+                        'depositos_efectivo.estatus',
+                        'depositos_efectivo.comprobante_into',
+                        'depositos_efectivo.codeuser',
+                        'depositos_efectivo.fecha_into',
                         'users.name',
                         'users.email',
                         'salidas.idfrecuente',
@@ -781,16 +781,17 @@ class DepositosController extends Controller
                         'moneda_salida.descripcion AS mnd_sal_desc',
                         'moneda_entrada.descripcion AS mnd_ent_desc',
                         'banc_ent.banco as b_ent' )
-             ->join('users', 'depositos.codeuser', '=', 'users.id')
-             ->join('salidas', 'depositos.idtrans', '=', 'salidas.codedepo')
+             ->join('users', 'depositos_efectivo.codeuser', '=', 'users.id')
+             ->join('salidas', 'depositos_efectivo.codeefec', '=', 'salidas.codeefec')
              ->join('frecuentes', 'salidas.idfrecuente', '=', 'frecuentes.codefrec')
              ->join('bancos AS banc_sal', 'frecuentes.codibank', '=', 'banc_sal.idbank')
-             ->join('bancos AS banc_ent', 'depositos.banco_into', '=', 'banc_ent.idbank')
-             ->join('monedas AS moneda_salida', 'depositos.moneda_out', '=', 'moneda_salida.iso')
-             ->join('monedas AS moneda_entrada', 'depositos.moneda_into', '=', 'moneda_entrada.iso')
-             ->where('depositos.informacionefectivo','=', $transc)
+             ->leftjoin('bancos AS banc_ent', 'depositos_efectivo.banco_into', '=', 'banc_ent.idbank')
+             ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
+             ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+             ->where('depositos_efectivo.codeefec','=', $transc)
         ->get();
         $data = $transaccion->all();
+       // dd($data);
         return view('depositos.informacionefectivo')->with(['deposito'=>$data]);
         
     }
@@ -893,7 +894,17 @@ class DepositosController extends Controller
     public function reportarpago(Request $request){
         $data= array();
         $depositos= array();
-       
+       $bancos = \DB::table('bancos')
+                ->select('*')
+                ->where(['estatus'=>'1','eliminado'=>'0'])
+                ->get();
+        $bancos=$bancos->all();
+        $monedas=  \DB::table('monedas')
+             ->select('*')
+             ->where(['estatus'=>'1'])
+             ->get();
+        $monedas=$monedas->all();
+        
         $depositos = \DB::table('depositos_efectivo')
                ->select(
                     'depositos_efectivo.codeefec',
@@ -911,9 +922,62 @@ class DepositosController extends Controller
                    'moneda_entrada.simbolo AS mnd_ent_sim')
              ->join('monedas AS moneda_salida', 'depositos_efectivo.moneda_out', '=', 'moneda_salida.iso')
              ->join('monedas AS moneda_entrada', 'depositos_efectivo.moneda_into', '=', 'moneda_entrada.iso')
+            ->where('depositos_efectivo.estatus','<=','4')
              ->get();
         $data = $depositos->all();
-         return view('depositos.reportarpago')->with(['depositos'=>$depositos]);
+         return view('depositos.reportarpago')->with(['depositos'=>$depositos,'bancos'=>$bancos,'monedas'=>$monedas]);
         
+    }
+    
+    public function listareporte(Request $request){
+        $data = $request->all();
+        
+                    
+         $depositos = \DB::table('depositos_efectivo')
+            ->select('depositos_efectivo.codeefec',
+            'depositos_efectivo.moneda_into',
+            'depositos_efectivo.moneda_out',
+            'depositos_efectivo.referencia_into',
+            'depositos_efectivo.comprobante_into',
+            'depositos_efectivo.monto_into',
+            'depositos_efectivo.tasa',
+            'depositos_efectivo.comision',
+            'monedas.descripcion')
+             ->join('monedas', 'depositos_efectivo.moneda_into', '=', 'monedas.iso')
+             ->whereIn('depositos_efectivo.codeefec',explode(',',$data['lista']))
+             ->orderBy('moneda_into')
+             ->get();
+        $info = $depositos->all();
+       return json_encode($info);
+        
+    }
+    public function  savedereporte(Request $request){
+        $data=$request->all();
+        $image='';
+        
+        if($request->hasFile('comprobante')){
+            $image=$request->file('comprobante')->store('public');
+        }
+        $depositos = \DB::table('depositos_efectivo')
+            ->select('depositos_efectivo.codeefec')
+            ->where(['referencia_into'=>$data['ref-into'],'banco_into'=>$data['banco-into']]);
+        $response =$depositos->get();
+        
+        if(sizeof($response)==0){
+            
+        $resp = \DB::table('depositos_efectivo')
+             ->whereIn('depositos_efectivo.codeefec',explode(',',$data['depositos']))
+             ->update(['referencia_into' =>$data['ref-into'],
+                       'banco_into'=>$data['banco-into'],
+                       'comprobante_into'=>$image,
+                       'estatus'=>5
+                      ]); 
+            return redirect( 'reportarpago')->with(['mensaje'=>' Reporte de pago exitoso! ']);
+        }else{
+            
+            return redirect( 'reportarpago')->with(['error'=>' El numero de referencia ya ha sido reportado! ']);
+            
+        }
+          
     }
 }

@@ -42,7 +42,7 @@ class AdminController extends Controller
                         'depositos_efectivo.estatus',
                         'users.id',
                         \DB::raw('Sum(IF( ISNULL(salidas.referencia_out),0,salidas.monto_into)) AS trasferido'),      
-                        \DB::raw('Sum(depositos_efectivo.monto_into) AS total'),    
+                        'depositos_efectivo.monto_into AS total',    
                         \DB::raw('Count(depositos_efectivo.codeefec) AS transacciones'))
             ->join('depositos_efectivo','depositos_efectivo.codeuser','=','users.id')
             ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')

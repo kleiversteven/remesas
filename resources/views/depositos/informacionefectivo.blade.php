@@ -18,7 +18,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-globe"></i>Transaccion</div>
-                <div class="actions"> <a href="{{ url('listardepositos') }}" class="btn btn-warning fa fa-preview" >Volver</a> </div>
+                <div class="actions"> <a href="{{ url('misdepositosefectivo') }}" class="btn btn-warning fa fa-preview" >Volver</a> </div>
             </div>
             <div class="portlet-body row">
                 <div class="col-md-6" ><span class=" col-md-2"><b>Estatus: </b></span>
