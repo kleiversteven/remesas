@@ -105,6 +105,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/misdepositosefectivo', 'DepositosController@misdepositosefectivo');
     Route::get('/listardepositosenefectivo', 'DepositosController@listardepositosenefectivo');
     
+    Route::get('/informacion/{transc?}', 'DepositosController@informacion');
     Route::get('/informacionefectivo/{transc?}', 'DepositosController@informacionefectivo');
     Route::get('/transaccionefectivo/{transc?}', 'DepositosController@transaccionefectivo');
     Route::get('/modtransaccionefec', 'DepositosController@modtransaccionefec');
