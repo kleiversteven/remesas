@@ -75,13 +75,13 @@
     @foreach($deudas as $d)    
           @if($d->moneda_into == 'COP')
           <li style="cursor:pointer" data-iso="{{ $d->moneda_into }}" data-user="{{ $d->id }}" class="list-group-item list-group-item-info list-deudas" data-toggle="modal" data-target="#myModal"><table class="table table-borderless"><tr><th>Usuario:</th><td>{{ $d->name . $d->email }}</td>
-              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}BsS</td></tr></table></li>
+              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}{{ $d->moneda_into }}</td></tr></table></li>
           @elseif($d->moneda_into == 'PEN')
           <li style="cursor:pointer" data-iso="{{ $d->moneda_into }}" data-user="{{ $d->id }}" class="list-group-item list-group-item-warning list-deudas" data-toggle="modal" data-target="#myModal"><table class="table table-borderless"><tr><th>Usuario:</th><td>{{ $d->name . $d->email }}</td>
-              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}BsS</td></tr></table></li>
+              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}{{ $d->moneda_into }}</td></tr></table></li>
           @elseif($d->moneda_into == 'USD')
           <li style="cursor:pointer" data-iso="{{ $d->moneda_into }}" data-user="{{ $d->id }}" class="list-group-item list-group-item-success list-deudas" data-toggle="modal" data-target="#myModal"><table class="table table-borderless"><tr><th>Usuario:</th><td>{{ $d->name . $d->email }}</td>
-              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}BsS</td></tr></table></li>
+              <th>Cuentas trasferias:</th><td>{{ $d->transacciones }}</td><th>Deuda:</th><td>{{$d->total}}{{ $d->moneda_into }}</td><th>Trasferido:</th><td>{{ $d->trasferido }}{{ $d->moneda_into }}</td></tr></table></li>
           @endif
     @endforeach
     </ul>

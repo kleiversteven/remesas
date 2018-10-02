@@ -333,6 +333,28 @@ function savecuenta(){
             }
         })
     }
+    function solonumeroscut(e,c){
+        var string = "";
+        var keys = [];
+    for ( var key in c ) {
+        keys.push( key );
+    }
+     
+    var cuenta = event.clipboardData.getData('text');
+
+       
+        $.get('{{ url("validarbanco") }}','cuenta='+cuenta,function(r){
+            
+            if(r==0 && numero.length > 4){
+                alertify.error("Error en el numero de cuenta");
+                $(e).val(numero.substr(0,4));
+            }else{
+                r = jQuery.parseJSON(r);
+                $('#banco').val(r.banco);
+                $('#banco-out').val(r.idbank);
+            }
+        })
+    }
 function activar(e){
     var c=0;
     $(".active" ).each(function( index ){
@@ -512,7 +534,7 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
-                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onchange'=>'solonumeros(this)']) !!}
+                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)','onpaste'=>'solonumeroscut(this,event)']) !!}
                             
                             <div class="alert alert-danger error-cuenta" style="display: none" role="alert">
                                 <ul>

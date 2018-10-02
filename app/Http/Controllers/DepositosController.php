@@ -155,7 +155,7 @@ class DepositosController extends Controller
         $data=$request->all();
         $id= Auth::user()->id;
         $user= Auth::user();
-         
+         $comision=0;
         $image='';
         if($request->hasFile('comprobante')){
             $image=$request->file('comprobante')->store('public');
@@ -174,9 +174,10 @@ class DepositosController extends Controller
         if(!empty($dato)){
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
-            elseif($user->hasRole('Recaudadores')== true )
-                    $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
-            else
+            elseif($user->hasRole('Recaudadores')== true ){
+                    $cambio = $tasa[0]->cambio;
+                $comision=$tasa[0]->recaudador;
+            }else
                 $cambio = $tasa[0]->cambio;
         }
         
@@ -192,9 +193,10 @@ class DepositosController extends Controller
             $tasa->all();
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
-            elseif($user->hasRole('Recaudadores')== true )
-                $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
-            else
+            elseif($user->hasRole('Recaudadores')== true ){
+                $cambio = $tasa[0]->cambio ;
+                $comision=$tasa[0]->recaudador;
+            }else
                 $cambio = $tasa[0]->cambio;
         }
      
@@ -218,7 +220,7 @@ class DepositosController extends Controller
                                 'moneda_out'=>'VEF',
                                 'monto_into'=>$data['monto'],
                                 'monto_out'=>$monto_out,
-                                'comision'=>0,
+                                'comision'=>$comision,
                                 'fecha_into'=>$data['fecha-into'],
                                 'referencia_into'=>$data['ref-into'],
                                 'estatus'=>1,
@@ -840,14 +842,14 @@ class DepositosController extends Controller
     }
     public function modtransaccionefec(Request $request){
         $data =$request->all();
-        /*
+        
         if($data['estatus'] == '3')
-            $this->changestatus($data['transac']);
+          //  $this->changestatusefec($data['transac']);
         if($data['estatus'] == '2')
-            $this->changestatuscancelar($data['transac']);
+          //  $this->changestatuscancelarefec($data['transac']);
         if($data['estatus'] == '4')
-            $this->changestatuscomplet($data['transac']);
-        */
+          //  $this->changestatuscompletefec($data['transac']);
+        
         $resp = \DB::table('depositos_efectivo')
              ->where('codeefec','=', $data['transac'])
              ->update(['estatus' => $data['estatus'] ]);
@@ -978,5 +980,114 @@ class DepositosController extends Controller
             
         }
           
+    }
+    
+     public function changestatuscancelarefec($code){
+        $email = Auth::user()->email;
+        $frecuentes= \DB::table('salidas')->select('salidas.monto_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.cedula',
+                        'frecuentes.telefono',
+                        'salidas.monto_into',
+                        'depositos_efectivo.fecha_into',
+                        'bancos.banco',
+                        'frecuentes.cuenta',
+                        'frecuentes.titular',
+                        'frecuentes.correo',
+                        'monedas.descripcion',
+                        'depositos_efectivo.monto_out as general_out',
+                        'depositos_efectivo.moneda_into',
+                        'depositos_efectivo.moneda_out',
+                        'depositos_efectivo.monto_into as general_into',
+                        'users.email',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
+            ->join('frecuentes','frecuentes.codefrec','=','salidas.idfrecuente')
+            ->join('bancos','bancos.idbank','=','frecuentes.codibank')
+            ->join('depositos_efectivo','salidas.codeefec','=','depositos_efectivo.codeefec')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('users','depositos_efectivo.codeuser','=','users.id')
+            ->where(['depositos_efectivo.codeefec'=>$code])
+            ->get();
+        return view('emails.proceso')->with(['frecuentes'=>$frecuentes]);
+        $email = $email=$frecuentes[0]->email;
+        Mail::send('emails.rechazado',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Transaccion rechazada');
+            $message->to($email)->subject('Transaccion rechazada');
+        });
+    }
+
+
+    
+    public function changestatusefec($code){
+        
+        $email = Auth::user()->email;
+        $frecuentes= \DB::table('salidas')->select('salidas.monto_out',
+                        'salidas.comprobante_out',
+                        'frecuentes.cedula',
+                        'frecuentes.telefono',
+                        'salidas.monto_into',
+                        'depositos_efectivo.fecha_into',
+                        'bancos.banco',
+                        'frecuentes.cuenta',
+                        'frecuentes.titular',
+                        'frecuentes.correo',
+                        'monedas.descripcion',
+                        'depositos_efectivo.monto_out as general_out',
+                        'depositos_efectivo.moneda_into',
+                        'depositos_efectivo.moneda_out',
+                        'depositos_efectivo.monto_into as general_into',
+                        'users.email',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
+            ->join('frecuentes','frecuentes.codefrec','=','salidas.idfrecuente')
+            ->join('bancos','bancos.idbank','=','frecuentes.codibank')
+            ->join('depositos_efectivo','salidas.codeefec','=','depositos_efectivo.codeefec')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('users','depositos_efectivo.codeuser','=','users.id')
+            ->where(['depositos_efectivo.codeefec'=>$code])
+            ->get();
+        return view('emails.proceso')->with(['frecuentes'=>$frecuentes]);
+        $email = $email=$frecuentes[0]->email;;
+        Mail::send('emails.proceso',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Trasferencia en proceso');
+            $message->to($email)->subject('Trasferencia en proceso');
+        });
+    }
+    
+    public function changestatuscompletefec($code){
+        
+        $email = Auth::user()->email;
+        $frecuentes= \DB::table('salidas')->select('salidas.monto_out',
+                        'salidas.comprobante_out',
+                        'salidas.referencia_out',
+                        'frecuentes.cedula',
+                        'frecuentes.telefono',
+                        'salidas.monto_into',
+                        'depositos_efectivo.fecha_into',
+                        'bancos.banco',
+                        'frecuentes.cuenta',
+                        'frecuentes.titular',
+                        'frecuentes.correo',
+                        'monedas.descripcion',
+                        'depositos_efectivo.monto_out as general_out',
+                        'depositos_efectivo.moneda_into',
+                        'depositos_efectivo.moneda_out',
+                        'depositos_efectivo.monto_into as general_into',
+                        'users.email',
+                     \DB::raw('IF(frecuentes.tipo = 0 ,"Corriente","Ahorro") AS tipo'))
+            ->join('frecuentes','frecuentes.codefrec','=','salidas.idfrecuente')
+            ->join('bancos','bancos.idbank','=','frecuentes.codibank')
+            ->join('depositos_efectivo','salidas.codedepo','=','depositos_efectivo.codeefec')
+            ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
+            ->join('users','depositos_efectivo.codeuser','=','users.id')
+            ->where(['depositos_efectivo.codeefec'=>$code])
+            ->get();
+        return view('emails.completado')->with(['frecuentes'=>$frecuentes]);
+        $email = $email=$frecuentes[0]->email;
+       // $email ="kleiversteven6@gmail.com";
+        
+        Mail::send('emails.completado',['frecuentes'=>$frecuentes],function($message)use($email,$frecuentes){
+            $message->from('atencionalcliente@localremesas.com','Trasferencia en proceso');
+            $message->to($email)->subject('Trasferencia en proceso');
+        });
     }
 }
