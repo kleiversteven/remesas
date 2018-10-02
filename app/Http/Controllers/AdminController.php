@@ -48,6 +48,7 @@ class AdminController extends Controller
             ->join('monedas','monedas.iso','=','depositos_efectivo.moneda_into')
             ->join('salidas','depositos_efectivo.codeefec','=','salidas.codeefec')
              ->whereIn('depositos_efectivo.estatus',array(1,3,4))
+               ->where('depositos_efectivo.referencia_into','>',0)
              ->groupBy('users.id','depositos_efectivo.moneda_into')
              ->get();
            

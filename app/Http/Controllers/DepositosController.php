@@ -969,8 +969,7 @@ class DepositosController extends Controller
              ->whereIn('depositos_efectivo.codeefec',explode(',',$data['depositos']))
              ->update(['referencia_into' =>$data['ref-into'],
                        'banco_into'=>$data['banco-into'],
-                       'comprobante_into'=>$image,
-                       'estatus'=>5
+                       'comprobante_into'=>$image
                       ]); 
             return redirect( 'reportarpago')->with(['mensaje'=>' Reporte de pago exitoso! ']);
         }else{
