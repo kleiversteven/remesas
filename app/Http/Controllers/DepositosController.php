@@ -94,6 +94,7 @@ class DepositosController extends Controller
         $monedas=  \DB::table('monedas')
              ->select('*')
              ->where(['estatus'=>'1'])
+            ->orderBy('descripcion','DESC')
              ->get();
         $monedas=$monedas->all();
         $country= \DB::table('countries')

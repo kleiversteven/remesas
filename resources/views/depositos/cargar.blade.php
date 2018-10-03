@@ -12,6 +12,14 @@
         top: 0;
         z-index: 9995;
     }
+    .form-frecuentes{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background-color: #0000008c;
+        top: 0;
+        z-index: 9995;
+    }
 
 </style>
 @endsection
@@ -57,7 +65,7 @@
                                         <?php $options[$m->iso]=$m->descripcion;  ?>
                                     @endif
                                 @endforeach
-                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','placeholder' => 'Seleccione moneda depositada','onchange'=>'calmonto(this)'])}}
+                            {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','onchange'=>'calmonto(this)'])}}
                         </div>
                     </div>
                     <!--/span-->
@@ -101,14 +109,18 @@
           
                 <!--/row-->
                 <h3 class="form-section">Cuentas a transferir:<span class="monto-trans"></span>
-                    <span style="float: right" onclick="addcuenta()" class="btn btn-primary">Agregar</span>
-                    <span style="float: right" class="btn btn-outline-secondary sobrante">0</span>
+                    
+                    <span style="float: right; font-size: 14px" class="btn btn-outline-secondary sobrante">0</span>
                     
                 
                     <br>
                     <br>
                     <div class="list-group lista-frecuentes">
                     </div>
+                    <br>
+                    <span onclick="addcuentafre()" class="btn btn-block btn-success">Frecuente</span>
+                    <span onclick="addcuenta()" class="btn btn-block btn-primary">Nueva cuenta</span>
+                    
                 </h3>
                 
             </div>
@@ -150,6 +162,10 @@ $(function(){
                 t = parseInt(n)+parseInt(t);
             }                
         });
+        if(n>3){
+           alertify.error("No puede hacer una trasferencia  a mas de 3 cuentas.");
+            return false;
+        }
         if(monto < 50){
             alertify.error("El monto minimo de transferencia son 50.");
             return false;
@@ -209,9 +225,22 @@ function addcuenta(){
    }else{
        alertify.error("Solo puede añadir un maximo de 3 cuentas a transferir");
    }
+}
+function addcuentafre(){
+    var t =0;
+    $('.lista-frecuentes a').each(function(){
+        t++;
+    })
+    if(t <3)
+    {
+         $('.form-frecuentes').fadeIn(300);   
+   }else{
+       alertify.error("Solo puede añadir un maximo de 3 cuentas a transferir");
+   }
 } 
 function cerrar(){
     $('.form-registrar').fadeOut(300);
+    $('.form-frecuentes').fadeOut(300);
 }
 function savecuenta(){
     var min=0;
@@ -222,12 +251,8 @@ function savecuenta(){
             min =50;
     
     var c=0;
-    $(".active" ).each(function( index ){
-       c++; 
-    });
-    var activo=0;
-    activo = $('.in').data('collapse');
-    if(activo == 2){
+
+
        var titular =$('#titular').val();
        var tipo=$('#tipo').val();
        var banco=$('#banco').val();
@@ -275,30 +300,12 @@ function savecuenta(){
         });
         }
         
-    }else if(activo == 1){
-        var html='';
-        
-        $('.active').each(function( index ){
-                $('.lista-frecuentes').children('#id-'+$(this).data('id')).remove();
-                html+= '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+$(this).data('id')+'" style="font-size: 12px;">';
-                html+= '<div class="form-group">'+$(this).data('titular') + ' ' + $(this).data('cuenta');
-                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
-                html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
-                html+= '</div>';
-                html+= '<input type="hidden" name="frecuente[]" value="'+$(this).data('id')+'" >';
-                html+= ' <i class="fa fa-times" style="position: absolute;right: 10px; margin-top:-20px;" onclick="quitar(this)" ></i> </a>';
-            
-        })
-                           
-       $('.lista-frecuentes').append(html);
-        
-    }
+
     if(de != '')
         $('.addmonto').attr({'placeholder':'Monto en '+sel});
         
-    if(activo > 0){
         cerrar();
-    }
+    
 }
     function quitar(e){
         var id = $(e).prev('input').val();
@@ -366,6 +373,24 @@ function activar(e){
     if(c <= 2 || $(e).hasClass( "active" ) ){
         $(e).toggleClass('active');
     }
+
+        var html='';
+        
+        $('.active').each(function( index ){
+                $('.lista-frecuentes').children('#id-'+$(this).data('id')).remove();
+                html+= '<a href="javascript:;" class="list-group-item list-group-item-info" id="id-'+$(this).data('id')+'" style="font-size: 12px;">';
+                html+= '<div class="form-group">'+$(this).data('titular') + ' ' + $(this).data('cuenta');
+                html+= '<span style="width: 200px;display: -webkit-inline-box;position: absolute;right: 240px;margin-top: -4px;"></span>';
+                html+= '<input style="width: 200px;display: -webkit-inline-box;position: absolute;right: 40px;margin-top: -4px;" placeholder="Monto " type="number" min="1" class="form-control addmonto" name="montofrecuente[]" onkeyup="cambiarmontos(this)"  >';
+                html+= '</div>';
+                html+= '<input type="hidden" name="frecuente[]" value="'+$(this).data('id')+'" >';
+                html+= ' <i class="fa fa-times" style="position: absolute;right: 10px; margin-top:-20px;" onclick="quitar(this)" ></i> </a>';
+            
+        })
+                           
+       $('.lista-frecuentes').append(html);
+        
+    
 }
     function cambiarmontos(e){
         var monto = $('#monto').val();
@@ -455,34 +480,7 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
     color: #fff;">&nbsp; &nbsp; Añadir cuenta</h2>
         <div class="content col-md-8 col-md-offset-2" style=" height: 300px; overflow: auto;  background-color: #fff;">
             <br>
-            
-            
-    <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Frecuentes</a>
-        </h4>
-      </div>
-      <div id="collapse1" class="panel-collapse collapse" data-collapse='1'>
-            
-              <div class="list-group">
-                  @foreach($frecuentes as $f)
-                    <a href="#" data-id="{{ $f->codefrec }}" data-cuenta="{{ $f->cuenta }}" data-titular="{{ $f->titular }}" class="list-group-item mi-item class-{{ $f->codefrec }}" onclick="activar(this)">
-                      <h4 class="list-group-item-heading">{{ $f->titular }}</h4>
-                      <p class="list-group-item-text">{{ $f->banco }} - {{ $f->tipo }} - {{ $f->cuenta }}</p>
-                    </a>
-                  @endforeach                  
-              </div>
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Agregar nuevo</a>
-        </h4>
-      </div>
-      <div id="collapse2" class="panel-collapse collapse" data-collapse='2'>
+
           <br>
         <div class="row">
             
@@ -563,14 +561,7 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
             </div>
             {!! Form::close() !!}
       </div>
-    </div>
-    
-  </div> 
             
-            
-            
-        </div>
-        
         
     </div>
         <br>
@@ -583,4 +574,45 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
     
 </div>
 </div>
+
+
+<div class="form-frecuentes" style=" width: 100%;
+        height: 100%;
+        position: fixed;
+        background-color: #0000008c;
+        top: 0;
+        z-index: 9995;display: none;">
+    <div class="fomulario row col-md-12" style="">
+        <h2 class="col-md-8 col-md-offset-2" style="    margin-top: 4%;
+    background: #3598dc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 1px;
+    color: #fff;">&nbsp; &nbsp; Frecuentes <b class=" btn btn-outline-danger  pull-right" onclick="cerrar()" ><span class="fa fa-times"></span></b></h2>
+        
+        
+        <div class="content col-md-8 col-md-offset-2" style=" height: 300px; overflow: auto;  background-color: #fff;">
+            <br>
+            
+            
+              <div class="list-group">
+                  @foreach($frecuentes as $f)
+                    <a href="#" data-id="{{ $f->codefrec }}" data-cuenta="{{ $f->cuenta }}" data-titular="{{ $f->titular }}" class="list-group-item mi-item class-{{ $f->codefrec }}" onclick="activar(this)">
+                      <h4 class="list-group-item-heading">{{ $f->titular }}</h4>
+                      <p class="list-group-item-text">{{ $f->banco }} - {{ $f->tipo }} - {{ $f->cuenta }}</p>
+                    </a>
+                  @endforeach                  
+              </div>
+   
+        
+    </div>
+    
+</div>
+</div>
+
+
+
+
+
+
 @endsection
