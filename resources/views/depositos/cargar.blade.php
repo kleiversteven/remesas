@@ -3,6 +3,7 @@
 @section('otroscss')
     <link href="{{ asset('plugins/dropzone/dropzone.min.css')}} " rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/dropzone/basic.min.css')}} " rel="stylesheet" type="text/css" />
+    <link href="{{ asset('plugins/datepicker/datepicker3.css')}} " rel="stylesheet" type="text/css" />
 <style>
     .form-registrar{
         width: 100%;
@@ -54,6 +55,7 @@
                         <div class="form-group">
                             {{ Form::label('Monto:', null, ['class' => 'control-label']) }}
                             {!! Form::text('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
+                            
                         </div>
                     </div>
                     <!--/span-->
@@ -80,20 +82,21 @@
                                         <?php $option[$b->idbank]=$b->banco ;  ?>
                                     @endif
                                 @endforeach
-                                {{ Form::select('banco-into',$option,null,['class' => 'form-control','placeholder' => 'Seleccione banco'])}}
+                                {{ Form::select('banco-into',$option,null,['class' => 'form-control'])}}
                         </div>
                     </div>
                     <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('Operacion:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('ref-into',null,['class'=>'form-control  placeholder-no-fix','placeholder'=>'N° de Operacion' ]) !!}</div>
+                            {!! Form::text('ref-into',null,['class'=>'form-control placeholder-no-fix','placeholder'=>'N° de Operacion' ]) !!}</div>
                         
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('Fecha:', null, ['class' => 'control-label']) }}
-                            {!! Form::date('fecha-into',null,['class'=>'form-control  placeholder-no-fix','placeholder'=>'N° Referencia','max'=>date('Y-m-d') ]) !!}
+                            {!! Form::text('fecha-into',date("d-m-Y"),['class'=>'form-control datepicker placeholder-no-fix','placeholder'=>'mm/dd/YYYY','data-date-start-date'=>'-7d','data-date-end-date'=>'0d','data-date-max-date'=>'0d','data-date-min-date'=>'-7d' ]) !!}
+                            
                         </div>
                     </div>
                     <!--/span-->
@@ -133,14 +136,17 @@
         <!-- END FORM-->
     </div>
 </div>
-
 @endsection
 @section('scripts')
 <script src="{{ asset('plugins/dropzone/dropzone.min.js')}}" type="text/javascript"></script>
 <script src="{{ asset('js/form-dropzone.min.js')}}" type="text/javascript"></script>
+<script src="{{ asset('plugins/datepicker/bootstrap-datepicker.js')}}" type="text/javascript"></script>
+<script src="{{ asset('plugins/datepicker/locales/bootstrap-datepicker.es.js')}}" type="text/javascript"></script>
 
 <script>
 $(function(){
+    $('.datepicker').datepicker();
+    
     $("#country_list").select2({
         placeholder: '<i class="fa fa-map-o"></i>&nbsp; Seleccionar codigo del pais',
         templateResult: format,
@@ -511,8 +517,8 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
                     <div class="col-md-6 ">
                         <div class="form-group">
                             {{ Form::label('Tipo de cuenta:', null, ['class' => 'control-label']) }}
-                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control','onchange'=> 'validartipo(this)', 'id'=>'tipo','placeholder' => 'Seleccione tipo de cuenta'])}}
-                            
+                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control','onchange'=> 'validartipo(this)', 'id'=>'tipo'])}}
+                            <span class="alert alert-danger aviso-banco" style="display: none" role="alert">(No recomendado)</span>
                         </div>
                     </div>
                     <div class="col-md-6 ">
