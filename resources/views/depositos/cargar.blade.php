@@ -136,6 +136,157 @@
         <!-- END FORM-->
     </div>
 </div>
+
+
+
+<div class="form-registrar" style=" width: 100%;
+        height: 100%;
+        position: fixed;
+        background-color: #0000008c;
+        top: 0;
+        z-index: 9995;display: none;    left: 0;">
+    <div class="fomulario row col-md-12" style="">
+        <h2 class="col-md-8 col-md-offset-2" style="    margin-top: 4%;
+    background: #3598dc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 1px;
+    color: #fff;">&nbsp; &nbsp; Añadir cuenta</h2>
+        <div class="content col-md-8 col-md-offset-2" style=" height: 370px; overflow: auto;  background-color: #fff;">
+            <br>
+
+          <br>
+        <div class="row">
+            
+            {!! Form::open(['url'=>'','method'=>'POST','class'=>'horizontal-form ','id'=>'save-cuenta']) !!}
+            <div class="form-body"> 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ Form::label('Titular:', null, ['class' => 'control-label']) }}
+                            {!! Form::text('titular',null,['class'=>'form-control  placeholder-no-fix', 'id'=>'titular','placeholder'=>'Titular de la cuenta' ]) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('Cedula:', null, ['class' => 'control-label']) }}
+                            {!! Form::radio('nacionalidad', 'V', true) !!}V
+                            {!! Form::radio('nacionalidad', 'J') !!}J
+                            {!! Form::radio('nacionalidad', 'E') !!}E
+                            {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="alert alert-danger aviso-banco" style="display: none" role="alert">
+                            <ul>
+                               Ciertos bancos no permiten depositos desde cuentas jurídicas a cuentas de ahorros personales o jurídicas. Tomar en consideración
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('Tipo de cuenta:', null, ['class' => 'control-label']) }}
+                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control','onchange'=> 'validartipo(this)', 'id'=>'tipo'])}}
+                            <span class="alert alert-danger aviso-banco" style="display: none" role="alert">(No recomendado)</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('Banco', 'Banco', ['class' => 'control-label']) }}
+                           {{ Form::text('banco',null,['disabled'=>'disabled','class' => 'form-control', 'id'=>'banco','placeholder' => 'Banco'])}}
+                            {{ Form::hidden('banco-out',null,['disable'=>'disable', 'id'=>'banco-out','placeholder' => 'Seleccione banco'])}}
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('Correo', 'Correo', ['class' => 'control-label']) }}
+                            {{ Form::email('email', null, ['class' => 'form-control','placeholder' => 'example@correo.com']) }}                                    
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
+                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)','onpaste'=>'solonumeroscut(this,event)']) !!}
+                            
+                            <div class="alert alert-danger error-cuenta" style="display: none" role="alert">
+                                <ul>
+                                    El numero de cuenta no debe tener mas de 20 numeros.
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                
+                    <div class="col-md-6 ">
+                        <div class="form-group">
+                            {{ Form::label('Telefono',null, ['class' => 'control-label']) }}
+                             <select name="country" id="country_list" class="select2 form-control col-md-4" style="z-index: 9999;">
+                                 <option></option>
+                                @foreach($countries as $c)
+                                 <option  data-img-src="{{asset('flags/'.strtolower($c->id).'.png') }}" value="{{ $c->codigo }}">{{ $c->country }}</option>
+                                @endforeach
+                            </select>
+                            {!! Form::number('telefono', null, ['class' => 'form-control col-md-8','placeholder' => 'Numero de telefono']) !!}
+                                    
+                        </div>
+                    </div>
+                 
+                <!--/row-->
+                <br>
+            </div>
+            {!! Form::close() !!}
+      </div>
+            
+        
+    </div>
+        <br>
+        <br>
+    <div class="col-md-12" style="text-align: center;">
+
+        <button class="btn btn-success" onclick="savecuenta()" >Añadir</button>
+        <button class="btn btn-danger" onclick="cerrar()">Cancelar</button>
+    </div>
+    
+</div>
+</div>
+
+
+<div class="form-frecuentes" style=" width: 100%;
+        height: 100%;
+        position: fixed;
+        background-color: #0000008c;
+        top: 0;
+        z-index: 9995;display: none;    left: 0;">
+    <div class="fomulario row col-md-12" style="">
+        <h2 class="col-md-8 col-md-offset-2" style="    margin-top: 4%;
+    background: #3598dc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 1px;
+    color: #fff;">&nbsp; &nbsp; Frecuentes <b class=" btn btn-outline-danger  pull-right" onclick="cerrar()" ><span class="fa fa-times"></span></b></h2>
+        
+        
+        <div class="content col-md-8 col-md-offset-2" style=" height: 350px; overflow: auto;  background-color: #fff;">
+            <br>
+            
+            
+              <div class="list-group">
+                  @foreach($frecuentes as $f)
+                    <a href="#" data-id="{{ $f->codefrec }}" data-cuenta="{{ $f->cuenta }}" data-titular="{{ $f->titular }}" class="list-group-item mi-item class-{{ $f->codefrec }}" onclick="activar(this)">
+                      <h4 class="list-group-item-heading">{{ $f->titular }}</h4>
+                      <p class="list-group-item-text">{{ $f->banco }} - {{ $f->tipo }} - {{ $f->cuenta }}</p>
+                    </a>
+                  @endforeach                  
+              </div>
+   
+        
+    </div>
+    
+</div>
+</div>
+
+
+
+
 @endsection
 @section('scripts')
 <script src="{{ asset('plugins/dropzone/dropzone.min.js')}}" type="text/javascript"></script>
@@ -471,154 +622,5 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
         return x1 + x2;
     }
 </script>
-<div class="form-registrar" style=" width: 100%;
-        height: 100%;
-        position: fixed;
-        background-color: #0000008c;
-        top: 0;
-        z-index: 9995;display: none;">
-    <div class="fomulario row col-md-12" style="">
-        <h2 class="col-md-8 col-md-offset-2" style="    margin-top: 4%;
-    background: #3598dc;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 1px;
-    color: #fff;">&nbsp; &nbsp; Añadir cuenta</h2>
-        <div class="content col-md-8 col-md-offset-2" style=" height: 300px; overflow: auto;  background-color: #fff;">
-            <br>
-
-          <br>
-        <div class="row">
-            
-            {!! Form::open(['url'=>'','method'=>'POST','class'=>'horizontal-form ','id'=>'save-cuenta']) !!}
-            <div class="form-body"> 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            {{ Form::label('Titular:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('titular',null,['class'=>'form-control  placeholder-no-fix', 'id'=>'titular','placeholder'=>'Titular de la cuenta' ]) !!}
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('Cedula:', null, ['class' => 'control-label']) }}
-                            {!! Form::radio('nacionalidad', 'V', true) !!}V
-                            {!! Form::radio('nacionalidad', 'J') !!}J
-                            {!! Form::radio('nacionalidad', 'E') !!}E
-                            {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
-                        </div>
-                    </div>
-                    <div class="col-md-12 ">
-                        <div class="alert alert-danger aviso-banco" style="display: none" role="alert">
-                            <ul>
-                               Ciertos bancos no permiten depositos desde cuentas jurídicas a cuentas de ahorros personales o jurídicas. Tomar en consideración
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('Tipo de cuenta:', null, ['class' => 'control-label']) }}
-                            {{ Form::select('tipo',array('Corriente','Ahorro'),null,['class' => 'form-control','onchange'=> 'validartipo(this)', 'id'=>'tipo'])}}
-                            <span class="alert alert-danger aviso-banco" style="display: none" role="alert">(No recomendado)</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('Banco', 'Banco', ['class' => 'control-label']) }}
-                           {{ Form::text('banco',null,['disabled'=>'disabled','class' => 'form-control', 'id'=>'banco','placeholder' => 'Banco'])}}
-                            {{ Form::hidden('banco-out',null,['disable'=>'disable', 'id'=>'banco-out','placeholder' => 'Seleccione banco'])}}
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('Correo', 'Correo', ['class' => 'control-label']) }}
-                            {{ Form::email('email', null, ['class' => 'form-control','placeholder' => 'example@correo.com']) }}                                    
-                        </div>
-                    </div>
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('N° de cuenta',null, ['class' => 'control-label']) }}
-                            {!! Form::text('cuenta',null,['minlength'=>'20' , 'maxlength' =>'20', 'class'=>'form-control','placeholder'=>'N° de cuenta', 'id'=>'cuenta','onkeyup'=>'solonumeros(this)','onpaste'=>'solonumeroscut(this,event)']) !!}
-                            
-                            <div class="alert alert-danger error-cuenta" style="display: none" role="alert">
-                                <ul>
-                                    El numero de cuenta no debe tener mas de 20 numeros.
-                                </ul>
-                            </div>
-                        </div>
-                    </div> 
-                
-                    <div class="col-md-6 ">
-                        <div class="form-group">
-                            {{ Form::label('Telefono',null, ['class' => 'control-label']) }}
-                             <select name="country" id="country_list" class="select2 form-control col-md-4" style="z-index: 9999;">
-                                 <option></option>
-                                @foreach($countries as $c)
-                                 <option  data-img-src="{{asset('flags/'.strtolower($c->id).'.png') }}" value="{{ $c->codigo }}">{{ $c->country }}</option>
-                                @endforeach
-                            </select>
-                            {!! Form::number('telefono', null, ['class' => 'form-control col-md-8','placeholder' => 'Numero de telefono']) !!}
-                                    
-                        </div>
-                    </div>
-                 
-                <!--/row-->
-                <br>
-            </div>
-            {!! Form::close() !!}
-      </div>
-            
-        
-    </div>
-        <br>
-        <br>
-    <div class="col-md-12" style="text-align: center;">
-
-        <button class="btn btn-success" onclick="savecuenta()" >Añadir</button>
-        <button class="btn btn-danger" onclick="cerrar()">Cancelar</button>
-    </div>
-    
-</div>
-</div>
-
-
-<div class="form-frecuentes" style=" width: 100%;
-        height: 100%;
-        position: fixed;
-        background-color: #0000008c;
-        top: 0;
-        z-index: 9995;display: none;">
-    <div class="fomulario row col-md-12" style="">
-        <h2 class="col-md-8 col-md-offset-2" style="    margin-top: 4%;
-    background: #3598dc;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 1px;
-    color: #fff;">&nbsp; &nbsp; Frecuentes <b class=" btn btn-outline-danger  pull-right" onclick="cerrar()" ><span class="fa fa-times"></span></b></h2>
-        
-        
-        <div class="content col-md-8 col-md-offset-2" style=" height: 300px; overflow: auto;  background-color: #fff;">
-            <br>
-            
-            
-              <div class="list-group">
-                  @foreach($frecuentes as $f)
-                    <a href="#" data-id="{{ $f->codefrec }}" data-cuenta="{{ $f->cuenta }}" data-titular="{{ $f->titular }}" class="list-group-item mi-item class-{{ $f->codefrec }}" onclick="activar(this)">
-                      <h4 class="list-group-item-heading">{{ $f->titular }}</h4>
-                      <p class="list-group-item-text">{{ $f->banco }} - {{ $f->tipo }} - {{ $f->cuenta }}</p>
-                    </a>
-                  @endforeach                  
-              </div>
-   
-        
-    </div>
-    
-</div>
-</div>
-
-
-
-
-
 
 @endsection
