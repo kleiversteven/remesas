@@ -247,18 +247,33 @@ $(function(){
             return m;
         }
     });
-    
-    $('#save-deposito').submit(function(){
+    $('.sobrante').val($('#monto').val());
+$('#save-deposito').submit(function(){
         
         var formData = new FormData(document.getElementById("save-deposito"));
         var t = 0;
         var monto = $('#monto').val();
+        var error =0;
+        var n=0;
+        var c =0;
         $('.addmonto').each(function( index ){
-            var n =$(this).val();
+            n =$(this).val();
             if(n >0 ){
                 t = parseInt(n)+parseInt(t);
-            }                
+            }
+            if(parseInt(n) < 50){
+                $(this).parent('.form-group').addClass('has-error');
+                error=1;
+            }else{
+                $(this).parent('.form-group').removeClass('has-error');
+            }
+            c++;
         });
+        
+        if(c>3){
+           alertify.error("No puede hacer una trasferencia  a mas de 3 cuentas.");
+            return false;
+        }
         if(monto < 50){
             alertify.error("El monto minimo de transferencia son 50.");
             return false;
@@ -270,6 +285,10 @@ $(function(){
         var ref = $("[name='ref_into']").val();
         if(ref <= 0){
             alertify.error("El monto minimo de transferencia son 50.");
+            return false;
+        }
+        if(error == 1){
+            alertify.error("El monto minimo de transferencia son 50 por cuenta.");
             return false;
         }
             
@@ -300,7 +319,7 @@ function format(state) {
     }
 function calmonto(e){
     var de = $('#moneda-into').val();
-    var a = 'VEF';
+    var a = 'VES';
     var monto = $('#monto').val();
     $('.sobrante').text(monto);
     //$('#resultado').val(de/a);
@@ -496,7 +515,7 @@ function activar(e){
         })
                            
        $('.lista-frecuentes').append(html);
-        
+        cerrar();
     
 }
     function cambiarmontos(e){
@@ -535,7 +554,7 @@ function activar(e){
 
                 }
                     var moneda = $('#moneda-into').val();
-                    $.get("calcular","isoa="+moneda+"&isob=VEF&monto="+montoing,function(tmonto){
+                    $.get("calcular","isoa="+moneda+"&isob=VES&monto="+montoing,function(tmonto){
                         //console.log(tmonto);
                         $(elemento).prev('span').html(some_number = number_format(tmonto, 2, ',', '.') + ' Bs');
                     })

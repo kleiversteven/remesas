@@ -4,7 +4,7 @@
 <div class="page-inicio" style="background-image:url({{ asset('images/fondo3.jpg') }});">
 <div class="row col-lg-12 col-md-12 col-sm-12 animated bounceInButton "  >
     <div class="col-lg-3 col-md-3 col-sm-3 pos-sup content-moneda"   ><img src="{{ asset('images/soles.png') }}" class="img-moneda"  />Soles</div>
-    <div class="col-lg-3 col-md-3 col-sm-3 pos-sup content-moneda"   ><img src="{{ asset('images/pesos.png') }}" class="img-moneda"  />Pesos</div>
+   <!-- <div class="col-lg-3 col-md-3 col-sm-3 pos-sup content-moneda"   ><img src="{{ asset('images/pesos.png') }}" class="img-moneda"  />Pesos</div> -->
     <div class="col-lg-3 col-md-3 col-sm-3 pos-sup content-moneda"   ><img src="{{ asset('images/bolivares.png') }}" class="img-moneda"  />Bolivares</div>
     <div class="col-lg-3 col-md-3 col-sm-3 pos-sup content-moneda"   ><img src="{{ asset('images/dolares.png') }}" class="img-moneda"  />Dolares</div>
     <hr class="img-linea"/>

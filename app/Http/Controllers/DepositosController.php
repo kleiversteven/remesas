@@ -31,7 +31,7 @@ class DepositosController extends Controller
                     'salida'=>$monto_out,
                     'moneda_into'=>$data['moneda-into'],
                     'referencia'=>$data['ref-into'],
-                    'moneda_out'=>'VEF',
+                    'moneda_out'=>'VES',
                     'fecha'=>date('d-m-Y')
                    );
         
@@ -68,7 +68,7 @@ class DepositosController extends Controller
                     'data'=>$data,
                     'moneda_into'=>$data['moneda-into'],
                     'referencia'=>$data['ref-into'],
-                    'moneda_out'=>'VEF',
+                    'moneda_out'=>'VES',
                     'frecuente'=>$frecuente,
                     'banco'=>$banco->banco,
                     'fecha'=>date('d-m-Y')
@@ -166,7 +166,7 @@ class DepositosController extends Controller
         $p=1;
         $tasa= \DB::table('tasas')->select('*')
                 ->where([
-                   ['tasas.isoa', '=', 'VEF'],
+                   ['tasas.isoa', '=', 'VES'],
                    ['tasas.isob', '=',trim($data['moneda-into']) ]
                 ])
              ->get();
@@ -187,7 +187,7 @@ class DepositosController extends Controller
             $p=2;
             $tasa= \DB::table('tasas')->select('*')
                 ->where([
-                   ['tasas.isob', '=', 'VEF'],
+                   ['tasas.isob', '=', 'VES'],
                    ['tasas.isoa', '=',trim($data['moneda-into']) ]
                 ])
              ->get();
@@ -218,7 +218,7 @@ class DepositosController extends Controller
                                 'tasa'=>$cambio,
                                 'codeuser'=>$id,
                                 'moneda_into'=>$data['moneda-into'],
-                                'moneda_out'=>'VEF',
+                                'moneda_out'=>'VES',
                                 'monto_into'=>$data['monto'],
                                 'monto_out'=>$monto_out,
                                 'comision'=>$comision,
@@ -619,7 +619,7 @@ class DepositosController extends Controller
         $p=1;
         $tasa= \DB::table('tasas')->select('*')
                 ->where([
-                   ['tasas.isoa', '=', 'VEF'],
+                   ['tasas.isoa', '=', 'VES'],
                    ['tasas.isob', '=',trim($data['moneda-into']) ]
                 ])
              ->get();
@@ -629,8 +629,8 @@ class DepositosController extends Controller
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
             elseif($user->hasRole('Recaudadores')== true ){
+                $cambio = $tasa[0]->cambio ;
                 $comision=$tasa[0]->recaudador;
-                    $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
             }else
                 $cambio = $tasa[0]->cambio;
         }
@@ -640,7 +640,7 @@ class DepositosController extends Controller
             $p=2;
             $tasa= \DB::table('tasas')->select('*')
                 ->where([
-                   ['tasas.isob', '=', 'VEF'],
+                   ['tasas.isob', '=', 'VES'],
                    ['tasas.isoa', '=',trim($data['moneda-into']) ]
                 ])
              ->get();
@@ -648,8 +648,8 @@ class DepositosController extends Controller
             if($user->hasRole('Mayorista') == true)
                 $cambio = $tasa[0]->mayorista;
             elseif($user->hasRole('Recaudadores')== true ){
+                $cambio = $tasa[0]->cambio ;
                 $comision=$tasa[0]->recaudador;
-                $cambio = $tasa[0]->cambio + (($tasa[0]->recaudador/100)*$tasa[0]->cambio);
             }else
                 $cambio = $tasa[0]->cambio;
         }
@@ -667,7 +667,7 @@ class DepositosController extends Controller
                             'tasa'=>$cambio,
                             'codeuser'=>$id,
                             'moneda_into'=>$data['moneda-into'],
-                            'moneda_out'=>'VEF',
+                            'moneda_out'=>'VES',
                             'monto_into'=>$data['monto'],
                             'monto_out'=>$monto_out,
                             'comision'=>$comision,

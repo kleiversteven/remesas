@@ -21,8 +21,8 @@ class AdminController extends Controller
    protected $guard_name = 'web';
     
    public function index(){
-       $dolar = $this->calculadora('USD','VEF',1);
-       $sol   = $this->calculadora('PEN','VEF',1);
+       $dolar = $this->calculadora('USD','VES',1);
+       $sol   = $this->calculadora('PEN','VES',1);
        $depositos=$this->misdepositos(1);
        $procesados=$this->misdepositos(3);
        $resp = \DB::table('parametros')->get()->all();
@@ -169,6 +169,7 @@ class AdminController extends Controller
                     ->get();
                 $tipo=2;
              $data=$data->all();
+             
              $monto=$monto/$data[0]->cambio;
         }else{
              $monto=$data[0]->cambio*$monto;
