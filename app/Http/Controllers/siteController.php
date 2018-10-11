@@ -30,9 +30,9 @@ class siteController extends Controller
              ->where(['estatus'=>'1'])
             ->orderBy('monedas.iso')
              ->get();
-        $sol_bs=$this->calculadora('PEN','VEF',1);
+        $sol_bs=$this->calculadora('PEN','VES',1);
         $dol_so=$this->calculadora('USD','PEN',1);
-        $dol_bs=$this->calculadora('USD','VEF',1);
+        $dol_bs=$this->calculadora('USD','VES',1);
         $resp = \DB::table('parametros')->get()->all();
         foreach($resp as $r){
             $data[$r->descpara]['status']= $r->valopara;
