@@ -384,8 +384,8 @@ class AdminController extends Controller
        $data=$request->all();
         
         $resp = \DB::table('registros')->where('numerefe',$data['ref-into'])->first();
-        dd($resp);
-        if(!empty($resp)){
+       // dd($resp);
+        if(empty($resp)){
         $id_bank= \DB::table('registros')->insertGetId(
             array(
                     'fecha'=>$data['fecha-into'],
