@@ -121,6 +121,7 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/agregarbcp', 'AdminController@agregarbcp');
     Route::get('/listarbcp', 'AdminController@listarbcp');
     Route::post('/savemovimiento', 'AdminController@savemovimiento');
+    Route::get('/limpiarbcp', 'AdminController@limpiarbcp');
 });
 
 

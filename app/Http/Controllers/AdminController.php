@@ -402,8 +402,15 @@ class AdminController extends Controller
       
     }
     public function listarbcp(Request $request){
-        
-      return view('administrar.listarbcp')->with(['parametros'=>$data]);
+         $resp = \DB::table('registros')->select('*')->where('estatus',0)->get() ;
+        $data=$resp->all();
+      return view('administrar.listarbcp')->with(['depositos'=>$data]);
+    }
+    public function limpiarbcp(){
+        $resp = \DB::table('registros')->where('estatus',0)->update(['estatus'=>1]);
+        $resp = \DB::table('registros')->select('*')->where('estatus',0)->get() ;
+        $data=$resp->all();
+      return view('administrar.listarbcp')->with(['mensaje'=>' Listado de depositos limpio.','depositos'=>$data]); 
     }
     
    
