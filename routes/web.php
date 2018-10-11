@@ -75,7 +75,6 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     Route::get('/bloqdepositos', 'AdminController@bloqdepositos' );
     
     Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
-    Route::get('/transaccion/{transc?}', 'DepositosController@transaccion');
     
     
     

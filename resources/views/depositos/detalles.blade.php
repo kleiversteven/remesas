@@ -43,6 +43,11 @@
                     <br>
                     
                 </div>
+                <div class="col-md-6" >
+                    @if(!empty($referencia))
+                            <span class="label label-warning"> Transaccion comprobada con exito </span>
+                    @endif
+                </div>
                 <div class="col-md-12">
                     <legend>Deposito realizado por: </legend>
                 </div>

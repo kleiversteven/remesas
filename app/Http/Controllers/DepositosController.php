@@ -360,7 +360,11 @@ class DepositosController extends Controller
              ->where('depositos.idtrans','=', $transc)
         ->get();
         $data = $transaccion->all();
-        return view('depositos.detalles')->with(['deposito'=>$data]);
+        $resp='';
+        if($data[0]->b_ent == 'BCP')
+            $resp = \DB::table('registros')->where('numerefe',$data[0]->referencia_into)->first();
+        
+        return view('depositos.detalles')->with(['deposito'=>$data,'referencia'=>$resp]);
     }
     public function informacion($transc=''){
         $transaccion = \DB::table('depositos')
