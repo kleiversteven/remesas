@@ -375,5 +375,36 @@ class AdminController extends Controller
        $resp = \DB::table('parametros')->where('descpara','BLOQUEO')->update($datos);
     }
     
+    
+    public function agregarbcp(){
+       
+      return view('administrar.agregarbcp');
+    }
+    public function savemovimiento(Request $request){
+       $data=$request->all();
+        
+        $resp = \DB::table('registros')->where('numerefe',$data['ref-into'])->first();
+        dd($resp);
+        if(!empty($resp)){
+        $id_bank= \DB::table('registros')->insertGetId(
+            array(
+                    'fecha'=>$data['fecha-into'],
+                    'numerefe'=>$data['ref-into'],
+                    'montregu'=>$data['monto'],
+                    'estatus'=>0
+                )
+            );
+            return redirect('listarbcp')->with(['mensaje'=>' Transaccion registrada ']); 
+        }else{
+            return redirect('agregarbcp')->with(['error'=>' Numero de referencia registrado anteriormente.']); 
+        }
+        
+      
+    }
+    public function listarbcp(Request $request){
+        
+      return view('administrar.listarbcp')->with(['parametros'=>$data]);
+    }
+    
    
 }

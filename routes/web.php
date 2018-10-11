@@ -117,6 +117,10 @@ Route::group(['prefix'=>'/','middleware'=>['auth'] ],function(){
     
     Route::get('/listareporte', 'DepositosController@listareporte');
     Route::post('/savedereporte', 'DepositosController@savedereporte');
+    
+    Route::get('/agregarbcp', 'AdminController@agregarbcp');
+    Route::get('/listarbcp', 'AdminController@listarbcp');
+    Route::post('/savemovimiento', 'AdminController@savemovimiento');
 });
 
 

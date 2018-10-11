@@ -277,6 +277,26 @@
                                                     </li>
                                               </ul>
                                          </li>
+                            
+                                        <li class="menu-dropdown classic-menu-dropdown ">
+                                        <a href="javascript:;"> BCP
+                                            <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                    <li class=" ">
+                                                        <a href="{{ url('agregarbcp') }}" class="nav-link  ">
+                                                            <i class="fa "></i>Agregar
+                                                        </a>
+                                                    </li>
+                                              
+                                                    <li class=" ">
+                                                        <a href="{{ url('listarbcp') }}" class="nav-link  ">
+                                                            <i class="fa "></i> Listar
+                                                        </a>
+                                                    </li>
+                                              </ul>
+                                         </li>
+                            
                                         <li class="menu-dropdown classic-menu-dropdown ">
                                         <a href="javascript:;"> Usuarios
                                             <span class="arrow"></span>

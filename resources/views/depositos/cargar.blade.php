@@ -95,7 +95,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('Fecha:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('fecha-into',date("d-m-Y"),['class'=>'form-control datepicker placeholder-no-fix','placeholder'=>'mm/dd/YYYY','data-date-start-date'=>'-7d','data-date-end-date'=>'0d','data-date-max-date'=>'0d','data-date-min-date'=>'-7d' ]) !!}
+                            {!! Form::text('fecha-into',date("Y/m/d"),['class'=>'form-control datepicker placeholder-no-fix','placeholder'=>'YYYY-mm-dd','data-date-format'=>'yyyy-mm-dd','data-date-start-date'=>'-7d','data-date-end-date'=>'0d','data-date-max-date'=>'0d','data-date-min-date'=>'-7d' ]) !!}
                             
                         </div>
                     </div>
