@@ -5,23 +5,47 @@
     <link href="{{ asset('plugins/dropzone/basic.min.css')}} " rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/datepicker/datepicker3.css')}} " rel="stylesheet" type="text/css" />
 <style>
-    .form-registrar{
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        background-color: #0000008c;
-        top: 0;
-        z-index: 9995;
-    }
-    .form-frecuentes{
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        background-color: #0000008c;
-        top: 0;
-        z-index: 9995;
-    }
+.form-registrar{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #0000008c;
+    top: 0;
+    z-index: 9995;
+}
+.form-frecuentes{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #0000008c;
+    top: 0;
+    z-index: 9995;
+}
 
+p#texto{
+	text-align: center;
+	color:white;
+}
+
+div#div_file{
+	position:relative;
+    cursor: pointer;
+	background-color: #2499e3;
+	-webkit-border-radius:5px;
+	-webkit-box-shadow:0px 3px 0px #1a71a9;
+}
+
+input#btn_enviar{
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	width:100%;
+	height:100%;
+	opacity: 0;
+    cursor: pointer;
+}
 </style>
 @endsection
 @section('content')
@@ -53,11 +77,16 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ Form::label('Monto:', null, ['class' => 'control-label']) }}
-                            {!! Form::text('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
-                            
+                            {{ Form::label('Banco:', null, ['class' => 'control-label']) }}
+                                @foreach($bancos as $b)
+                                    @if($b->entrada ==1)  
+                                        <?php $option[$b->idbank]=$b->banco ;  ?>
+                                    @endif
+                                @endforeach
+                                {{ Form::select('banco-into',$option,null,['class' => 'form-control'])}}
                         </div>
                     </div>
+                    
                     <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group ">
@@ -70,29 +99,27 @@
                             {{ Form::select('moneda-into',$options,null,['class' => 'form-control','id'=>'moneda-into','onchange'=>'calmonto(this)'])}}
                         </div>
                     </div>
+                    
+                    
                     <!--/span-->
                 </div>
                 <!--/row-->
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            {{ Form::label('Banco:', null, ['class' => 'control-label']) }}
-                                @foreach($bancos as $b)
-                                    @if($b->entrada ==1)  
-                                        <?php $option[$b->idbank]=$b->banco ;  ?>
-                                    @endif
-                                @endforeach
-                                {{ Form::select('banco-into',$option,null,['class' => 'form-control'])}}
+                            {{ Form::label('Monto:', null, ['class' => 'control-label']) }}
+                            {!! Form::text('monto',null,['class'=>'form-control  placeholder-no-fix','id'=>'monto','placeholder'=>'Monto','onkeyup'=>'calmonto()' ]) !!}
+                            
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('Operacion:', null, ['class' => 'control-label']) }}
                             {!! Form::text('ref-into',null,['class'=>'form-control placeholder-no-fix','placeholder'=>'N° de Operacion' ]) !!}</div>
                         
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('Fecha:', null, ['class' => 'control-label']) }}
                             {!! Form::text('fecha-into',date("Y/m/d"),['class'=>'form-control datepicker placeholder-no-fix','placeholder'=>'YYYY-mm-dd','data-date-format'=>'yyyy-mm-dd','data-date-start-date'=>'-7d','data-date-end-date'=>'0d','data-date-max-date'=>'0d','data-date-min-date'=>'-7d' ]) !!}
@@ -100,9 +127,13 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6 ">
+                    <div class="col-md-3 ">
                         <div class="form-group">
-                            <input type="file" name="comprobante" title="Cargar comprobante">
+                            {{ Form::label('Soporte:', null, ['class' => 'control-label']) }}
+                            <div id="div_file" class='form-control'>
+                                <p id="texto">Cargar soporte</p>
+                                <input type="file" name="comprobante" id="btn_enviar" title="Cargar comprobante">
+                            </div>
                         </div>
                         
                     </div>
@@ -168,12 +199,34 @@
                     </div>
                     <div class="col-md-6 ">
                         <div class="form-group">
-                            {{ Form::label('Cedula:', null, ['class' => 'control-label']) }}
-                            {!! Form::radio('nacionalidad', 'V', true) !!}V
-                            {!! Form::radio('nacionalidad', 'J') !!}J
-                            {!! Form::radio('nacionalidad', 'E') !!}E
+                            <div class="form-group form-md-radios">
+                            <div class="md-radio-inline">
+                                <div class="md-radio">
+                                    <input type="radio" id="radio6" value="V" name="nacionalidad" class="md-radiobtn" checked>
+                                    <label for="radio6">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>V</label>
+                                </div>
+                                <div class="md-radio">
+                                    <input type="radio" id="radio7" value="J" name="nacionalidad" class="md-radiobtn" >
+                                    <label for="radio7">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>J</label>
+                                </div>
+                                <div class="md-radio">
+                                    <input type="radio" id="radio8" value="E" name="nacionalidad" class="md-radiobtn">
+                                    <label for="radio8">
+                                        <span></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span> E</label>
+                                </div>
+                            </div>
+                        </div>
                             {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Numero de cedula']) !!}
                         </div>
+                        
                     </div>
                     <div class="col-md-12 ">
                         <div class="alert alert-danger aviso-banco" style="display: none" role="alert">
@@ -518,8 +571,8 @@ function savecuenta(){
     for ( var key in c ) {
         keys.push( key );
     }
-     
-    var cuenta = event.clipboardData.getData('text');
+     var cuenta ='';
+    cuenta =event.clipboardData || window.clipboardData || event.originalEvent.clipboardData('text');
 
        
         $.get('{{ url("validarbanco") }}','cuenta='+cuenta,function(r){
@@ -636,6 +689,16 @@ number_format = function (number, decimals, dec_point, thousands_sep) {
 
         return x1 + x2;
     }
+
+
+jQuery('input[type=file]').change(function(){
+    var filename = jQuery(this).val().split('\\').pop();
+    var idname = jQuery(this).attr('id');
+    console.log(jQuery(this));
+    console.log(filename);
+    console.log(idname);
+    jQuery('span.'+idname).next().find('span').html(filename);
+});
 </script>
 
 @endsection

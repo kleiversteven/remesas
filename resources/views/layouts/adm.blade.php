@@ -128,7 +128,7 @@
                                     <span class="username username-hide-mobile"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
-                                    @role('cliente')
+                                    @role('Cliente')
                                     <li>
                                         <a href="{{ url('perfil') }}" >
                                             <i class="icon-user"></i> Perfil</a>
